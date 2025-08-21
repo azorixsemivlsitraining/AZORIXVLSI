@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import CoursesPage from "./pages/CoursesPage";
@@ -46,8 +46,14 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            {/* Redirect any "/." prefixed path to the same path without the dot */}
+            <Route
+              path="/.:rest*"
+              element={<Navigate to={location.pathname.slice(1)} replace />}
+            />
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
+            <Route path="/.admin" element={<Admin />} />
             <Route path="/courses" element={<CoursesPage />} />
             <Route
               path="/courses/design-verification"
