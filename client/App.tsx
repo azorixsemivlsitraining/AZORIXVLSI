@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import CoursesPage from "./pages/CoursesPage";
@@ -47,10 +47,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             {/* Redirect any "/." prefixed path to the same path without the dot */}
-            <Route
-              path="/.:rest*"
-              element={<Navigate to={location.pathname.slice(1)} replace />}
-            />
+            <Route path="/.:rest*" element={<DotAliasRedirect />} />
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/.admin" element={<Admin />} />
@@ -94,6 +91,15 @@ const App = () => (
     </TooltipProvider>
   </QueryClientProvider>
 );
+
+function DotAliasRedirect() {
+  const location = useLocation();
+  const originalPath = location.pathname;
+  const normalized = originalPath.startsWith("/.")
+    ? originalPath.replace("/.", "/")
+    : originalPath;
+  return <Navigate to={normalized} replace />;
+}
 
 // Prevent multiple root creation during HMR
 const container = document.getElementById("root")!;
