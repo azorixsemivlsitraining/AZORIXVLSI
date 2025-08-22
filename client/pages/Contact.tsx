@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 
 const contactInfo = {
   address: {
-    main: "Azorix VLSI  Pvt Ltd",
+    main: "Azorix VLSI  ",
     smain: "Azorix Technologies Pvt.Ltd",
 
     street: "Plot No 72, Jubilee Enclave, HITEC City, ",
