@@ -245,15 +245,7 @@ export default function Contact() {
                         {contactInfo.phone.primary}
                       </a>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Secondary:</span>
-                      <a
-                        href={`tel:${contactInfo.phone.secondary}`}
-                        className="text-vlsi-600 font-medium hover:underline"
-                      >
-                        {contactInfo.phone.secondary}
-                      </a>
-                    </div>
+                    
                   </div>
                 </div>
 
