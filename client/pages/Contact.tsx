@@ -29,8 +29,8 @@ const contactInfo = {
     country: "India",
   },
   phone: {
-    primary: "+91 9876543210",
-    secondary: "+91 9876543211",
+    primary: "+91 9052663636",
+    
   },
   email: {
     general: "info@azorixvlsi.com",
