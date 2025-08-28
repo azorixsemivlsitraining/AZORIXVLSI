@@ -29,7 +29,8 @@ const contactInfo = {
     country: "India",
   },
   phone: {
-    primary: "+91 9052663636",
+    primary: "+91 9052653636",
+    secondary: "+91 9052633636",
     
   },
   email: {
@@ -243,6 +244,15 @@ export default function Contact() {
                         className="text-vlsi-600 font-medium hover:underline"
                       >
                         {contactInfo.phone.primary}
+                      </a>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Secondary:</span>
+                      <a
+                        href={`tel:${contactInfo.phone.secondary}`}
+                        className="text-vlsi-600 font-medium hover:underline"
+                      >
+                        {contactInfo.phone.secondary}
                       </a>
                     </div>
                     
