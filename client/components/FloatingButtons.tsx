@@ -23,7 +23,7 @@ export default function FloatingButtons() {
   };
 
   const openWhatsApp = () => {
-    const phoneNumber = "919390847838"; // Updated to correct number
+    const phoneNumber = "919052653636"; // Updated to correct number
     const message = "Hi! I'm interested in your VLSI training programs. Could you please provide more information?";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
