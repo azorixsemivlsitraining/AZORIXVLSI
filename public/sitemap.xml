@@ -4,13 +4,35 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.azorixvlsi.com/</loc>
+  </url>
 
-<url>
-  <loc>https://www.azorixvlsi.com/</loc>
-  <lastmod>2025-08-26T10:13:49+00:00</lastmod>
-</url>
+  <!-- About Page -->
+  <url>
+    <loc>https://www.azorixvlsi.com/about</loc>
+  </url>
 
+  <!-- Contact Page -->
+  <url>
+    <loc>https://www.azorixvlsi.com/contact</loc>
+  </url>
+
+  <!-- Terms of Service -->
+  <url>
+    <loc>https://www.azorixvlsi.com/terms-of-service</loc>
+  </url>
+
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://www.azorixvlsi.com/privacy-policy</loc>
+  </url>
+
+  <!-- Enroll -->
+  <url>
+    <loc>https://www.azorixvlsi.com/enroll</loc>
+  </url>
 
 </urlset>
