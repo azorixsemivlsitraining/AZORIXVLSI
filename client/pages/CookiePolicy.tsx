@@ -189,7 +189,7 @@ export default function CookiePolicy() {
                       <strong>Address:</strong> Plot No 102,103, Temple Lane, Mythri Nagar,<br/> 
                         Mathrusri Nagar, K.v.rangareddy, Serilingampally, <br/>
                         Hyderabad,Telangana,  500049<br/>
-                      <strong>Email:</strong> privacy@azorix.com<br />
+                      <strong>Email:</strong> info@azorix.com<br />
                       <strong>Phone:</strong> +91 9052653636
                     </p>
                   </div>
