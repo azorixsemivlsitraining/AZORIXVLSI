@@ -152,9 +152,9 @@ export default function TermsOfService() {
                   <div className="bg-gray-50 p-4 rounded-lg mt-4">
                     <p className="text-gray-700">
                       <strong>Azorix VLSI Technologies Pvt Ltd</strong><br />
-                      <strong>Address:</strong> Plot No 72, Jubilee Enclave, HITEC City,<br />
-                        Backstage pass new building<br />
-                        Hyderabad, Telangana 500081<br/>
+                      <strong>Address:</strong> Plot No 102,103, Temple Lane, Mythri Nagar,<br/> 
+                      Mathrusri Nagar, K.v.rangareddy, Serilingampally,<br/>
+                      Hyderabad, Telangana 500049<br/>
                       <strong>Email:</strong> legal@azorix.com<br />
                       <strong>Phone:</strong> +91 9876543210
                     </p>
