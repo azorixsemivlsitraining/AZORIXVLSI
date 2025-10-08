@@ -566,13 +566,13 @@ export default function Enroll() {
                 href="tel:+919876543210"
                 className="text-vlsi-600 font-medium hover:underline"
               >
-                📞 Call: +91 9876543210
+                📞 Call: +91 9052653636
               </a>
               <a
                 href="mailto:admissions@azorix.com"
                 className="text-vlsi-600 font-medium hover:underline"
               >
-                ✉️ Email: admissions@azorixvlsi.com
+                ✉️ Email:info@azorix.com
               </a>
             </div>
           </div>
