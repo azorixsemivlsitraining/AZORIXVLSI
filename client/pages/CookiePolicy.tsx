@@ -190,7 +190,7 @@ export default function CookiePolicy() {
                         Mathrusri Nagar, K.v.rangareddy, Serilingampally, <br/>
                         Hyderabad,Telangana,  500049<br/>
                       <strong>Email:</strong> privacy@azorix.com<br />
-                      <strong>Phone:</strong> +91 9876543210
+                      <strong>Phone:</strong> +91 9052653636
                     </p>
                   </div>
                 </div>
