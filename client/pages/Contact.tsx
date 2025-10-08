@@ -570,13 +570,13 @@ export default function Contact() {
                   Azorix Technologies Pvt Ltd
                 </h3>
                 <p className="text-gray-600 mb-4">
-                  Plot No 72, Jubilee Enclave, HITEC City,Backstage pass new
-                  building
-                  <br />
-                  Hyderabad, Telangana 500081, India
+                  Plot No 102,103, Temple Lane, Mythri Nagar,<br/> 
+                  Mathrusri Nagar, K.v.rangareddy, Serilingampally, <br/>
+                  
+                  Hyderabad, Telangana 500049, India
                 </p>
                 <a
-                  href="https://maps.app.goo.gl/Kbvy2GNbrBDLnGUH6"
+                  href="https://maps.app.goo.gl/T25Vb3EoDobG4muW7"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center text-vlsi-600 hover:text-vlsi-700 font-medium"
