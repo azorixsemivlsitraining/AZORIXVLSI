@@ -228,8 +228,8 @@ export default function CopyrightPolicy() {
                     <div className="bg-gray-50 p-6 rounded-lg">
                       <p className="text-gray-700 mb-2">
                         <strong>Copyright Officer:</strong><br />
-                        Email: copyright@azorix.com<br />
-                        Phone: +91 7981391412<br />
+                        Email: info@azorix.com<br />
+                        Phone: +91 9052653636<br />
                         Address: Plot No 102,103, Temple Lane, Mythri Nagar,<br/> 
                         Mathrusri Nagar, K.v.rangareddy, Serilingampally, <br/>
                         Hyderabad,Telangana,  500049
