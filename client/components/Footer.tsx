@@ -117,7 +117,9 @@ export default function Footer() {
             <div className="space-y-4 text-gray-400">
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-vlsi-400 flex-shrink-0" />
-                <p>HITEC City, Hyderabad, India</p>
+                <p>Plot No 102,103, Temple Lane, Mythri Nagar,<br/>
+                  Mathrusri Nagar, K.v.rangareddy, Serilingampally,<br/> 
+                  Hyderabad,Telangana, India, 500049</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-vlsi-400 flex-shrink-0" />
