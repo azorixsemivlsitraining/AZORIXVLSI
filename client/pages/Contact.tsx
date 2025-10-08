@@ -591,10 +591,10 @@ export default function Contact() {
                   <div className="text-2xl mb-2">🚇</div>
                   <h4 className="font-semibold text-gray-900 mb-1">Metro</h4>
                   <p className="text-sm text-gray-600">
-                    Hitec City Metro
+                    Serlingampalli Bus Stop
                     <br />
                     <span className="font-medium text-vlsi-600">
-                      5 min walk
+                      6 min walk
                     </span>
                   </p>
                 </div>
@@ -602,15 +602,15 @@ export default function Contact() {
                   <div className="text-2xl mb-2">🚆</div>
                   <h4 className="font-semibold text-gray-900 mb-1">MMTS</h4>
                   <p className="text-sm text-gray-600">
-                    Hitech-City Railway Station
+                    Lingampally Railway Station
                     <br />
                     <span className="font-medium text-vlsi-600">
-                      3 min walk
+                      1km
                     </span>
                   </p>
                 </div>
                 <div className="p-4 bg-gray-50 rounded-lg">
-                  <div className="text-2xl mb-2">��</div>
+                  <div className="text-2xl mb-2">🅿️</div>
                   <h4 className="font-semibold text-gray-900 mb-1">Parking</h4>
                   <p className="text-sm text-gray-600">
                     Free parking available
@@ -629,20 +629,20 @@ export default function Contact() {
                 </h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-gray-600">
                   <div className="text-center">
-                    <span className="font-medium">🏢 Microsoft</span>
-                    <div>2 min walk</div>
+                    <span className="font-medium">🏞️Mytrinagar Park</span>
+                    <div>1.5 km</div>
                   </div>
                   <div className="text-center">
-                    <span className="font-medium">🏢 Google</span>
-                    <div>5 min walk</div>
+                    <span className="font-medium">🏢 Genpact</span>
+                    <div>2 km </div>
                   </div>
                   <div className="text-center">
-                    <span className="font-medium">🛍️ Forum Mall</span>
-                    <div>3 min drive</div>
+                    <span className="font-medium"> 🏢Cognizant Technology Solutions</span>
+                    <div>2.2 km</div>
                   </div>
                   <div className="text-center">
-                    <span className="font-medium">🏨 Hotels</span>
-                    <div>Walking distance</div>
+                    <span className="font-medium">🎓 Sri Chaitanya Junior College</span>
+                    <div>1 km</div>
                   </div>
                 </div>
               </div>
