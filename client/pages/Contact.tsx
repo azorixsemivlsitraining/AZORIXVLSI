@@ -588,8 +588,8 @@ export default function Contact() {
               {/* Transportation Options */}
               <div className="grid md:grid-cols-3 gap-6 text-center">
                 <div className="p-4 bg-gray-50 rounded-lg">
-                  <div className="text-2xl mb-2">🚇</div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Metro</h4>
+                  <div className="text-2xl mb-2">🚌</div>
+                  <h4 className="font-semibold text-gray-900 mb-1">Bus Stop</h4>
                   <p className="text-sm text-gray-600">
                     Serlingampalli Bus Stop
                     <br />
