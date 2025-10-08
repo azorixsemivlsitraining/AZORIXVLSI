@@ -149,8 +149,9 @@ export default function RefundPolicy() {
                         <strong>Refunds Department:</strong><br />
                         Email: refunds@azorix.com<br />
                         Phone: +91 7981391412<br />
-                        Address: 3rd Floor, Tech Park Building<br />
-                        HITEC City, Hyderabad, Telangana 500081
+                        Address: Plot No 72, Jubilee Enclave, HITEC City,<br />
+                        Backstage pass new building<br />
+                        Hyderabad, Telangana 500081
                       </p>
                       <p className="text-gray-600 text-sm mt-4">
                         For faster processing, please include your enrollment number and 
