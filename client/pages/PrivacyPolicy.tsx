@@ -129,9 +129,9 @@ export default function PrivacyPolicy() {
                   <div className="bg-gray-50 p-4 rounded-lg mt-4">
                     <p className="text-gray-700">
                       <strong>Azorix VLSI Technologies Pvt Ltd</strong><br />
-                      3rd Floor, Tech Park Building<br />
-                      HITEC City<br />
-                      Hyderabad, Telangana 500081<br />
+                      Address: Plot No 72, Jubilee Enclave, HITEC City,<br />
+                        Backstage pass new building<br />
+                        Hyderabad, Telangana 500081<br/>
                       <strong>Email:</strong> privacy@azorix.com<br />
                       <strong>Phone:</strong> +91 9876543210
                     </p>
