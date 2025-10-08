@@ -541,7 +541,7 @@ export default function Enroll() {
                       Submitting Application...
                     </>
                   ) : (
-                    "Submit Enrollment Application"
+                    "Submit and Pay now "
                   )}
                 </Button>
                 <p className="text-sm text-gray-500 text-center mt-3">
