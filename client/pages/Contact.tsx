@@ -23,9 +23,9 @@ const contactInfo = {
     main: "Azorix VLSI  ",
     smain: "Azorix Technologies Pvt.Ltd",
 
-    street: "Plot No 72, Jubilee Enclave, HITEC City, ",
-    area: "Backstage pass new building",
-    city: "Hyderabad, Telangana 500081",
+    street: "Plot No 102,103, Temple Lane, Mythri Nagar,, ",
+    area: "Mathrusri Nagar, K.v.rangareddy, Serilingampally,",
+    city: "Hyderabad, Telangana 500049",
     country: "India",
   },
   phone: {
