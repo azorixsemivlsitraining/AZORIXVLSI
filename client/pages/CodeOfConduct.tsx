@@ -221,9 +221,9 @@ export default function CodeOfConduct() {
                         <strong>Student Affairs Office:</strong><br />
                         Email: studentaffairs@azorix.com<br />
                         Phone: +91 7981391412<br />
-                        Address: Plot No 72, Jubilee Enclave, HITEC City,<br />
-                        Backstage pass new building<br />
-                        Hyderabad, Telangana 500081
+                        Address:  Plot No 102,103, Temple Lane, Mythri Nagar,<br/> 
+                        Mathrusri Nagar, K.v.rangareddy, Serilingampally, <br/>
+                        Hyderabad,Telangana,  500049<br/>
                       </p>
                       <p className="text-gray-600 text-sm mt-4">
                         For grievances, violations, or policy clarifications, 
