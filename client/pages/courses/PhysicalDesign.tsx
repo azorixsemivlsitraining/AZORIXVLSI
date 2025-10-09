@@ -112,7 +112,7 @@ export default function PhysicalDesign() {
 
   {/* Course Fee */}
   <div className="text-center">
-    <div className="text-3xl font-bold text-indigo-600 mb-2">₹70,000</div>
+    <div className="text-3xl font-bold text-indigo-600 mb-2">₹63,999</div>
     <div className="text-gray-600">Course Fee</div>
   </div>
 
