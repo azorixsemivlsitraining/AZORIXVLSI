@@ -23,6 +23,7 @@ const courses = [
       "Learn Register Transfer Level design with Verilog/VHDL and synthesis techniques",
     duration: "6 months",
     level: "Beginner to Intermediate",
+    Fee:"70,000",
     icon: <Cpu className="w-8 h-8" />,
     available: false,
     path: "/courses/rtl",
@@ -34,6 +35,7 @@ const courses = [
       "Complete physical design flow from netlist to GDSII with advanced tools",
     duration: "8 months",
     level: "Intermediate to Advanced",
+    Fee:"70,000",
     icon: <Layers className="w-8 h-8" />,
     available: false,
     path: "/courses/pd",
@@ -104,30 +106,39 @@ export default function CourseSelection() {
                   {course.description}
                 </p>
 
-                {/* Course Details */}
-                <div className="space-y-3 mb-8">
-                  <div className="flex items-center text-sm">
-                    <div
-                      className={`w-2 h-2 rounded-full mr-3 ${
-                        course.available ? "bg-vlsi-500" : "bg-gray-400"
-                      }`}
-                    ></div>
-                    <span className="text-gray-600">
-                      Duration: {course.duration}
-                    </span>
-                    <span className="text-gray-600">
-                      Fee: {course.Fee}
-                    </span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <div
-                      className={`w-2 h-2 rounded-full mr-3 ${
-                        course.available ? "bg-vlsi-500" : "bg-gray-400"
-                      }`}
-                    ></div>
-                    <span className="text-gray-600">Level: {course.level}</span>
-                  </div>
-                </div>
+               {/* Course Details */}
+<div className="space-y-3 mb-8">
+  {/* Duration and Fee */}
+  <div className="flex items-center text-sm space-x-6">
+    <div className="flex items-center">
+      <div
+        className={`w-2 h-2 rounded-full mr-2 ${
+          course.available ? "bg-vlsi-500" : "bg-gray-400"
+        }`}
+      ></div>
+      <span className="text-gray-600">Duration: {course.duration}</span>
+    </div>
+    <div className="flex items-center">
+      <div
+        className={`w-2 h-2 rounded-full mr-2 ${
+          course.available ? "bg-vlsi-500" : "bg-gray-400"
+        }`}
+      ></div>
+      <span className="text-gray-600">Fee: ₹{course.Fee}</span>
+    </div>
+  </div>
+
+  {/* Level */}
+  <div className="flex items-center text-sm">
+    <div
+      className={`w-2 h-2 rounded-full mr-3 ${
+        course.available ? "bg-vlsi-500" : "bg-gray-400"
+      }`}
+    ></div>
+    <span className="text-gray-600">Level: {course.level}</span>
+  </div>
+</div>
+
 
                 {/* CTA Button */}
                 <Button
