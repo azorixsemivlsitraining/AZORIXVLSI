@@ -102,35 +102,39 @@ export default function PhysicalDesign() {
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-600 mb-2">14</div>
-              <div className="text-gray-600">Weeks Duration</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-600 mb-2">
-                200+
-              </div>
-              <div className="text-center">
-    <div className="text-3xl font-bold text-vlsi-600 mb-2">₹70,000</div>
+     {/* Stats */}
+<div className="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-5xl mx-auto">
+  {/* Duration */}
+  <div className="text-center">
+    <div className="text-3xl font-bold text-indigo-600 mb-2">14</div>
+    <div className="text-gray-600">Weeks Duration</div>
+  </div>
+
+  {/* Course Fee */}
+  <div className="text-center">
+    <div className="text-3xl font-bold text-indigo-600 mb-2">₹70,000</div>
     <div className="text-gray-600">Course Fee</div>
   </div>
-              <div className="text-gray-600">Students Trained</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-600 mb-2">
-                100%
-              </div>
-              <div className="text-gray-600">Industry Relevance</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-600 mb-2">
-                4.9/5
-              </div>
-              <div className="text-gray-600">Student Rating</div>
-            </div>
-          </div>
+
+  {/* Students Trained */}
+  <div className="text-center">
+    <div className="text-3xl font-bold text-indigo-600 mb-2">200+</div>
+    <div className="text-gray-600">Students Trained</div>
+  </div>
+
+  {/* Industry Relevance */}
+  <div className="text-center">
+    <div className="text-3xl font-bold text-indigo-600 mb-2">100%</div>
+    <div className="text-gray-600">Industry Relevance</div>
+  </div>
+
+  {/* Student Rating */}
+  <div className="text-center">
+    <div className="text-3xl font-bold text-indigo-600 mb-2">4.9/5</div>
+    <div className="text-gray-600">Student Rating</div>
+  </div>
+</div>
+
         </div>
       </section>
 
