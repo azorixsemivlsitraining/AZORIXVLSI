@@ -112,6 +112,10 @@ export default function PhysicalDesign() {
               <div className="text-3xl font-bold text-indigo-600 mb-2">
                 200+
               </div>
+              <div className="text-center">
+    <div className="text-3xl font-bold text-vlsi-600 mb-2">₹70,000</div>
+    <div className="text-gray-600">Course Fee</div>
+  </div>
               <div className="text-gray-600">Students Trained</div>
             </div>
             <div className="text-center">
