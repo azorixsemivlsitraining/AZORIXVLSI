@@ -22,7 +22,7 @@ const coursesData = [
     shortName: "DV",
     duration: "16 weeks",
     level: "Beginner to Advanced",
-    Fee:"70000",
+    Fee:"69999",
     description:
       "Master SystemVerilog and UVM methodology for comprehensive verification of digital designs. Learn industry-standard verification practices.",
     features: [
@@ -53,7 +53,7 @@ const coursesData = [
     shortName: "RTL",
     duration: "14 weeks",
     level: "Intermediate",
-    Fee:"70000",
+    Fee:"65999",
     description:
       "Learn Register Transfer Level design using Verilog and SystemVerilog. Master digital design from concept to synthesis.",
     features: [
@@ -76,7 +76,7 @@ const coursesData = [
     shortName: "PD",
     duration: "14 weeks",
     level: "Advanced",
-    Fee:"70000",
+    Fee:"63999",
     description:
       "Master the complete physical design flow from floorplanning to signoff. Learn placement, routing, and timing closure.",
     features: [
