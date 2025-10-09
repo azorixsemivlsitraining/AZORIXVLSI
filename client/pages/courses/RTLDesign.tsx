@@ -140,6 +140,7 @@ export default function RTLDesign() {
   <div className="text-center">
     <div className="text-3xl font-bold text-orange-600 mb-2">4.8/5</div>
     <div className="text-gray-600">Student Rating</div>
+    </div>
   </div>
 </div>
 
