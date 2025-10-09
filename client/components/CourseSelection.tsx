@@ -115,6 +115,9 @@ export default function CourseSelection() {
                     <span className="text-gray-600">
                       Duration: {course.duration}
                     </span>
+                    <span className="text-gray-600">
+                      Fee: {course.Fee}
+                    </span>
                   </div>
                   <div className="flex items-center text-sm">
                     <div
