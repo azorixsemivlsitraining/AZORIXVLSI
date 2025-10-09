@@ -120,7 +120,7 @@ export default function RTLDesign() {
 
   {/* Course Fee */}
   <div className="text-center">
-    <div className="text-3xl font-bold text-vlsi-600 mb-2">₹70,000</div>
+    <div className="text-3xl font-bold text-orange-600 mb-2">₹70,000</div>
     <div className="text-gray-600">Course Fee</div>
   </div>
 
