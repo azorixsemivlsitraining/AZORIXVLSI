@@ -11,6 +11,7 @@ import {
   handleWorkshopDummyPay,
   handleCohortDummyPay,
   handleDashboardResources,
+  handleCohortComplete,
 } from "./routes/payments";
 
 export function createServer() {
