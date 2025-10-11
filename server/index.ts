@@ -29,5 +29,15 @@ export function createServer() {
   app.get("/api/google-sheets/config", handleGoogleSheetsConfig);
   app.post("/api/google-sheets/create-headers", handleCreateHeaders);
 
+  // Payments & resources
+  const {
+    handleWorkshopDummyPay,
+    handleCohortDummyPay,
+    handleDashboardResources,
+  } = await import("./routes/payments");
+  app.post("/api/payment/workshop/dummy-pay", handleWorkshopDummyPay);
+  app.post("/api/payment/cohort/dummy-pay", handleCohortDummyPay);
+  app.get("/api/dashboard/resources", handleDashboardResources);
+
   return app;
 }
