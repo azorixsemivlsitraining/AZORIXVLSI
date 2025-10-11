@@ -174,8 +174,9 @@ export const saveContactData = async (data: ContactData) => {
 };
 
 export const saveBrochureDownload = async (data: BrochureDownloadData) => {
-  if (!checkSupabaseConfig()) {
-    throw new Error("Database not configured. Please contact support.");
+  if (!supabase) {
+    console.warn("Supabase client not initialized - skipping brochure download save.");
+    return null as any;
   }
 
   try {
