@@ -19,8 +19,8 @@ async function testSupabaseConnection() {
   
   // Test connection
   try {
-    const { createClient } = await import('@supabase/supabase-js');
-    const supabase = createClient(url, key);
+    const supabaseJs = await import('@supabase/supabase-js');
+    const supabase = supabaseJs.createClient(url, key);
     
     console.log('✅ Supabase client created');
     
