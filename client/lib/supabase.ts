@@ -200,8 +200,9 @@ export const saveBrochureDownload = async (data: BrochureDownloadData) => {
 };
 
 export const saveDemoRegistration = async (data: DemoRegistrationData) => {
-  if (!checkSupabaseConfig()) {
-    throw new Error("Database not configured. Please contact support.");
+  if (!supabase) {
+    console.warn("Supabase client not initialized - skipping demo registration save.");
+    return null as any;
   }
 
   try {
