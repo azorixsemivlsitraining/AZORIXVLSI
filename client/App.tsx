@@ -35,6 +35,9 @@ import SystemVerilog from "./pages/courses/SystemVerilog";
 import UVM from "./pages/courses/UVM";
 import RTLDesign from "./pages/courses/RTLDesign";
 import PhysicalDesign from "./pages/courses/PhysicalDesign";
+import Workshop from "./pages/Workshop";
+import CohortPreview from "./pages/CohortPreview";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
