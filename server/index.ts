@@ -35,11 +35,6 @@ export function createServer() {
   app.post("/api/google-sheets/create-headers", handleCreateHeaders);
 
   // Payments & resources
-  const {
-    handleWorkshopDummyPay,
-    handleCohortDummyPay,
-    handleDashboardResources,
-  } = await import("./routes/payments");
   app.post("/api/payment/workshop/dummy-pay", handleWorkshopDummyPay);
   app.post("/api/payment/cohort/dummy-pay", handleCohortDummyPay);
   app.get("/api/dashboard/resources", handleDashboardResources);
