@@ -1,5 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+
 const supabaseUrl =
   import.meta.env.VITE_SUPABASE_URL || "https://your-project-url.supabase.co";
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "your-anon-key";
@@ -7,14 +9,24 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "your-anon-key";
 // Check if Supabase is properly configured
 const isSupabaseConfigured = () => {
   return (
+    !!supabaseUrl &&
+    !!supabaseKey &&
     supabaseUrl !== "https://your-project-url.supabase.co" &&
-    supabaseKey !== "your-anon-key" &&
-    supabaseUrl &&
-    supabaseKey
+    supabaseKey !== "your-anon-key"
   );
 };
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Initialize client only when configured to avoid invalid network requests in dev
+let _supabase: SupabaseClient | null = null;
+if (isSupabaseConfigured()) {
+  _supabase = createClient(supabaseUrl, supabaseKey);
+} else {
+  console.warn(
+    "Supabase not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to enable DB features.",
+  );
+}
+
+export const supabase = _supabase;
 
 // Helper function to check configuration
 export const checkSupabaseConfig = () => {
