@@ -7,6 +7,11 @@ import {
   handleGoogleSheetsConfig,
   handleCreateHeaders
 } from "./routes/google-sheets";
+import {
+  handleWorkshopDummyPay,
+  handleCohortDummyPay,
+  handleDashboardResources,
+} from "./routes/payments";
 
 export function createServer() {
   const app = express();
