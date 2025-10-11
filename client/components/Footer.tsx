@@ -104,7 +104,7 @@ export default function Footer() {
                   className="text-gray-400 hover:text-vlsi-400 transition-all duration-200 hover:translate-x-1 inline-block flex items-center gap-2 group"
                 >
                   <ExternalLink className="w-4 h-4 group-hover:animate-bounce" />
-                  Book Free Demo
+                  Register for Demo (₹99)
                 </Link>
               </li>
             </ul>
@@ -117,9 +117,13 @@ export default function Footer() {
             <div className="space-y-4 text-gray-400">
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-vlsi-400 flex-shrink-0" />
-                <p>Plot No 102,103, Temple Lane, Mythri Nagar,<br/>
-                  Mathrusri Nagar, K.v.rangareddy, Serilingampally,<br/> 
-                  Hyderabad,Telangana, India, 500049</p>
+                <p>
+                  Plot No 102,103, Temple Lane, Mythri Nagar,
+                  <br />
+                  Mathrusri Nagar, K.v.rangareddy, Serilingampally,
+                  <br />
+                  Hyderabad,Telangana, India, 500049
+                </p>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-vlsi-400 flex-shrink-0" />
@@ -168,6 +172,12 @@ export default function Footer() {
                 className="text-gray-400 hover:text-vlsi-400 text-sm transition-colors hover:underline"
               >
                 Cookie Policy
+              </Link>
+              <Link
+                to="/refund-policy"
+                className="text-gray-400 hover:text-vlsi-400 text-sm transition-colors hover:underline"
+              >
+                Cancellation / Refund Policy
               </Link>
             </div>
           </div>
