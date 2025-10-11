@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
@@ -15,6 +15,20 @@ export default function CohortPreview() {
     email: "",
     phone: "",
   });
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("azorix_prefill");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed) {
+          setForm((f) => ({ ...f, name: parsed.name || f.name, email: parsed.email || f.email }));
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
