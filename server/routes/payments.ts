@@ -18,22 +18,32 @@ const COHORT_PRICE = 1999;
 function makeAccessToken(email: string, ttlSeconds: number): string {
   const expiresAt = Math.floor(Date.now() / 1000) + ttlSeconds;
   const data = `${email}:${expiresAt}`;
-  const hmac = crypto.createHmac("sha256", ACCESS_TOKEN_SECRET).update(data).digest("hex");
+  const hmac = crypto
+    .createHmac("sha256", ACCESS_TOKEN_SECRET)
+    .update(data)
+    .digest("hex");
   const token = Buffer.from(`${data}:${hmac}`).toString("base64url");
   return token;
 }
 
-function verifyAccessToken(token: string, email?: string): { ok: boolean; expiresAt?: number } {
+function verifyAccessToken(
+  token: string,
+  email?: string,
+): { ok: boolean; expiresAt?: number } {
   try {
     const decoded = Buffer.from(token, "base64url").toString("utf8");
     const [em, expStr, sig] = decoded.split(":");
     if (!em || !expStr || !sig) return { ok: false };
     if (email && email !== em) return { ok: false };
     const data = `${em}:${expStr}`;
-    const expected = crypto.createHmac("sha256", ACCESS_TOKEN_SECRET).update(data).digest("hex");
+    const expected = crypto
+      .createHmac("sha256", ACCESS_TOKEN_SECRET)
+      .update(data)
+      .digest("hex");
     if (expected !== sig) return { ok: false };
     const expiresAt = parseInt(expStr, 10);
-    if (Number.isNaN(expiresAt) || expiresAt < Math.floor(Date.now() / 1000)) return { ok: false };
+    if (Number.isNaN(expiresAt) || expiresAt < Math.floor(Date.now() / 1000))
+      return { ok: false };
     return { ok: true, expiresAt };
   } catch {
     return { ok: false };
@@ -43,7 +53,9 @@ function verifyAccessToken(token: string, email?: string): { ok: boolean; expire
 export const handleWorkshopDummyPay: RequestHandler = async (req, res) => {
   const body = req.body as WorkshopRegistrationRequest;
   if (!body?.name || !body?.email || !body?.phone || !body?.domainInterest) {
-    res.status(400).json({ success: false, message: "Missing required fields" });
+    res
+      .status(400)
+      .json({ success: false, message: "Missing required fields" });
     return;
   }
 
@@ -74,13 +86,21 @@ ${meetingUrl ? `<p>Join link: <a href="${meetingUrl}">${meetingUrl}</a></p>` : "
 <p>Access your resources for 48 hours using the dashboard.</p>`,
   }).catch(() => false);
 
-  res.json({ success: true, orderId: `dummy-${Date.now()}`, accessToken: token, meetingUrl, message: emailed ? "Email sent" : undefined });
+  res.json({
+    success: true,
+    orderId: `dummy-${Date.now()}`,
+    accessToken: token,
+    meetingUrl,
+    message: emailed ? "Email sent" : undefined,
+  });
 };
 
 export const handleCohortDummyPay: RequestHandler = async (req, res) => {
   const body = req.body as CohortEnrollmentRequest;
   if (!body?.name || !body?.email) {
-    res.status(400).json({ success: false, message: "Missing required fields" });
+    res
+      .status(400)
+      .json({ success: false, message: "Missing required fields" });
     return;
   }
 
@@ -99,11 +119,22 @@ ${meetingUrl ? `<p>Cohort link: <a href="${meetingUrl}">${meetingUrl}</a></p>` :
 <p>We'll follow up with schedule and calendar invite after you complete the preview.</p>`,
   }).catch(() => false);
 
-  res.json({ success: true, orderId: `dummy-${Date.now()}`, accessToken: token, meetingUrl, message: emailed ? "Email sent" : undefined });
+  res.json({
+    success: true,
+    orderId: `dummy-${Date.now()}`,
+    accessToken: token,
+    meetingUrl,
+    message: emailed ? "Email sent" : undefined,
+  });
 };
 
 export const handleCohortComplete: RequestHandler = async (req, res) => {
-  const { email, token, name, phone } = req.body as { email?: string; token?: string; name?: string; phone?: string };
+  const { email, token, name, phone } = req.body as {
+    email?: string;
+    token?: string;
+    name?: string;
+    phone?: string;
+  };
   if (!email || !token) {
     res.status(400).json({ success: false, message: "Missing email or token" });
     return;
@@ -111,7 +142,9 @@ export const handleCohortComplete: RequestHandler = async (req, res) => {
 
   const verified = verifyAccessToken(token, email);
   if (!verified.ok) {
-    res.status(401).json({ success: false, message: "Invalid or expired token" });
+    res
+      .status(401)
+      .json({ success: false, message: "Invalid or expired token" });
     return;
   }
 
@@ -126,7 +159,12 @@ export const handleCohortComplete: RequestHandler = async (req, res) => {
     });
     res.json({ success: true });
   } catch (e: any) {
-    res.status(500).json({ success: false, message: e?.message || "Failed to save enrollment" });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: e?.message || "Failed to save enrollment",
+      });
   }
 };
 
@@ -146,13 +184,15 @@ export const handleDashboardResources: RequestHandler = (req, res) => {
     resources: [
       {
         title: "Workshop Slides",
-        url: process.env.WORKSHOP_SLIDES_URL || "https://example.com/slides.pdf",
+        url:
+          process.env.WORKSHOP_SLIDES_URL || "https://example.com/slides.pdf",
         type: "pdf",
         expiresAt: expires.toISOString(),
       },
       {
         title: "Workshop Recording (48h)",
-        url: process.env.WORKSHOP_RECORDING_URL || "https://youtu.be/sx4l4OqdpEI",
+        url:
+          process.env.WORKSHOP_RECORDING_URL || "https://youtu.be/sx4l4OqdpEI",
         type: "recording",
         expiresAt: expires.toISOString(),
       },
@@ -164,13 +204,17 @@ export const handleDashboardResources: RequestHandler = (req, res) => {
       },
       {
         title: "Checklist",
-        url: process.env.WORKSHOP_CHECKLIST_URL || "https://example.com/checklist.pdf",
+        url:
+          process.env.WORKSHOP_CHECKLIST_URL ||
+          "https://example.com/checklist.pdf",
         type: "pdf",
         expiresAt: expires.toISOString(),
       },
       {
         title: "3-hour Preview Session",
-        url: process.env.COHORT_PREVIEW_VIDEO_URL || "https://youtu.be/YE-JrestfRw",
+        url:
+          process.env.COHORT_PREVIEW_VIDEO_URL ||
+          "https://youtu.be/YE-JrestfRw",
         type: "recording",
       },
     ],

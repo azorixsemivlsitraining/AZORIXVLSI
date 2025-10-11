@@ -103,25 +103,27 @@ export const saveEnrollmentData = async (data: EnrollmentData) => {
   try {
     const { data: result, error } = await supabase
       .from("enrollments")
-      .insert([{
-        first_name: data.firstName,
-        last_name: data.lastName,
-        email: data.email,
-        phone: data.phone,
-        education: data.education,
-        branch: data.branch,
-        graduation_year: data.graduationYear,
-        experience: data.experience,
-        job_role: data.currentRole,
-        company: data.company,
-        course: data.course,
-        preferred_mode: data.preferredMode,
-        previous_experience: data.previousExperience,
-        motivation: data.motivation,
-        hear_about_us: data.hearAboutUs,
-        agree_terms: data.agreeTerms,
-        agree_marketing: data.agreeMarketing
-      }])
+      .insert([
+        {
+          first_name: data.firstName,
+          last_name: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          education: data.education,
+          branch: data.branch,
+          graduation_year: data.graduationYear,
+          experience: data.experience,
+          job_role: data.currentRole,
+          company: data.company,
+          course: data.course,
+          preferred_mode: data.preferredMode,
+          previous_experience: data.previousExperience,
+          motivation: data.motivation,
+          hear_about_us: data.hearAboutUs,
+          agree_terms: data.agreeTerms,
+          agree_marketing: data.agreeMarketing,
+        },
+      ])
       .select();
 
     if (error) {
@@ -147,14 +149,16 @@ export const saveContactData = async (data: ContactData) => {
   try {
     const { data: result, error } = await supabase
       .from("contacts")
-      .insert([{
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        inquiry_type: data.inquiryType,
-        subject: data.subject,
-        message: data.message
-      }])
+      .insert([
+        {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          inquiry_type: data.inquiryType,
+          subject: data.subject,
+          message: data.message,
+        },
+      ])
       .select();
 
     if (error) {
@@ -173,7 +177,9 @@ export const saveContactData = async (data: ContactData) => {
 
 export const saveBrochureDownload = async (data: BrochureDownloadData) => {
   if (!supabase) {
-    console.warn("Supabase client not initialized - skipping brochure download save.");
+    console.warn(
+      "Supabase client not initialized - skipping brochure download save.",
+    );
     return null as any;
   }
 
@@ -199,23 +205,27 @@ export const saveBrochureDownload = async (data: BrochureDownloadData) => {
 
 export const saveDemoRegistration = async (data: DemoRegistrationData) => {
   if (!supabase) {
-    console.warn("Supabase client not initialized - skipping demo registration save.");
+    console.warn(
+      "Supabase client not initialized - skipping demo registration save.",
+    );
     return null as any;
   }
 
   try {
     const { data: result, error } = await supabase
       .from("demo_registrations")
-      .insert([{
-        first_name: data.firstName,
-        last_name: data.lastName,
-        email: data.email,
-        phone: data.phone,
-        course_category: data.courseCategory,
-        preferred_location: data.preferredLocation,
-        comments: data.comments,
-        verification_code: data.verificationCode
-      }])
+      .insert([
+        {
+          first_name: data.firstName,
+          last_name: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          course_category: data.courseCategory,
+          preferred_location: data.preferredLocation,
+          comments: data.comments,
+          verification_code: data.verificationCode,
+        },
+      ])
       .select();
 
     if (error) {

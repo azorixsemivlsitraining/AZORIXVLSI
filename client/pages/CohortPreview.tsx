@@ -26,8 +26,8 @@ export default function CohortPreview() {
     const embed = videoUrl.includes("youtu.be")
       ? `https://www.youtube.com/embed/${videoUrl.split("/").pop()}?enablejsapi=1`
       : videoUrl.includes("youtube.com") && !videoUrl.includes("embed")
-      ? videoUrl.replace("watch?v=", "embed/") + "?enablejsapi=1"
-      : videoUrl;
+        ? videoUrl.replace("watch?v=", "embed/") + "?enablejsapi=1"
+        : videoUrl;
 
     const win = window as any;
     const createPlayer = () => {
@@ -44,11 +44,22 @@ export default function CohortPreview() {
                   await fetch("/api/cohort/complete", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, token, name: form.name, phone: form.phone }),
+                    body: JSON.stringify({
+                      email,
+                      token,
+                      name: form.name,
+                      phone: form.phone,
+                    }),
                   });
-                  toast({ title: "Registration completed", description: "Your enrollment details were saved." });
+                  toast({
+                    title: "Registration completed",
+                    description: "Your enrollment details were saved.",
+                  });
                 } catch (e) {
-                  toast({ title: "Error", description: "Failed to save enrollment after video." });
+                  toast({
+                    title: "Error",
+                    description: "Failed to save enrollment after video.",
+                  });
                 }
               }
             },
@@ -73,7 +84,8 @@ export default function CohortPreview() {
     }
 
     return () => {
-      if (playerRef.current && playerRef.current.destroy) playerRef.current.destroy();
+      if (playerRef.current && playerRef.current.destroy)
+        playerRef.current.destroy();
       playerRef.current = null;
     };
   }, [videoUrl, form.name, form.phone, toast]);
@@ -84,7 +96,11 @@ export default function CohortPreview() {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (parsed) {
-          setForm((f) => ({ ...f, name: parsed.name || f.name, email: parsed.email || f.email }));
+          setForm((f) => ({
+            ...f,
+            name: parsed.name || f.name,
+            email: parsed.email || f.email,
+          }));
         }
       }
     } catch (e) {
@@ -106,23 +122,35 @@ export default function CohortPreview() {
         body: JSON.stringify(form),
       });
       const data: PaymentResponse = await res.json();
-      if (!res.ok || !data.success) throw new Error(data.message || "Payment failed");
+      if (!res.ok || !data.success)
+        throw new Error(data.message || "Payment failed");
       setResult(data);
       if (data.accessToken) {
         localStorage.setItem("azorix_email", form.email);
         localStorage.setItem("azorix_token", data.accessToken);
       }
-      toast({ title: "Payment Successful", description: "You can now watch the 3-hour preview." });
+      toast({
+        title: "Payment Successful",
+        description: "You can now watch the 3-hour preview.",
+      });
 
       // fetch resources to get preview video
       try {
         const token = encodeURIComponent(data.accessToken || "");
         const email = encodeURIComponent(form.email);
-        const r = await fetch(`/api/dashboard/resources?email=${email}&token=${token}`);
+        const r = await fetch(
+          `/api/dashboard/resources?email=${email}&token=${token}`,
+        );
         if (r.ok) {
           const resources = await r.json();
-          const preview = (resources.resources || []).find((x: any) => x.title && x.title.toLowerCase().includes("3-hour")) || resources.resources?.[0];
-          const url = preview?.url || process.env.REACT_APP_COHORT_PREVIEW_VIDEO_URL || "https://youtu.be/YE-JrestfRw";
+          const preview =
+            (resources.resources || []).find(
+              (x: any) => x.title && x.title.toLowerCase().includes("3-hour"),
+            ) || resources.resources?.[0];
+          const url =
+            preview?.url ||
+            process.env.REACT_APP_COHORT_PREVIEW_VIDEO_URL ||
+            "https://youtu.be/YE-JrestfRw";
           setVideoUrl(url);
         } else {
           setVideoUrl("https://youtu.be/YE-JrestfRw");
@@ -147,8 +175,13 @@ export default function CohortPreview() {
       />
       <Header />
       <main className="container max-w-3xl py-10">
-        <h1 className="text-3xl font-bold mb-2">Core Cohort Preview — ₹1,999 (3 days)</h1>
-        <p className="text-muted-foreground mb-6">Convert warm buyers into serious learners. Includes live sessions, assignments, TA support, and community.</p>
+        <h1 className="text-3xl font-bold mb-2">
+          Core Cohort Preview — ₹1,999 (3 days)
+        </h1>
+        <p className="text-muted-foreground mb-6">
+          Convert warm buyers into serious learners. Includes live sessions,
+          assignments, TA support, and community.
+        </p>
 
         <section className="mb-6 p-4 rounded-md border bg-card">
           <h2 className="text-xl font-semibold mb-2">Offer</h2>
@@ -160,19 +193,49 @@ export default function CohortPreview() {
           </ul>
         </section>
 
-        <form onSubmit={onSubmit} className="space-y-4 bg-card p-6 rounded-lg border">
+        <form
+          onSubmit={onSubmit}
+          className="space-y-4 bg-card p-6 rounded-lg border"
+        >
           <div>
-            <label className="block text-sm mb-1" htmlFor="name">Name</label>
-            <input id="name" name="name" value={form.name} onChange={onChange} required className="w-full border rounded-md p-2" />
+            <label className="block text-sm mb-1" htmlFor="name">
+              Name
+            </label>
+            <input
+              id="name"
+              name="name"
+              value={form.name}
+              onChange={onChange}
+              required
+              className="w-full border rounded-md p-2"
+            />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm mb-1" htmlFor="email">Email</label>
-              <input id="email" name="email" type="email" value={form.email} onChange={onChange} required className="w-full border rounded-md p-2" />
+              <label className="block text-sm mb-1" htmlFor="email">
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={form.email}
+                onChange={onChange}
+                required
+                className="w-full border rounded-md p-2"
+              />
             </div>
             <div>
-              <label className="block text-sm mb-1" htmlFor="phone">Phone</label>
-              <input id="phone" name="phone" value={form.phone || ""} onChange={onChange} className="w-full border rounded-md p-2" />
+              <label className="block text-sm mb-1" htmlFor="phone">
+                Phone
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                value={form.phone || ""}
+                onChange={onChange}
+                className="w-full border rounded-md p-2"
+              />
             </div>
           </div>
           <Button type="submit" disabled={loading}>
@@ -184,33 +247,59 @@ export default function CohortPreview() {
           <h2 className="text-xl font-semibold">3-hour Preview Video</h2>
 
           {!result?.success && (
-            <p className="text-sm text-gray-600">Watch now available after successful registration (₹1,999).</p>
+            <p className="text-sm text-gray-600">
+              Watch now available after successful registration (₹1,999).
+            </p>
           )}
 
           {result?.success && videoUrl && (
             <div>
               <div className="aspect-video bg-black rounded-lg overflow-hidden">
-                {videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be") ? (
+                {videoUrl.includes("youtube.com") ||
+                videoUrl.includes("youtu.be") ? (
                   // eslint-disable-next-line jsx-a11y/iframe-has-title
                   <iframe
                     ref={iframeRef}
                     id="cohort-preview-player"
                     className="w-full h-full"
-                    src={videoUrl.includes("youtu.be") ? `https://www.youtube.com/embed/${videoUrl.split("/").pop()}?enablejsapi=1` : videoUrl}
+                    src={
+                      videoUrl.includes("youtu.be")
+                        ? `https://www.youtube.com/embed/${videoUrl.split("/").pop()}?enablejsapi=1`
+                        : videoUrl
+                    }
                     allow="autoplay; encrypted-media"
                   />
                 ) : (
-                  <video className="w-full h-full" controls onEnded={async () => {
-                    try {
-                      const token = localStorage.getItem("azorix_token");
-                      const email = localStorage.getItem("azorix_email");
-                      const payload = { email, token, name: form.name, phone: form.phone };
-                      await fetch("/api/cohort/complete", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-                      toast({ title: "Registration completed", description: "Your enrollment details were saved." });
-                    } catch (e) {
-                      toast({ title: "Error", description: "Failed to save enrollment after video." });
-                    }
-                  }}>
+                  <video
+                    className="w-full h-full"
+                    controls
+                    onEnded={async () => {
+                      try {
+                        const token = localStorage.getItem("azorix_token");
+                        const email = localStorage.getItem("azorix_email");
+                        const payload = {
+                          email,
+                          token,
+                          name: form.name,
+                          phone: form.phone,
+                        };
+                        await fetch("/api/cohort/complete", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify(payload),
+                        });
+                        toast({
+                          title: "Registration completed",
+                          description: "Your enrollment details were saved.",
+                        });
+                      } catch (e) {
+                        toast({
+                          title: "Error",
+                          description: "Failed to save enrollment after video.",
+                        });
+                      }
+                    }}
+                  >
                     <source src={videoUrl} />
                     Your browser does not support the video tag.
                   </video>
@@ -218,19 +307,43 @@ export default function CohortPreview() {
               </div>
 
               <div className="mt-4 text-center">
-                <Button onClick={async () => {
-                  // try to force save if iframe ended couldn't be detected
-                  try {
-                    const token = localStorage.getItem("azorix_token");
-                    const email = localStorage.getItem("azorix_email");
-                    const payload = { email, token, name: form.name, phone: form.phone };
-                    const r = await fetch("/api/cohort/complete", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-                    if (r.ok) toast({ title: "Saved", description: "Enrollment saved." });
-                    else toast({ title: "Error", description: "Failed to save enrollment." });
-                  } catch (e) {
-                    toast({ title: "Error", description: "Failed to save enrollment." });
-                  }
-                }}>Save Enrollment Now</Button>
+                <Button
+                  onClick={async () => {
+                    // try to force save if iframe ended couldn't be detected
+                    try {
+                      const token = localStorage.getItem("azorix_token");
+                      const email = localStorage.getItem("azorix_email");
+                      const payload = {
+                        email,
+                        token,
+                        name: form.name,
+                        phone: form.phone,
+                      };
+                      const r = await fetch("/api/cohort/complete", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload),
+                      });
+                      if (r.ok)
+                        toast({
+                          title: "Saved",
+                          description: "Enrollment saved.",
+                        });
+                      else
+                        toast({
+                          title: "Error",
+                          description: "Failed to save enrollment.",
+                        });
+                    } catch (e) {
+                      toast({
+                        title: "Error",
+                        description: "Failed to save enrollment.",
+                      });
+                    }
+                  }}
+                >
+                  Save Enrollment Now
+                </Button>
               </div>
             </div>
           )}
@@ -240,10 +353,22 @@ export default function CohortPreview() {
           <div className="mt-8 p-4 border rounded-md bg-secondary">
             <p className="mb-2">Enrollment successful.</p>
             {result.meetingUrl && (
-              <p className="mb-2">Cohort link: <a className="underline" href={result.meetingUrl} target="_blank" rel="noreferrer">{result.meetingUrl}</a></p>
+              <p className="mb-2">
+                Cohort link:{" "}
+                <a
+                  className="underline"
+                  href={result.meetingUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {result.meetingUrl}
+                </a>
+              </p>
             )}
             <div className="flex gap-3">
-              <a className="underline" href="/dashboard">Go to Dashboard</a>
+              <a className="underline" href="/dashboard">
+                Go to Dashboard
+              </a>
             </div>
           </div>
         )}

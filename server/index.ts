@@ -5,7 +5,7 @@ import { handleDemo } from "./routes/demo";
 import {
   handleGoogleSheetsSubmission,
   handleGoogleSheetsConfig,
-  handleCreateHeaders
+  handleCreateHeaders,
 } from "./routes/google-sheets";
 import {
   handleWorkshopDummyPay,
