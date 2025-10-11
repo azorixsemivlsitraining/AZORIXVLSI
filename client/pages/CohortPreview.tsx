@@ -55,7 +55,24 @@ export default function CohortPreview() {
         localStorage.setItem("azorix_email", form.email);
         localStorage.setItem("azorix_token", data.accessToken);
       }
-      toast({ title: "Enrolled!", description: "Welcome to the 3-day cohort." });
+      toast({ title: "Payment Successful", description: "You can now watch the 3-hour preview." });
+
+      // fetch resources to get preview video
+      try {
+        const token = encodeURIComponent(data.accessToken || "");
+        const email = encodeURIComponent(form.email);
+        const r = await fetch(`/api/dashboard/resources?email=${email}&token=${token}`);
+        if (r.ok) {
+          const resources = await r.json();
+          const preview = (resources.resources || []).find((x: any) => x.title && x.title.toLowerCase().includes("3-hour")) || resources.resources?.[0];
+          const url = preview?.url || process.env.REACT_APP_COHORT_PREVIEW_VIDEO_URL || "https://youtu.be/YE-JrestfRw";
+          setVideoUrl(url);
+        } else {
+          setVideoUrl("https://youtu.be/YE-JrestfRw");
+        }
+      } catch (err) {
+        setVideoUrl("https://youtu.be/YE-JrestfRw");
+      }
     } catch (err: any) {
       toast({ title: "Error", description: err.message || "Payment failed" });
     } finally {
