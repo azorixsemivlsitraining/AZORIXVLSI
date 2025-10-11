@@ -125,7 +125,58 @@ export default function CohortPreview() {
 
         <section className="mt-8 space-y-3">
           <h2 className="text-xl font-semibold">3-hour Preview Video</h2>
-          <a className="text-primary underline" href="https://youtu.be/YE-JrestfRw?si=5B2Wp9y4bBAS4Jx6" target="_blank" rel="noreferrer">Watch now</a>
+
+          {!result?.success && (
+            <p className="text-sm text-gray-600">Watch now available after successful registration (₹1,999).</p>
+          )}
+
+          {result?.success && videoUrl && (
+            <div>
+              <div className="aspect-video bg-black rounded-lg overflow-hidden">
+                {videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be") ? (
+                  // eslint-disable-next-line jsx-a11y/iframe-has-title
+                  <iframe
+                    ref={iframeRef}
+                    id="cohort-preview-player"
+                    className="w-full h-full"
+                    src={videoUrl.includes("youtu.be") ? `https://www.youtube.com/embed/${videoUrl.split("/").pop()}?enablejsapi=1` : videoUrl}
+                    allow="autoplay; encrypted-media"
+                  />
+                ) : (
+                  <video className="w-full h-full" controls onEnded={async () => {
+                    try {
+                      const token = localStorage.getItem("azorix_token");
+                      const email = localStorage.getItem("azorix_email");
+                      const payload = { email, token, name: form.name, phone: form.phone };
+                      await fetch("/api/cohort/complete", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+                      toast({ title: "Registration completed", description: "Your enrollment details were saved." });
+                    } catch (e) {
+                      toast({ title: "Error", description: "Failed to save enrollment after video." });
+                    }
+                  }}>
+                    <source src={videoUrl} />
+                    Your browser does not support the video tag.
+                  </video>
+                )}
+              </div>
+
+              <div className="mt-4 text-center">
+                <Button onClick={async () => {
+                  // try to force save if iframe ended couldn't be detected
+                  try {
+                    const token = localStorage.getItem("azorix_token");
+                    const email = localStorage.getItem("azorix_email");
+                    const payload = { email, token, name: form.name, phone: form.phone };
+                    const r = await fetch("/api/cohort/complete", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+                    if (r.ok) toast({ title: "Saved", description: "Enrollment saved." });
+                    else toast({ title: "Error", description: "Failed to save enrollment." });
+                  } catch (e) {
+                    toast({ title: "Error", description: "Failed to save enrollment." });
+                  }
+                }}>Save Enrollment Now</Button>
+              </div>
+            </div>
+          )}
         </section>
 
         {result?.success && (
