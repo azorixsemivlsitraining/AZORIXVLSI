@@ -100,12 +100,12 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  to="/demo"
-                  className="text-gray-400 hover:text-vlsi-400 transition-all duration-200 hover:translate-x-1 inline-block flex items-center gap-2 group"
-                >
-                  <ExternalLink className="w-4 h-4 group-hover:animate-bounce" />
-                  Book Free Demo
-                </Link>
+                to="/demo"
+                className="text-gray-400 hover:text-vlsi-400 transition-all duration-200 hover:translate-x-1 inline-block flex items-center gap-2 group"
+              >
+                <ExternalLink className="w-4 h-4 group-hover:animate-bounce" />
+                Register for Demo (₹99)
+              </Link>
               </li>
             </ul>
           </div>
@@ -168,6 +168,12 @@ export default function Footer() {
                 className="text-gray-400 hover:text-vlsi-400 text-sm transition-colors hover:underline"
               >
                 Cookie Policy
+              </Link>
+              <Link
+                to="/refund-policy"
+                className="text-gray-400 hover:text-vlsi-400 text-sm transition-colors hover:underline"
+              >
+                Cancellation / Refund Policy
               </Link>
             </div>
           </div>
