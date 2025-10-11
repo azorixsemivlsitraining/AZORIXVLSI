@@ -35,6 +35,9 @@ import SystemVerilog from "./pages/courses/SystemVerilog";
 import UVM from "./pages/courses/UVM";
 import RTLDesign from "./pages/courses/RTLDesign";
 import PhysicalDesign from "./pages/courses/PhysicalDesign";
+import Workshop from "./pages/Workshop";
+import CohortPreview from "./pages/CohortPreview";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +72,9 @@ const App = () => (
             <Route path="/enroll" element={<Enroll />} />
             <Route path="/brochure" element={<Brochure />} />
             <Route path="/demo" element={<DemoRegistration />} />
+            <Route path="/workshop" element={<Workshop />} />
+            <Route path="/cohort-preview" element={<CohortPreview />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />

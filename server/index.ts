@@ -5,8 +5,14 @@ import { handleDemo } from "./routes/demo";
 import {
   handleGoogleSheetsSubmission,
   handleGoogleSheetsConfig,
-  handleCreateHeaders
+  handleCreateHeaders,
 } from "./routes/google-sheets";
+import {
+  handleWorkshopDummyPay,
+  handleCohortDummyPay,
+  handleDashboardResources,
+  handleCohortComplete,
+} from "./routes/payments";
 
 export function createServer() {
   const app = express();
@@ -28,6 +34,12 @@ export function createServer() {
   app.post("/api/google-sheets", handleGoogleSheetsSubmission);
   app.get("/api/google-sheets/config", handleGoogleSheetsConfig);
   app.post("/api/google-sheets/create-headers", handleCreateHeaders);
+
+  // Payments & resources
+  app.post("/api/payment/workshop/dummy-pay", handleWorkshopDummyPay);
+  app.post("/api/payment/cohort/dummy-pay", handleCohortDummyPay);
+  app.post("/api/cohort/complete", handleCohortComplete);
+  app.get("/api/dashboard/resources", handleDashboardResources);
 
   return app;
 }
