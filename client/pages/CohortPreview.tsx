@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -24,7 +23,11 @@ export default function CohortPreview() {
   // Detect YouTube iframe end state to mark completion
   useEffect(() => {
     if (!videoUrl) return;
-    const embed = videoUrl.includes("youtu.be") ? `https://www.youtube.com/embed/${videoUrl.split("/").pop()}?enablejsapi=1` : videoUrl.includes("youtube.com") && !videoUrl.includes("embed") ? videoUrl.replace("watch?v=", "embed/") + "?enablejsapi=1" : videoUrl;
+    const embed = videoUrl.includes("youtu.be")
+      ? `https://www.youtube.com/embed/${videoUrl.split("/").pop()}?enablejsapi=1`
+      : videoUrl.includes("youtube.com") && !videoUrl.includes("embed")
+      ? videoUrl.replace("watch?v=", "embed/") + "?enablejsapi=1"
+      : videoUrl;
 
     const win = window as any;
     const createPlayer = () => {
@@ -38,7 +41,11 @@ export default function CohortPreview() {
                 try {
                   const token = localStorage.getItem("azorix_token");
                   const email = localStorage.getItem("azorix_email");
-                  await fetch("/api/cohort/complete", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, token, name: form.name, phone: form.phone }) });
+                  await fetch("/api/cohort/complete", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, token, name: form.name, phone: form.phone }),
+                  });
                   toast({ title: "Registration completed", description: "Your enrollment details were saved." });
                 } catch (e) {
                   toast({ title: "Error", description: "Failed to save enrollment after video." });
