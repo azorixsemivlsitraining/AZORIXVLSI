@@ -97,8 +97,9 @@ export interface DemoRegistrationData {
 
 // Database operations
 export const saveEnrollmentData = async (data: EnrollmentData) => {
-  if (!checkSupabaseConfig()) {
-    throw new Error("Database not configured. Please contact support.");
+  if (!supabase) {
+    console.warn("Supabase client not initialized - skipping enrollment save.");
+    return null as any;
   }
 
   try {
