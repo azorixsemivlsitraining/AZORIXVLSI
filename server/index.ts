@@ -37,6 +37,7 @@ export function createServer() {
   // Payments & resources
   app.post("/api/payment/workshop/dummy-pay", handleWorkshopDummyPay);
   app.post("/api/payment/cohort/dummy-pay", handleCohortDummyPay);
+  app.post("/api/cohort/complete", handleCohortComplete);
   app.get("/api/dashboard/resources", handleDashboardResources);
 
   return app;
