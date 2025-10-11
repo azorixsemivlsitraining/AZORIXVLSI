@@ -84,18 +84,7 @@ export const handleCohortDummyPay: RequestHandler = async (req, res) => {
     return;
   }
 
-  try {
-    await saveCohortEnrollment({
-      name: body.name,
-      email: body.email,
-      phone: body.phone,
-      payment_status: "success",
-      amount: COHORT_PRICE,
-      currency: "INR",
-    });
-  } catch (e) {
-    // Non-fatal if DB is not configured
-  }
+  // Do NOT persist cohort enrollment here. Persist AFTER user completes the 3-hour preview video.
 
   const ttl = 60 * 60 * 24 * 30; // 30 days
   const token = makeAccessToken(body.email, ttl);
@@ -103,14 +92,42 @@ export const handleCohortDummyPay: RequestHandler = async (req, res) => {
 
   const emailed = await sendEmail({
     to: body.email,
-    subject: "Cohort Enrollment Confirmed",
-    html: `<p>Welcome ${body.name},</p>
-<p>Your enrollment (₹${COHORT_PRICE}) was successful.</p>
+    subject: "Cohort Registration Received",
+    html: `<p>Hi ${body.name},</p>
+<p>Your payment of ₹${COHORT_PRICE} was successful. Please watch the 3-hour preview to complete your registration.</p>
 ${meetingUrl ? `<p>Cohort link: <a href="${meetingUrl}">${meetingUrl}</a></p>` : ""}
-<p>We'll follow up with schedule and calendar invite.</p>`,
+<p>We'll follow up with schedule and calendar invite after you complete the preview.</p>`,
   }).catch(() => false);
 
   res.json({ success: true, orderId: `dummy-${Date.now()}`, accessToken: token, meetingUrl, message: emailed ? "Email sent" : undefined });
+};
+
+export const handleCohortComplete: RequestHandler = async (req, res) => {
+  const { email, token, name, phone } = req.body as { email?: string; token?: string; name?: string; phone?: string };
+  if (!email || !token) {
+    res.status(400).json({ success: false, message: "Missing email or token" });
+    return;
+  }
+
+  const verified = verifyAccessToken(token, email);
+  if (!verified.ok) {
+    res.status(401).json({ success: false, message: "Invalid or expired token" });
+    return;
+  }
+
+  try {
+    await saveCohortEnrollment({
+      name: name || email,
+      email,
+      phone,
+      payment_status: "success",
+      amount: COHORT_PRICE,
+      currency: "INR",
+    });
+    res.json({ success: true });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e?.message || "Failed to save enrollment" });
+  }
 };
 
 export const handleDashboardResources: RequestHandler = (req, res) => {
