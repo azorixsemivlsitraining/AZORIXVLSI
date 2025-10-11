@@ -141,8 +141,9 @@ export const saveEnrollmentData = async (data: EnrollmentData) => {
 };
 
 export const saveContactData = async (data: ContactData) => {
-  if (!checkSupabaseConfig()) {
-    throw new Error("Database not configured. Please contact support.");
+  if (!supabase) {
+    console.warn("Supabase client not initialized - skipping contact save.");
+    return null as any;
   }
 
   try {
