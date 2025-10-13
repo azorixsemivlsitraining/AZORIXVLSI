@@ -35,6 +35,11 @@ export function createServer() {
   app.get("/api/google-sheets/config", handleGoogleSheetsConfig);
   app.post("/api/google-sheets/create-headers", handleCreateHeaders);
 
+  // Email verification
+  import("./routes/verify-email").then((m) => {
+    app.post("/api/verify-email", m.handleVerifyEmail);
+  });
+
   // Payments & resources
   app.post("/api/payment/workshop/dummy-pay", handleWorkshopDummyPay);
   app.post("/api/payment/cohort/dummy-pay", handleCohortDummyPay);
