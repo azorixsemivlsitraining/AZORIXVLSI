@@ -50,8 +50,10 @@ function verifyAccessToken(
   }
 }
 
+import { sendWhatsApp } from "../lib/whatsapp";
+
 export const handleWorkshopDummyPay: RequestHandler = async (req, res) => {
-  const body = req.body as WorkshopRegistrationRequest;
+  const body = req.body as WorkshopRegistrationRequest & { whatsappOptIn?: boolean };
   if (!body?.name || !body?.email || !body?.phone || !body?.domainInterest) {
     res
       .status(400)
@@ -77,6 +79,7 @@ export const handleWorkshopDummyPay: RequestHandler = async (req, res) => {
   const token = makeAccessToken(body.email, ttl);
   const meetingUrl = process.env.WORKSHOP_MEETING_URL || null;
 
+  // Send confirmation email (uses server/lib/email.ts - SendGrid)
   const emailed = await sendEmail({
     to: body.email,
     subject: "Workshop Registration Confirmed",
@@ -86,12 +89,25 @@ ${meetingUrl ? `<p>Join link: <a href="${meetingUrl}">${meetingUrl}</a></p>` : "
 <p>Access your resources for 48 hours using the dashboard.</p>`,
   }).catch(() => false);
 
+  // Send WhatsApp notification if user opted in and we have a phone
+  let whatsappSent = false;
+  try {
+    if (body.whatsappOptIn && body.phone) {
+      const phoneNumeric = body.phone.replace(/[^0-9]/g, "");
+      const message = `Hi ${body.name}, your registration for the ₹${WORKSHOP_PRICE} workshop is confirmed. We'll send reminders before the session.`;
+      whatsappSent = await sendWhatsApp({ phone: phoneNumeric, message });
+    }
+  } catch (e) {
+    whatsappSent = false;
+  }
+
   res.json({
     success: true,
     orderId: `dummy-${Date.now()}`,
     accessToken: token,
     meetingUrl,
     message: emailed ? "Email sent" : undefined,
+    whatsappSent,
   });
 };
 
