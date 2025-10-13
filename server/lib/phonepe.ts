@@ -63,8 +63,15 @@ export async function initiatePayment(params: InitiatePaymentParams) {
     body: JSON.stringify({ request: base64Payload }),
   });
 
-  const data = await res.json().catch(() => ({}));
+  let data: any = null;
+  try {
+    data = await res.json();
+  } catch (e) {
+    console.error("PhonePe: failed to parse JSON response", e);
+  }
+
   if (!res.ok || !data) {
+    console.error("PhonePe init failed", { status: res.status, statusText: res.statusText, body: data });
     throw new Error(data?.message || "PhonePe init failed");
   }
 
