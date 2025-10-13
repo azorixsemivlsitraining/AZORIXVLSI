@@ -2,7 +2,9 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-const BASE_URL = process.env.PHONEPE_BASE_URL || "https://api-preprod.phonepe.com/apis/pg-sandbox";
+const BASE_URL =
+  process.env.PHONEPE_BASE_URL ||
+  "https://api-preprod.phonepe.com/apis/pg-sandbox";
 const MERCHANT_ID = process.env.PHONEPE_MERCHANT_ID || "";
 const SALT_KEY = process.env.PHONEPE_SALT_KEY || "";
 const SALT_INDEX = process.env.PHONEPE_SALT_INDEX || "1";
@@ -71,7 +73,11 @@ export async function initiatePayment(params: InitiatePaymentParams) {
   try {
     const logsDir = path.join(process.cwd(), "server", "logs");
     if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
-    fs.writeFileSync(path.join(logsDir, "phonepe_last_request.json"), JSON.stringify(out, null, 2), "utf8");
+    fs.writeFileSync(
+      path.join(logsDir, "phonepe_last_request.json"),
+      JSON.stringify(out, null, 2),
+      "utf8",
+    );
   } catch (e) {
     console.warn("PhonePe: failed to write log file", e);
   }
@@ -94,7 +100,11 @@ export async function initiatePayment(params: InitiatePaymentParams) {
   }
 
   if (!res.ok || !data) {
-    console.error("PhonePe init failed", { status: res.status, statusText: res.statusText, body: data });
+    console.error("PhonePe init failed", {
+      status: res.status,
+      statusText: res.statusText,
+      body: data,
+    });
     throw new Error(data?.message || "PhonePe init failed");
   }
 

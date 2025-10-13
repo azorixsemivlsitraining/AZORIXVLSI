@@ -267,7 +267,12 @@ export default function DemoRegistration() {
         }
         // If gateway returned an error while PhonePe is configured, surface it and stop.
         if (!pp.ok && ppData?.message) {
-          await Swal.fire({ icon: "error", title: "Payment Error", text: ppData.message, confirmButtonColor: "#0d9488" });
+          await Swal.fire({
+            icon: "error",
+            title: "Payment Error",
+            text: ppData.message,
+            confirmButtonColor: "#0d9488",
+          });
           setIsSubmitting(false);
           return;
         }

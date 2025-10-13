@@ -23,7 +23,8 @@ export default function PhonePeReturn() {
               : `/api/payment/workshop/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`;
         const res = await fetch(endpoint);
         const data = await res.json().catch(() => null);
-        if (!res.ok || !data?.success) throw new Error(data?.message || "Payment verification failed");
+        if (!res.ok || !data?.success)
+          throw new Error(data?.message || "Payment verification failed");
         if (data.accessToken) {
           localStorage.setItem("azorix_email", email);
           localStorage.setItem("azorix_token", data.accessToken);
@@ -31,7 +32,8 @@ export default function PhonePeReturn() {
         setStatus("Payment verified successfully.");
         setTimeout(() => {
           if (purpose === "cohort") window.location.href = "/cohort-preview";
-          else if (purpose === "dv") window.location.href = "/courses/design-verification";
+          else if (purpose === "dv")
+            window.location.href = "/courses/design-verification";
           else window.location.href = "/demo";
         }, 1000);
       } catch (e: any) {
@@ -50,9 +52,7 @@ export default function PhonePeReturn() {
         <h1 className="text-2xl font-bold mb-2">PhonePe Payment</h1>
         <p className="text-muted-foreground mb-6">{status}</p>
         <div className="flex gap-3">
-          <Button onClick={() => (window.location.href = "/")}>
-            Go Home
-          </Button>
+          <Button onClick={() => (window.location.href = "/")}>Go Home</Button>
         </div>
       </main>
       <Footer />

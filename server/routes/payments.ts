@@ -246,20 +246,28 @@ import { initiatePayment, fetchPaymentStatus } from "../lib/phonepe";
 
 function getBaseUrl(req: any) {
   if (process.env.APP_BASE_URL) return process.env.APP_BASE_URL;
-  const proto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
+  const proto =
+    (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
   const host = (req.headers["x-forwarded-host"] as string) || req.get("host");
   return `${proto}://${host}`;
 }
 
 function signRedirect(email: string, txn: string) {
   const data = `${email}:${txn}`;
-  return crypto.createHmac("sha256", ACCESS_TOKEN_SECRET).update(data).digest("hex");
+  return crypto
+    .createHmac("sha256", ACCESS_TOKEN_SECRET)
+    .update(data)
+    .digest("hex");
 }
 
 export const handleWorkshopPay: RequestHandler = async (req, res) => {
-  const body = req.body as WorkshopRegistrationRequest & { whatsappOptIn?: boolean };
+  const body = req.body as WorkshopRegistrationRequest & {
+    whatsappOptIn?: boolean;
+  };
   if (!body?.name || !body?.email || !body?.phone || !body?.domainInterest) {
-    res.status(400).json({ success: false, message: "Missing required fields" });
+    res
+      .status(400)
+      .json({ success: false, message: "Missing required fields" });
     return;
   }
 
@@ -282,7 +290,12 @@ export const handleWorkshopPay: RequestHandler = async (req, res) => {
   } catch (e: any) {
     if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
       console.error("PhonePe init error (workshop):", e?.message || e);
-      res.status(502).json({ success: false, message: `PhonePe init failed: ${e?.message || "unknown"}` });
+      res
+        .status(502)
+        .json({
+          success: false,
+          message: `PhonePe init failed: ${e?.message || "unknown"}`,
+        });
       return;
     }
     // Fallback to dummy behavior if PhonePe not configured
@@ -305,9 +318,14 @@ export const handleWorkshopConfirm: RequestHandler = async (req, res) => {
   }
   try {
     const status = await fetchPaymentStatus(txn);
-    const ok = status?.success || status?.code === "PAYMENT_SUCCESS" || status?.data?.state === "COMPLETED";
+    const ok =
+      status?.success ||
+      status?.code === "PAYMENT_SUCCESS" ||
+      status?.data?.state === "COMPLETED";
     if (!ok) {
-      res.status(400).json({ success: false, message: "Payment not successful" });
+      res
+        .status(400)
+        .json({ success: false, message: "Payment not successful" });
       return;
     }
 
@@ -334,7 +352,9 @@ export const handleWorkshopConfirm: RequestHandler = async (req, res) => {
 export const handleCohortPay: RequestHandler = async (req, res) => {
   const body = req.body as CohortEnrollmentRequest;
   if (!body?.name || !body?.email) {
-    res.status(400).json({ success: false, message: "Missing required fields" });
+    res
+      .status(400)
+      .json({ success: false, message: "Missing required fields" });
     return;
   }
   try {
@@ -355,7 +375,12 @@ export const handleCohortPay: RequestHandler = async (req, res) => {
   } catch (e: any) {
     if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
       console.error("PhonePe init error (cohort):", e?.message || e);
-      res.status(502).json({ success: false, message: `PhonePe init failed: ${e?.message || "unknown"}` });
+      res
+        .status(502)
+        .json({
+          success: false,
+          message: `PhonePe init failed: ${e?.message || "unknown"}`,
+        });
       return;
     }
     return handleCohortDummyPay(req, res);
@@ -377,9 +402,14 @@ export const handleCohortConfirm: RequestHandler = async (req, res) => {
   }
   try {
     const status = await fetchPaymentStatus(txn);
-    const ok = status?.success || status?.code === "PAYMENT_SUCCESS" || status?.data?.state === "COMPLETED";
+    const ok =
+      status?.success ||
+      status?.code === "PAYMENT_SUCCESS" ||
+      status?.data?.state === "COMPLETED";
     if (!ok) {
-      res.status(400).json({ success: false, message: "Payment not successful" });
+      res
+        .status(400)
+        .json({ success: false, message: "Payment not successful" });
       return;
     }
 
@@ -392,9 +422,15 @@ export const handleCohortConfirm: RequestHandler = async (req, res) => {
 };
 
 export const handleDVPay: RequestHandler = async (req, res) => {
-  const { name, email, phone } = req.body as { name?: string; email?: string; phone?: string };
+  const { name, email, phone } = req.body as {
+    name?: string;
+    email?: string;
+    phone?: string;
+  };
   if (!name || !email) {
-    res.status(400).json({ success: false, message: "Missing required fields" });
+    res
+      .status(400)
+      .json({ success: false, message: "Missing required fields" });
     return;
   }
   try {
@@ -415,10 +451,20 @@ export const handleDVPay: RequestHandler = async (req, res) => {
   } catch (e: any) {
     if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
       console.error("PhonePe init error (dv):", e?.message || e);
-      res.status(502).json({ success: false, message: `PhonePe init failed: ${e?.message || "unknown"}` });
+      res
+        .status(502)
+        .json({
+          success: false,
+          message: `PhonePe init failed: ${e?.message || "unknown"}`,
+        });
       return;
     }
-    res.status(500).json({ success: false, message: e?.message || "PhonePe not configured" });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: e?.message || "PhonePe not configured",
+      });
   }
 };
 
@@ -437,9 +483,14 @@ export const handleDVConfirm: RequestHandler = async (req, res) => {
   }
   try {
     const status = await fetchPaymentStatus(txn);
-    const ok = status?.success || status?.code === "PAYMENT_SUCCESS" || status?.data?.state === "COMPLETED";
+    const ok =
+      status?.success ||
+      status?.code === "PAYMENT_SUCCESS" ||
+      status?.data?.state === "COMPLETED";
     if (!ok) {
-      res.status(400).json({ success: false, message: "Payment not successful" });
+      res
+        .status(400)
+        .json({ success: false, message: "Payment not successful" });
       return;
     }
 
