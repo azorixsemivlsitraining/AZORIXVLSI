@@ -11,7 +11,7 @@ const courses = [
       "Master digital verification with SystemVerilog, UVM, and industry-standard methodologies",
     duration: "8 months",
     level: "Beginner to Advanced",
-    Fee:"69999",
+    Fee: "69,999",
     icon: <Shield className="w-8 h-8" />,
     available: true,
     path: "/courses/design-verification",
