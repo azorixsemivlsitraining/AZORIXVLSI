@@ -239,3 +239,143 @@ export const handleDashboardResources: RequestHandler = (req, res) => {
 
   res.json(resources);
 };
+
+// -------------------- PhonePe Integration (optional) --------------------
+import { initiatePayment, fetchPaymentStatus } from "../lib/phonepe";
+
+function getBaseUrl(req: any) {
+  if (process.env.APP_BASE_URL) return process.env.APP_BASE_URL;
+  const proto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
+  const host = (req.headers["x-forwarded-host"] as string) || req.get("host");
+  return `${proto}://${host}`;
+}
+
+function signRedirect(email: string, txn: string) {
+  const data = `${email}:${txn}`;
+  return crypto.createHmac("sha256", ACCESS_TOKEN_SECRET).update(data).digest("hex");
+}
+
+export const handleWorkshopPay: RequestHandler = async (req, res) => {
+  const body = req.body as WorkshopRegistrationRequest & { whatsappOptIn?: boolean };
+  if (!body?.name || !body?.email || !body?.phone || !body?.domainInterest) {
+    res.status(400).json({ success: false, message: "Missing required fields" });
+    return;
+  }
+
+  try {
+    const txn = `ws-${Date.now()}`;
+    const base = getBaseUrl(req);
+    const sig = signRedirect(body.email, txn);
+    const redirectTarget = `${base}/phonepe-return?purpose=workshop&txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(body.email)}&sig=${sig}`;
+
+    const out = await initiatePayment({
+      merchantTransactionId: txn,
+      amountInPaise: WORKSHOP_PRICE * 100,
+      name: body.name,
+      email: body.email,
+      mobile: body.phone,
+      redirectUrl: redirectTarget,
+    });
+
+    res.json({ success: true, redirectUrl: out.redirectUrl });
+  } catch (e: any) {
+    // Fallback to dummy behavior if PhonePe not configured or fails
+    return handleWorkshopDummyPay(req, res);
+  }
+};
+
+export const handleWorkshopConfirm: RequestHandler = async (req, res) => {
+  const txn = (req.query.txn as string) || (req.body as any)?.txn;
+  const email = (req.query.email as string) || (req.body as any)?.email;
+  const sig = (req.query.sig as string) || (req.body as any)?.sig;
+  if (!txn || !email || !sig) {
+    res.status(400).json({ success: false, message: "Missing parameters" });
+    return;
+  }
+  const expected = signRedirect(email, txn);
+  if (expected !== sig) {
+    res.status(401).json({ success: false, message: "Invalid signature" });
+    return;
+  }
+  try {
+    const status = await fetchPaymentStatus(txn);
+    const ok = status?.success || status?.code === "PAYMENT_SUCCESS" || status?.data?.state === "COMPLETED";
+    if (!ok) {
+      res.status(400).json({ success: false, message: "Payment not successful" });
+      return;
+    }
+
+    try {
+      await saveWorkshopRegistration({
+        name: email,
+        email,
+        phone: undefined as any,
+        domain_interest: "General",
+        payment_status: "success",
+        amount: WORKSHOP_PRICE,
+        currency: "INR",
+      });
+    } catch {}
+
+    const token = makeAccessToken(email, 60 * 60 * 48);
+    const meetingUrl = process.env.WORKSHOP_MEETING_URL || null;
+    res.json({ success: true, accessToken: token, meetingUrl });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e?.message || "Failed" });
+  }
+};
+
+export const handleCohortPay: RequestHandler = async (req, res) => {
+  const body = req.body as CohortEnrollmentRequest;
+  if (!body?.name || !body?.email) {
+    res.status(400).json({ success: false, message: "Missing required fields" });
+    return;
+  }
+  try {
+    const txn = `ch-${Date.now()}`;
+    const base = getBaseUrl(req);
+    const sig = signRedirect(body.email, txn);
+    const redirectTarget = `${base}/phonepe-return?purpose=cohort&txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(body.email)}&sig=${sig}`;
+
+    const out = await initiatePayment({
+      merchantTransactionId: txn,
+      amountInPaise: COHORT_PRICE * 100,
+      name: body.name,
+      email: body.email,
+      mobile: body.phone,
+      redirectUrl: redirectTarget,
+    });
+    res.json({ success: true, redirectUrl: out.redirectUrl });
+  } catch (e: any) {
+    return handleCohortDummyPay(req, res);
+  }
+};
+
+export const handleCohortConfirm: RequestHandler = async (req, res) => {
+  const txn = (req.query.txn as string) || (req.body as any)?.txn;
+  const email = (req.query.email as string) || (req.body as any)?.email;
+  const sig = (req.query.sig as string) || (req.body as any)?.sig;
+  if (!txn || !email || !sig) {
+    res.status(400).json({ success: false, message: "Missing parameters" });
+    return;
+  }
+  const expected = signRedirect(email, txn);
+  if (expected !== sig) {
+    res.status(401).json({ success: false, message: "Invalid signature" });
+    return;
+  }
+  try {
+    const status = await fetchPaymentStatus(txn);
+    const ok = status?.success || status?.code === "PAYMENT_SUCCESS" || status?.data?.state === "COMPLETED";
+    if (!ok) {
+      res.status(400).json({ success: false, message: "Payment not successful" });
+      return;
+    }
+
+    const token = makeAccessToken(email, 60 * 60 * 24 * 30);
+    const meetingUrl = process.env.COHORT_MEETING_URL || null;
+    res.json({ success: true, accessToken: token, meetingUrl });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e?.message || "Failed" });
+  }
+};
