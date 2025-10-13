@@ -216,7 +216,13 @@ export default function DemoRegistration() {
           body: JSON.stringify({ email: formData.email }),
         });
         if (verifyRes.ok) {
-          const v = await verifyRes.json();
+          let v: any = null;
+          try {
+            v = await verifyRes.json();
+          } catch (e) {
+            console.warn("Email verification returned non-JSON response", e);
+            v = { ok: true };
+          }
           if (!v.ok) {
             const proceed = await Swal.fire({
               icon: "warning",
