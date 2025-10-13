@@ -246,28 +246,20 @@ import { initiatePayment, fetchPaymentStatus } from "../lib/phonepe";
 
 function getBaseUrl(req: any) {
   if (process.env.APP_BASE_URL) return process.env.APP_BASE_URL;
-  const proto =
-    (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
+  const proto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
   const host = (req.headers["x-forwarded-host"] as string) || req.get("host");
   return `${proto}://${host}`;
 }
 
 function signRedirect(email: string, txn: string) {
   const data = `${email}:${txn}`;
-  return crypto
-    .createHmac("sha256", ACCESS_TOKEN_SECRET)
-    .update(data)
-    .digest("hex");
+  return crypto.createHmac("sha256", ACCESS_TOKEN_SECRET).update(data).digest("hex");
 }
 
 export const handleWorkshopPay: RequestHandler = async (req, res) => {
-  const body = req.body as WorkshopRegistrationRequest & {
-    whatsappOptIn?: boolean;
-  };
+  const body = req.body as WorkshopRegistrationRequest & { whatsappOptIn?: boolean };
   if (!body?.name || !body?.email || !body?.phone || !body?.domainInterest) {
-    res
-      .status(400)
-      .json({ success: false, message: "Missing required fields" });
+    res.status(400).json({ success: false, message: "Missing required fields" });
     return;
   }
 
@@ -290,12 +282,7 @@ export const handleWorkshopPay: RequestHandler = async (req, res) => {
   } catch (e: any) {
     if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
       console.error("PhonePe init error (workshop):", e?.message || e);
-      res
-        .status(502)
-        .json({
-          success: false,
-          message: `PhonePe init failed: ${e?.message || "unknown"}`,
-        });
+      res.status(502).json({ success: false, message: `PhonePe init failed: ${e?.message || "unknown"}` });
       return;
     }
     // Fallback to dummy behavior if PhonePe not configured
@@ -323,9 +310,7 @@ export const handleWorkshopConfirm: RequestHandler = async (req, res) => {
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED";
     if (!ok) {
-      res
-        .status(400)
-        .json({ success: false, message: "Payment not successful" });
+      res.status(400).json({ success: false, message: "Payment not successful" });
       return;
     }
 
@@ -352,9 +337,7 @@ export const handleWorkshopConfirm: RequestHandler = async (req, res) => {
 export const handleCohortPay: RequestHandler = async (req, res) => {
   const body = req.body as CohortEnrollmentRequest;
   if (!body?.name || !body?.email) {
-    res
-      .status(400)
-      .json({ success: false, message: "Missing required fields" });
+    res.status(400).json({ success: false, message: "Missing required fields" });
     return;
   }
   try {
@@ -375,12 +358,7 @@ export const handleCohortPay: RequestHandler = async (req, res) => {
   } catch (e: any) {
     if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
       console.error("PhonePe init error (cohort):", e?.message || e);
-      res
-        .status(502)
-        .json({
-          success: false,
-          message: `PhonePe init failed: ${e?.message || "unknown"}`,
-        });
+      res.status(502).json({ success: false, message: `PhonePe init failed: ${e?.message || "unknown"}` });
       return;
     }
     return handleCohortDummyPay(req, res);
@@ -407,9 +385,7 @@ export const handleCohortConfirm: RequestHandler = async (req, res) => {
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED";
     if (!ok) {
-      res
-        .status(400)
-        .json({ success: false, message: "Payment not successful" });
+      res.status(400).json({ success: false, message: "Payment not successful" });
       return;
     }
 
@@ -429,8 +405,8 @@ export const handleDVPay: RequestHandler = async (req, res) => {
   };
   if (!name || !email) {
     res
-      .status(400)
-      .json({ success: false, message: "Missing required fields" });
+    .status(400)
+    .json({ success: false, message: "Missing required fields" });
     return;
   }
   try {
@@ -451,20 +427,10 @@ export const handleDVPay: RequestHandler = async (req, res) => {
   } catch (e: any) {
     if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
       console.error("PhonePe init error (dv):", e?.message || e);
-      res
-        .status(502)
-        .json({
-          success: false,
-          message: `PhonePe init failed: ${e?.message || "unknown"}`,
-        });
+      res.status(502).json({ success: false, message: `PhonePe init failed: ${e?.message || "unknown"}` });
       return;
     }
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: e?.message || "PhonePe not configured",
-      });
+    res.status(500).json({ success: false, message: e?.message || "PhonePe not configured" });
   }
 };
 
@@ -488,9 +454,7 @@ export const handleDVConfirm: RequestHandler = async (req, res) => {
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED";
     if (!ok) {
-      res
-        .status(400)
-        .json({ success: false, message: "Payment not successful" });
+      res.status(400).json({ success: false, message: "Payment not successful" });
       return;
     }
 
@@ -508,5 +472,94 @@ export const handleDVConfirm: RequestHandler = async (req, res) => {
     res.json({ success: true });
   } catch (e: any) {
     res.status(500).json({ success: false, message: e?.message || "Failed" });
+  }
+};
+
+// PhonePe webhook endpoint: receives asynchronous notifications from PhonePe about transaction state
+export const handlePhonePeWebhook: RequestHandler = async (req, res) => {
+  const body = req.body;
+  const headers = req.headers;
+  const ts = Date.now();
+  try {
+    const logsDir = require("node:path").join(process.cwd(), "server", "logs");
+    const fs = require("node:fs");
+    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+    fs.writeFileSync(require("node:path").join(logsDir, `phonepe_webhook_${ts}.json`), JSON.stringify({ headers, body }, null, 2), "utf8");
+  } catch (e) {
+    console.warn("Failed to write webhook log", e);
+  }
+
+  // Try to extract merchantTransactionId from common payload shapes
+  const txn =
+    body?.data?.merchantTransactionId ||
+    body?.merchantTransactionId ||
+    body?.txn ||
+    body?.transactionId ||
+    body?.order?.merchantTransactionId ||
+    body?.request?.merchantTransactionId;
+
+  if (!txn) {
+    // Ack to PhonePe but log for manual inspection
+    res.status(200).json({ ok: true, message: "received" });
+    return;
+  }
+
+  try {
+    const status = await fetchPaymentStatus(txn);
+    const ok = status?.success || status?.code === "PAYMENT_SUCCESS" || status?.data?.state === "COMPLETED";
+    if (!ok) {
+      // Not a success event — acknowledge and return
+      res.status(200).json({ ok: true, message: "not completed" });
+      return;
+    }
+
+    // Determine type by txn prefix
+    if (txn.startsWith("ws-")) {
+      const email = body?.data?.merchantUserId || body?.merchantUserId || body?.email || "";
+      try {
+        await saveWorkshopRegistration({
+          name: email,
+          email,
+          phone: undefined as any,
+          domain_interest: "General",
+          payment_status: "success",
+          amount: WORKSHOP_PRICE,
+          currency: "INR",
+        });
+      } catch (e) {}
+      const token = makeAccessToken(email, 60 * 60 * 48);
+      try {
+        await sendEmail({
+          to: email,
+          subject: "Payment confirmed",
+          html: `<p>Your payment is confirmed. Access token: ${token}</p>`,
+        }).catch(() => false);
+      } catch {}
+    } else if (txn.startsWith("ch-") || txn.startsWith("dv-")) {
+      const email = body?.data?.merchantUserId || body?.merchantUserId || body?.email || "";
+      try {
+        await saveCohortEnrollment({
+          name: email,
+          email,
+          phone: undefined as any,
+          payment_status: "success",
+          amount: txn.startsWith("dv-") ? DV_PRICE : COHORT_PRICE,
+          currency: "INR",
+        });
+      } catch (e) {}
+      const token = makeAccessToken(email, 60 * 60 * 24 * 30);
+      try {
+        await sendEmail({
+          to: email,
+          subject: "Payment confirmed",
+          html: `<p>Your payment is confirmed. Access token: ${token}</p>`,
+        }).catch(() => false);
+      } catch {}
+    }
+
+    res.status(200).json({ ok: true });
+  } catch (e: any) {
+    console.error("Webhook handling error", e);
+    res.status(500).json({ ok: false });
   }
 };
