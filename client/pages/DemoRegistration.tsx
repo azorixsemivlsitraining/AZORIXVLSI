@@ -333,33 +333,23 @@ export default function DemoRegistration() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Left Side - Hero Content (image CTA) */}
-              <div className="rounded-3xl overflow-hidden shadow-2xl bg-white">
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F6928824e1c484ed0a953f1bbb89a65b0%2F8983fa2dcfe649c9a8866e9f280b4d50?format=webp&width=1200"
-                  alt="Register for Demo"
-                  className="w-full h-[320px] object-cover"
-                />
-                <div className="p-6 text-center bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="bg-blue-500 hover:bg-blue-600 text-white border-none px-8 py-3 text-lg font-semibold"
-                    onClick={() => {
-                      document.documentElement.classList.add("smooth-scroll");
-                      document
-                        .getElementById("demo-form")
-                        ?.scrollIntoView({ behavior: "smooth" });
-                      setTimeout(
-                        () =>
-                          document.documentElement.classList.remove(
-                            "smooth-scroll",
-                          ),
-                        1000,
-                      );
-                    }}
-                  >
-                    Get Started for ₹99
-                  </Button>
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  document.documentElement.classList.add("smooth-scroll");
+                  document.getElementById("demo-form")?.scrollIntoView({ behavior: "smooth" });
+                  setTimeout(() => document.documentElement.classList.remove("smooth-scroll"), 1000);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    (e.target as HTMLElement).click();
+                  }
+                }}
+                className="rounded-3xl p-12 text-center shadow-2xl bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500 cursor-pointer"
+              >
+                <div className="max-w-md mx-auto">
+                  <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">Get Started for ₹99</h2>
                 </div>
               </div>
 
