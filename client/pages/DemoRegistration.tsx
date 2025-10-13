@@ -208,6 +208,36 @@ export default function DemoRegistration() {
     setIsSubmitting(true);
 
     try {
+      // Verify email existence via server-side verification API
+      try {
+        const verifyRes = await fetch("/api/verify-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: formData.email }),
+        });
+        if (verifyRes.ok) {
+          const v = await verifyRes.json();
+          if (!v.ok) {
+            const proceed = await Swal.fire({
+              icon: "warning",
+              title: "Email looks undeliverable",
+              text: "The email you provided may not exist or be undeliverable. Do you want to proceed anyway?",
+              showCancelButton: true,
+              confirmButtonText: "Proceed",
+              cancelButtonText: "Edit Email",
+              confirmButtonColor: "#0d9488",
+            });
+            if (!proceed.isConfirmed) {
+              setIsSubmitting(false);
+              return;
+            }
+          }
+        }
+      } catch (e) {
+        // If verification fails (service down), allow user to proceed
+        console.warn("Email verification failed:", e);
+      }
+
       // Attempt payment via server dummy-pay endpoint (₹99)
       const paymentBody = {
         name: `${formData.firstName} ${formData.lastName}`,
