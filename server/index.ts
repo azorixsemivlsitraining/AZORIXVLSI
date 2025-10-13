@@ -43,6 +43,13 @@ export function createServer() {
   // Payments & resources
   app.post("/api/payment/workshop/dummy-pay", handleWorkshopDummyPay);
   app.post("/api/payment/cohort/dummy-pay", handleCohortDummyPay);
+  // PhonePe-enabled endpoints (fallback to dummy internally if not configured)
+  import("./routes/payments").then((m) => {
+    app.post("/api/payment/workshop/pay", m.handleWorkshopPay);
+    app.post("/api/payment/cohort/pay", m.handleCohortPay);
+    app.get("/api/payment/workshop/confirm", m.handleWorkshopConfirm);
+    app.get("/api/payment/cohort/confirm", m.handleCohortConfirm);
+  });
   app.post("/api/cohort/complete", handleCohortComplete);
   app.get("/api/dashboard/resources", handleDashboardResources);
 
