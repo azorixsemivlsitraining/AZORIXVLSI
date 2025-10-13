@@ -380,3 +380,67 @@ export const handleCohortConfirm: RequestHandler = async (req, res) => {
     res.status(500).json({ success: false, message: e?.message || "Failed" });
   }
 };
+
+export const handleDVPay: RequestHandler = async (req, res) => {
+  const { name, email, phone } = req.body as { name?: string; email?: string; phone?: string };
+  if (!name || !email) {
+    res.status(400).json({ success: false, message: "Missing required fields" });
+    return;
+  }
+  try {
+    const txn = `dv-${Date.now()}`;
+    const base = getBaseUrl(req);
+    const sig = signRedirect(email, txn);
+    const redirectTarget = `${base}/phonepe-return?purpose=dv&txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${sig}`;
+
+    const out = await initiatePayment({
+      merchantTransactionId: txn,
+      amountInPaise: DV_PRICE * 100,
+      name,
+      email,
+      mobile: phone,
+      redirectUrl: redirectTarget,
+    });
+    res.json({ success: true, redirectUrl: out.redirectUrl });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e?.message || "PhonePe not configured" });
+  }
+};
+
+export const handleDVConfirm: RequestHandler = async (req, res) => {
+  const txn = (req.query.txn as string) || (req.body as any)?.txn;
+  const email = (req.query.email as string) || (req.body as any)?.email;
+  const sig = (req.query.sig as string) || (req.body as any)?.sig;
+  if (!txn || !email || !sig) {
+    res.status(400).json({ success: false, message: "Missing parameters" });
+    return;
+  }
+  const expected = signRedirect(email, txn);
+  if (expected !== sig) {
+    res.status(401).json({ success: false, message: "Invalid signature" });
+    return;
+  }
+  try {
+    const status = await fetchPaymentStatus(txn);
+    const ok = status?.success || status?.code === "PAYMENT_SUCCESS" || status?.data?.state === "COMPLETED";
+    if (!ok) {
+      res.status(400).json({ success: false, message: "Payment not successful" });
+      return;
+    }
+
+    try {
+      await saveCohortEnrollment({
+        name: email,
+        email,
+        phone: undefined as any,
+        payment_status: "success",
+        amount: DV_PRICE,
+        currency: "INR",
+      });
+    } catch {}
+
+    res.json({ success: true });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e?.message || "Failed" });
+  }
+};
