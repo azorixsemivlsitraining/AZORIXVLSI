@@ -31,6 +31,7 @@ interface DemoRegistrationData {
   preferredLocation: string;
   comments: string;
   verificationCode: string;
+  whatsappOptIn?: boolean;
 }
 
 function toEmbedUrl(url: string) {
@@ -70,6 +71,7 @@ export default function DemoRegistration() {
     preferredLocation: "",
     comments: "",
     verificationCode: "",
+    whatsappOptIn: true,
   });
 
   // Generate random captcha
@@ -107,9 +109,9 @@ export default function DemoRegistration() {
 
   const handleInputChange = (
     field: keyof DemoRegistrationData,
-    value: string,
+    value: string | boolean,
   ) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value as any }));
   };
 
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
@@ -212,6 +214,7 @@ export default function DemoRegistration() {
         email: formData.email,
         phone: formData.phone,
         domainInterest: formData.courseCategory || "General",
+        whatsappOptIn: formData.whatsappOptIn,
       };
 
       const res = await fetch("/api/payment/workshop/dummy-pay", {
@@ -235,6 +238,8 @@ export default function DemoRegistration() {
           preferredLocation: formData.preferredLocation,
           comments: formData.comments,
           verificationCode: formData.verificationCode,
+          // store WhatsApp preference if available
+          ...(typeof formData.whatsappOptIn !== 'undefined' ? { whatsappOptIn: formData.whatsappOptIn } : {}),
         };
         await saveDemoRegistration(demoData);
       } catch (e) {
@@ -327,33 +332,35 @@ export default function DemoRegistration() {
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left Side - Hero Content */}
-              <div className="bg-gradient-to-br from-yellow-400 via-orange-400 to-orange-500 rounded-3xl p-12 text-center text-white shadow-2xl">
-                <h1 className="text-4xl md:text-5xl font-black mb-6">
-                  REGISTER FOR DEMO CLASS
-                </h1>
-                <h2 className="text-3xl md:text-4xl font-bold mb-8">₹99</h2>
-                <div className="w-16 h-1 bg-white mx-auto mb-8"></div>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="bg-blue-500 hover:bg-blue-600 text-white border-none px-8 py-3 text-lg font-semibold"
-                  onClick={() => {
-                    document.documentElement.classList.add("smooth-scroll");
-                    document
-                      .getElementById("demo-form")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                    setTimeout(
-                      () =>
-                        document.documentElement.classList.remove(
-                          "smooth-scroll",
-                        ),
-                      1000,
-                    );
-                  }}
-                >
-                  Click Here For Details
-                </Button>
+              {/* Left Side - Hero Content (image CTA) */}
+              <div className="rounded-3xl overflow-hidden shadow-2xl bg-white">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F6928824e1c484ed0a953f1bbb89a65b0%2F8983fa2dcfe649c9a8866e9f280b4d50?format=webp&width=1200"
+                  alt="Register for Demo"
+                  className="w-full h-[320px] object-cover"
+                />
+                <div className="p-6 text-center bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="bg-blue-500 hover:bg-blue-600 text-white border-none px-8 py-3 text-lg font-semibold"
+                    onClick={() => {
+                      document.documentElement.classList.add("smooth-scroll");
+                      document
+                        .getElementById("demo-form")
+                        ?.scrollIntoView({ behavior: "smooth" });
+                      setTimeout(
+                        () =>
+                          document.documentElement.classList.remove(
+                            "smooth-scroll",
+                          ),
+                        1000,
+                      );
+                    }}
+                  >
+                    Get Started for ₹99
+                  </Button>
+                </div>
               </div>
 
               {/* Right Side - Registration Form */}
@@ -515,6 +522,16 @@ export default function DemoRegistration() {
                       <p className="text-xs text-gray-300 mt-1">
                         Captcha refreshes automatically every 30 seconds
                       </p>
+
+                      <label className="flex items-center gap-2 text-sm text-gray-300 mt-3">
+                        <input
+                          type="checkbox"
+                          checked={!!formData.whatsappOptIn}
+                          onChange={(e) => handleInputChange("whatsappOptIn", e.target.checked)}
+                          className="w-4 h-4 rounded"
+                        />
+                        <span>Get reminders & tips via WhatsApp</span>
+                      </label>
                     </div>
 
                     <Button
@@ -524,7 +541,7 @@ export default function DemoRegistration() {
                     >
                       {isSubmitting
                         ? "Processing..."
-                        : "Register for Demo (₹99)"}
+                        : "Get Started for ₹99"}
                     </Button>
                   </form>
                 )}
