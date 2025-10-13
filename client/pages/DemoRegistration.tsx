@@ -244,7 +244,7 @@ export default function DemoRegistration() {
         console.warn("Email verification failed:", e);
       }
 
-      // Attempt payment via server dummy-pay endpoint (₹99)
+      // Build payment body
       const paymentBody = {
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
@@ -253,6 +253,23 @@ export default function DemoRegistration() {
         whatsappOptIn: formData.whatsappOptIn,
       };
 
+      // Try PhonePe flow first (if configured on server). If redirectUrl is returned, redirect and stop.
+      try {
+        const pp = await fetch("/api/payment/workshop/pay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(paymentBody),
+        });
+        const ppData = await pp.json().catch(() => null);
+        if (pp.ok && ppData?.redirectUrl) {
+          window.location.href = ppData.redirectUrl;
+          return;
+        }
+      } catch (e) {
+        // ignore and fallback to dummy
+      }
+
+      // Fallback to dummy flow for local/testing
       const res = await fetch("/api/payment/workshop/dummy-pay", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -264,7 +281,6 @@ export default function DemoRegistration() {
         data = await res.json();
       } catch (e) {
         console.warn("Payment endpoint returned non-JSON response", e);
-        // Try to extract text for error message
         try {
           const text = await res.text();
           throw new Error(text || "Payment failed (invalid response)");
