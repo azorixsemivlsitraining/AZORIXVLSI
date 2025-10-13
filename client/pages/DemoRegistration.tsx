@@ -265,8 +265,14 @@ export default function DemoRegistration() {
           window.location.href = ppData.redirectUrl;
           return;
         }
+        // If gateway returned an error while PhonePe is configured, surface it and stop.
+        if (!pp.ok && ppData?.message) {
+          await Swal.fire({ icon: "error", title: "Payment Error", text: ppData.message, confirmButtonColor: "#0d9488" });
+          setIsSubmitting(false);
+          return;
+        }
       } catch (e) {
-        // ignore and fallback to dummy
+        // network error: fall through to dummy
       }
 
       // Fallback to dummy flow for local/testing
