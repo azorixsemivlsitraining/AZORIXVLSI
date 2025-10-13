@@ -22,7 +22,7 @@ const coursesData = [
     shortName: "DV",
     duration: "16 weeks",
     level: "Beginner to Advanced",
-    Fee:"69999",
+    Fee: "69,999",
     description:
       "Master SystemVerilog and UVM methodology for comprehensive verification of digital designs. Learn industry-standard verification practices.",
     features: [
