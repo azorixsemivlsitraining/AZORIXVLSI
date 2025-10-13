@@ -317,6 +317,13 @@ export default function DemoRegistration() {
       <Header />
 
       <main className="pt-20">
+        {/* Workshop landing hero + sections moved here */}
+        <WorkshopHero />
+        <WorkshopLearn />
+        <WorkshopAbout />
+        <WorkshopMentor />
+        <WorkshopTestimonials />
+        <WorkshopFAQs />
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
