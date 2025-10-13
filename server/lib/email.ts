@@ -31,5 +31,17 @@ export async function sendEmail(params: SendEmailParams): Promise<boolean> {
     body: JSON.stringify(payload),
   });
 
+  // Debug logging for delivery
+  try {
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      console.error("SendGrid send failed:", res.status, res.statusText, text);
+    } else {
+      console.log("SendGrid send ok for", params.to);
+    }
+  } catch (e) {
+    console.error("SendGrid logging error:", e);
+  }
+
   return res.ok;
 }

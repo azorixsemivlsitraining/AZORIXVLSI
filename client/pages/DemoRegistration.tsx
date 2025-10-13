@@ -31,6 +31,7 @@ interface DemoRegistrationData {
   preferredLocation: string;
   comments: string;
   verificationCode: string;
+  whatsappOptIn?: boolean;
 }
 
 function toEmbedUrl(url: string) {
@@ -50,6 +51,13 @@ function toEmbedUrl(url: string) {
   }
 }
 
+import WorkshopHero from "@/components/workshop/Hero";
+import WorkshopLearn from "@/components/workshop/Learn";
+import WorkshopAbout from "@/components/workshop/About";
+import WorkshopMentor from "@/components/workshop/Mentor";
+import WorkshopTestimonials from "@/components/workshop/Testimonials";
+import WorkshopFAQs from "@/components/workshop/FAQs";
+
 export default function DemoRegistration() {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -63,6 +71,7 @@ export default function DemoRegistration() {
     preferredLocation: "",
     comments: "",
     verificationCode: "",
+    whatsappOptIn: true,
   });
 
   // Generate random captcha
@@ -100,9 +109,9 @@ export default function DemoRegistration() {
 
   const handleInputChange = (
     field: keyof DemoRegistrationData,
-    value: string,
+    value: string | boolean,
   ) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value as any }));
   };
 
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
@@ -199,12 +208,49 @@ export default function DemoRegistration() {
     setIsSubmitting(true);
 
     try {
+      // Verify email existence via server-side verification API
+      try {
+        const verifyRes = await fetch("/api/verify-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: formData.email }),
+        });
+        if (verifyRes.ok) {
+          let v: any = null;
+          try {
+            v = await verifyRes.json();
+          } catch (e) {
+            console.warn("Email verification returned non-JSON response", e);
+            v = { ok: true };
+          }
+          if (!v.ok) {
+            const proceed = await Swal.fire({
+              icon: "warning",
+              title: "Email looks undeliverable",
+              text: "The email you provided may not exist or be undeliverable. Do you want to proceed anyway?",
+              showCancelButton: true,
+              confirmButtonText: "Proceed",
+              cancelButtonText: "Edit Email",
+              confirmButtonColor: "#0d9488",
+            });
+            if (!proceed.isConfirmed) {
+              setIsSubmitting(false);
+              return;
+            }
+          }
+        }
+      } catch (e) {
+        // If verification fails (service down), allow user to proceed
+        console.warn("Email verification failed:", e);
+      }
+
       // Attempt payment via server dummy-pay endpoint (₹99)
       const paymentBody = {
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
         phone: formData.phone,
         domainInterest: formData.courseCategory || "General",
+        whatsappOptIn: formData.whatsappOptIn,
       };
 
       const res = await fetch("/api/payment/workshop/dummy-pay", {
@@ -213,9 +259,22 @@ export default function DemoRegistration() {
         body: JSON.stringify(paymentBody),
       });
 
-      const data = await res.json();
-      if (!res.ok || !data.success)
-        throw new Error(data.message || "Payment failed");
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch (e) {
+        console.warn("Payment endpoint returned non-JSON response", e);
+        // Try to extract text for error message
+        try {
+          const text = await res.text();
+          throw new Error(text || "Payment failed (invalid response)");
+        } catch (_) {
+          throw new Error("Payment failed (invalid response)");
+        }
+      }
+
+      if (!res.ok || !data?.success)
+        throw new Error(data?.message || "Payment failed");
 
       // Persist registration to demo table as well if available
       try {
@@ -228,6 +287,10 @@ export default function DemoRegistration() {
           preferredLocation: formData.preferredLocation,
           comments: formData.comments,
           verificationCode: formData.verificationCode,
+          // store WhatsApp preference if available
+          ...(typeof formData.whatsappOptIn !== "undefined"
+            ? { whatsappOptIn: formData.whatsappOptIn }
+            : {}),
         };
         await saveDemoRegistration(demoData);
       } catch (e) {
@@ -310,36 +373,45 @@ export default function DemoRegistration() {
       <Header />
 
       <main className="pt-20">
+        {/* Workshop landing hero + sections moved here */}
+        <WorkshopHero />
+        <WorkshopLearn />
+        <WorkshopAbout />
+        <WorkshopMentor />
+        <WorkshopTestimonials />
+        <WorkshopFAQs />
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left Side - Hero Content */}
-              <div className="bg-gradient-to-br from-yellow-400 via-orange-400 to-orange-500 rounded-3xl p-12 text-center text-white shadow-2xl">
-                <h1 className="text-4xl md:text-5xl font-black mb-6">
-                  REGISTER FOR DEMO CLASS
-                </h1>
-                <h2 className="text-3xl md:text-4xl font-bold mb-8">₹99</h2>
-                <div className="w-16 h-1 bg-white mx-auto mb-8"></div>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="bg-blue-500 hover:bg-blue-600 text-white border-none px-8 py-3 text-lg font-semibold"
-                  onClick={() => {
-                    document.documentElement.classList.add("smooth-scroll");
-                    document
-                      .getElementById("demo-form")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                    setTimeout(
-                      () =>
-                        document.documentElement.classList.remove(
-                          "smooth-scroll",
-                        ),
-                      1000,
-                    );
-                  }}
-                >
-                  Click Here For Details
-                </Button>
+              {/* Left Side - Hero Content (image CTA) */}
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  document.documentElement.classList.add("smooth-scroll");
+                  document
+                    .getElementById("demo-form")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                  setTimeout(
+                    () =>
+                      document.documentElement.classList.remove(
+                        "smooth-scroll",
+                      ),
+                    1000,
+                  );
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    (e.target as HTMLElement).click();
+                  }
+                }}
+                className="rounded-3xl p-12 text-center shadow-2xl bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500 cursor-pointer"
+              >
+                <div className="max-w-md mx-auto">
+                  <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">
+                    Get Started for ₹99
+                  </h2>
+                </div>
               </div>
 
               {/* Right Side - Registration Form */}
@@ -501,6 +573,18 @@ export default function DemoRegistration() {
                       <p className="text-xs text-gray-300 mt-1">
                         Captcha refreshes automatically every 30 seconds
                       </p>
+
+                      <label className="flex items-center gap-2 text-sm text-gray-300 mt-3">
+                        <input
+                          type="checkbox"
+                          checked={!!formData.whatsappOptIn}
+                          onChange={(e) =>
+                            handleInputChange("whatsappOptIn", e.target.checked)
+                          }
+                          className="w-4 h-4 rounded"
+                        />
+                        <span>Get reminders & tips via WhatsApp</span>
+                      </label>
                     </div>
 
                     <Button
@@ -508,9 +592,7 @@ export default function DemoRegistration() {
                       disabled={isSubmitting}
                       className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-4 rounded-full text-lg transition-all duration-300 transform hover:scale-105"
                     >
-                      {isSubmitting
-                        ? "Processing..."
-                        : "Register for Demo (₹99)"}
+                      {isSubmitting ? "Processing..." : "Get Started for ₹99"}
                     </Button>
                   </form>
                 )}
