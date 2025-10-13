@@ -23,7 +23,7 @@ const courses = [
       "Learn Register Transfer Level design with Verilog/VHDL and synthesis techniques",
     duration: "6 months",
     level: "Beginner to Intermediate",
-    Fee:"65999",
+    Fee: "65,999",
     icon: <Cpu className="w-8 h-8" />,
     available: false,
     path: "/courses/rtl",
