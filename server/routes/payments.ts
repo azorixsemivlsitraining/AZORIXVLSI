@@ -14,6 +14,7 @@ import { sendEmail } from "../lib/email";
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || "dev-secret";
 const WORKSHOP_PRICE = 99;
 const COHORT_PRICE = 1999;
+const DV_PRICE = 6999;
 
 function makeAccessToken(email: string, ttlSeconds: number): string {
   const expiresAt = Math.floor(Date.now() / 1000) + ttlSeconds;
