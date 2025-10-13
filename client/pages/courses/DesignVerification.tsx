@@ -100,34 +100,69 @@ export default function DesignVerification() {
               >
                 <Link to="/demo">Book Free Demo</Link>
               </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-vlsi-600 text-vlsi-600 hover:bg-vlsi-600 hover:text-white px-8 py-4 text-lg"
+                onClick={async () => {
+                  const name = window.prompt("Your full name?") || "";
+                  const email =
+                    window.prompt("Email for receipt and access?") || "";
+                  const phone = window.prompt("Phone (optional)") || "";
+                  if (!name || !email) return;
+                  try {
+                    const r = await fetch("/api/payment/dv/pay", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ name, email, phone }),
+                    });
+                    const data = await r.json().catch(() => null);
+                    if (r.ok && data?.redirectUrl) {
+                      window.location.href = data.redirectUrl;
+                    } else {
+                      alert(
+                        data?.message ||
+                          "Unable to start payment. Try again later.",
+                      );
+                    }
+                  } catch (e: any) {
+                    alert(
+                      e?.message || "Unable to start payment. Try again later.",
+                    );
+                  }
+                }}
+              >
+                Pay ₹69,999 (DV)
+              </Button>
             </div>
           </div>
 
           {/* Stats */}
           {/* Stats */}
-<div className="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-5xl mx-auto">
-  <div className="text-center">
-    <div className="text-3xl font-bold text-vlsi-600 mb-2">16</div>
-    <div className="text-gray-600">Weeks Duration</div>
-  </div>
-  <div className="text-center">
-    <div className="text-3xl font-bold text-vlsi-600 mb-2">₹69,999</div>
-    <div className="text-gray-600">Course Fee</div>
-  </div>
-  <div className="text-center">
-    <div className="text-3xl font-bold text-vlsi-600 mb-2">500+</div>
-    <div className="text-gray-600">Students Trained</div>
-  </div>
-  <div className="text-center">
-    <div className="text-3xl font-bold text-vlsi-600 mb-2">100%</div>
-    <div className="text-gray-600">Placement Rate</div>
-  </div>
-  <div className="text-center">
-    <div className="text-3xl font-bold text-vlsi-600 mb-2">4.9/5</div>
-    <div className="text-gray-600">Student Rating</div>
-  </div>
-</div>
-
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-5xl mx-auto">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-vlsi-600 mb-2">16</div>
+              <div className="text-gray-600">Weeks Duration</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-vlsi-600 mb-2">
+                ₹69,999
+              </div>
+              <div className="text-gray-600">Course Fee</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-vlsi-600 mb-2">500+</div>
+              <div className="text-gray-600">Students Trained</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-vlsi-600 mb-2">100%</div>
+              <div className="text-gray-600">Placement Rate</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-vlsi-600 mb-2">4.9/5</div>
+              <div className="text-gray-600">Student Rating</div>
+            </div>
+          </div>
         </div>
       </section>
 

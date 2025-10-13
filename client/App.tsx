@@ -28,6 +28,7 @@ import DemoRegistration from "./pages/DemoRegistration";
 import RefundPolicy from "./pages/RefundPolicy";
 import CodeOfConduct from "./pages/CodeOfConduct";
 import CopyrightPolicy from "./pages/CopyrightPolicy";
+import PhonePeReturn from "./pages/PhonePeReturn";
 import ComingSoon from "./pages/ComingSoon";
 import Team from "./pages/Team";
 import { BrochureModalProvider } from "./contexts/BrochureModalContext";
@@ -82,6 +83,7 @@ const App = () => (
             <Route path="/cohort-preview" element={<CohortPreview />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/phonepe-return" element={<PhonePeReturn />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />

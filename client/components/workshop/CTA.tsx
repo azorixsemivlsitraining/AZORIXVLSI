@@ -33,6 +33,28 @@ export default function WorkshopCTA() {
     e.preventDefault();
     setLoading(true);
     try {
+      // Attempt PhonePe hosted checkout first
+      try {
+        const pp = await fetch("/api/payment/workshop/pay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        const ppData = await pp.json().catch(() => null);
+        if (pp.ok && ppData?.redirectUrl) {
+          window.location.href = ppData.redirectUrl;
+          return;
+        }
+        if (!pp.ok && ppData?.message) {
+          toast({ title: "Payment Error", description: ppData.message });
+          setLoading(false);
+          return;
+        }
+      } catch (e) {
+        // network error: fall back
+      }
+
+      // Fallback to dummy for local/testing
       const res = await fetch("/api/payment/workshop/dummy-pay", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
