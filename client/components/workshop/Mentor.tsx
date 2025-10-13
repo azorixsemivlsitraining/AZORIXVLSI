@@ -13,17 +13,29 @@ export default function WorkshopMentor() {
             />
           </div>
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-navy-900 mb-2">Your Mentor</h2>
-            <p className="text-vlsi-700 font-semibold">Lead Mentor, Azorix VLSI</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-navy-900 mb-2">
+              Your Mentor
+            </h2>
+            <p className="text-vlsi-700 font-semibold">
+              Lead Mentor, Azorix VLSI
+            </p>
             <p className="mt-3 text-gray-700 leading-relaxed">
-              10+ years training and building verification environments with exposure to Synopsys toolchains,
-              IIT-alumni-led teaching practices, and hands-on RISC‑V projects. Specializes in SystemVerilog, UVM,
-              and simulation methodologies that scale in real teams.
+              10+ years training and building verification environments with
+              exposure to Synopsys toolchains, IIT-alumni-led teaching
+              practices, and hands-on RISC‑V projects. Specializes in
+              SystemVerilog, UVM, and simulation methodologies that scale in
+              real teams.
             </p>
             <div className="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
-              <div className="p-3 rounded-xl border bg-white">SystemVerilog • UVM</div>
-              <div className="p-3 rounded-xl border bg-white">Synopsys Tooling</div>
-              <div className="p-3 rounded-xl border bg-white">RISC‑V Verification</div>
+              <div className="p-3 rounded-xl border bg-white">
+                SystemVerilog • UVM
+              </div>
+              <div className="p-3 rounded-xl border bg-white">
+                Synopsys Tooling
+              </div>
+              <div className="p-3 rounded-xl border bg-white">
+                RISC‑V Verification
+              </div>
             </div>
           </div>
         </div>

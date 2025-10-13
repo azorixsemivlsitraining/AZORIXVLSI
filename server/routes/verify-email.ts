@@ -11,7 +11,9 @@ export const handleVerifyEmail: RequestHandler = async (req, res) => {
   const apiKey = process.env.EMAIL_VERIFICATION_API_KEY;
 
   if (!apiUrl) {
-    res.status(500).json({ ok: false, message: "Email verification not configured" });
+    res
+      .status(500)
+      .json({ ok: false, message: "Email verification not configured" });
     return;
   }
 
@@ -25,7 +27,9 @@ export const handleVerifyEmail: RequestHandler = async (req, res) => {
       url = `${url}${sep}email=${encodeURIComponent(email)}`;
     }
 
-    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
     if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
 
     const r = await fetch(url, { headers });
@@ -42,6 +46,8 @@ export const handleVerifyEmail: RequestHandler = async (req, res) => {
 
     res.json({ ok: !!deliverable, details: data });
   } catch (e: any) {
-    res.status(500).json({ ok: false, message: e?.message || "Verification failed" });
+    res
+      .status(500)
+      .json({ ok: false, message: e?.message || "Verification failed" });
   }
 };

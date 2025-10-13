@@ -7,7 +7,10 @@ function getNextSession(): Date {
   const targetDow = 6; // 0=Sun .. 6=Sat
   const currentDow = d.getDay();
   let addDays = (targetDow - currentDow + 7) % 7;
-  if (addDays === 0 && (d.getHours() > 19 || (d.getHours() === 19 && d.getMinutes() > 0))) {
+  if (
+    addDays === 0 &&
+    (d.getHours() > 19 || (d.getHours() === 19 && d.getMinutes() > 0))
+  ) {
     addDays = 7;
   }
   d.setDate(d.getDate() + addDays);
@@ -38,15 +41,28 @@ export default function WorkshopAbout() {
       <div className="container max-w-6xl">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-navy-900 mb-4">About the Workshop</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-navy-900 mb-4">
+              About the Workshop
+            </h2>
             <ul className="space-y-3 text-gray-700">
-              <li><strong>Duration:</strong> 2 hours, LIVE & interactive</li>
-              <li><strong>Suitable for:</strong> ECE grads, junior engineers, upskill seekers</li>
-              <li><strong>Limited seats:</strong> Only 50 seats. Book now!</li>
+              <li>
+                <strong>Duration:</strong> 2 hours, LIVE & interactive
+              </li>
+              <li>
+                <strong>Suitable for:</strong> ECE grads, junior engineers,
+                upskill seekers
+              </li>
+              <li>
+                <strong>Limited seats:</strong> Only 50 seats. Book now!
+              </li>
             </ul>
             <div className="mt-6 p-5 rounded-2xl border-2 border-vlsi-100 bg-vlsi-50/40">
-              <div className="text-sm text-vlsi-700 font-medium mb-2">Next live session</div>
-              <div className="text-xl font-semibold text-navy-900">Saturday, 7:00 PM (local time)</div>
+              <div className="text-sm text-vlsi-700 font-medium mb-2">
+                Next live session
+              </div>
+              <div className="text-xl font-semibold text-navy-900">
+                Saturday, 7:00 PM (local time)
+              </div>
               <div className="mt-4 flex gap-4">
                 {[
                   { label: "Days", value: days },
@@ -55,7 +71,9 @@ export default function WorkshopAbout() {
                   { label: "Seconds", value: seconds },
                 ].map((b) => (
                   <div key={b.label} className="min-w-[80px] text-center">
-                    <div className="text-3xl font-extrabold text-vlsi-700">{String(b.value).padStart(2, "0")}</div>
+                    <div className="text-3xl font-extrabold text-vlsi-700">
+                      {String(b.value).padStart(2, "0")}
+                    </div>
                     <div className="text-xs text-gray-600 mt-1">{b.label}</div>
                   </div>
                 ))}
@@ -63,9 +81,14 @@ export default function WorkshopAbout() {
             </div>
           </div>
           <div className="rounded-2xl border-2 border-vlsi-100 bg-white p-6 shadow-sm">
-            <h3 className="text-xl font-semibold text-navy-900 mb-3">You’ll walk away with</h3>
+            <h3 className="text-xl font-semibold text-navy-900 mb-3">
+              You’ll walk away with
+            </h3>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
-              <li>Hands-on clarity of event regions, fork-join, and randomization basics</li>
+              <li>
+                Hands-on clarity of event regions, fork-join, and randomization
+                basics
+              </li>
               <li>A checklist to avoid race conditions in your simulations</li>
               <li>Confidence to clear screening tests and interviews</li>
               <li>Recording access for 48 hours + role map PDF</li>

@@ -23,15 +23,26 @@ export default function WorkshopTestimonials() {
     <section className="py-16">
       <div className="container max-w-6xl">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-navy-900">What learners say</h2>
-          <p className="text-gray-600 mt-2">Rated 4.8/5 �� Alumni placed across semiconductor roles</p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-navy-900">
+            What learners say
+          </h2>
+          <p className="text-gray-600 mt-2">
+            Rated 4.8/5 �� Alumni placed across semiconductor roles
+          </p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {testimonials.map((t) => (
-            <figure key={t.name} className="rounded-2xl border-2 border-vlsi-100 bg-white p-6 shadow-sm">
+            <figure
+              key={t.name}
+              className="rounded-2xl border-2 border-vlsi-100 bg-white p-6 shadow-sm"
+            >
               <div className="text-yellow-500">★★★★★</div>
-              <blockquote className="mt-3 text-gray-700">“{t.quote}”</blockquote>
-              <figcaption className="mt-4 text-sm text-gray-500">{t.name}</figcaption>
+              <blockquote className="mt-3 text-gray-700">
+                “{t.quote}”
+              </blockquote>
+              <figcaption className="mt-4 text-sm text-gray-500">
+                {t.name}
+              </figcaption>
             </figure>
           ))}
         </div>

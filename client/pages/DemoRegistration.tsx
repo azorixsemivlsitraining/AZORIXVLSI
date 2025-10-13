@@ -288,7 +288,9 @@ export default function DemoRegistration() {
           comments: formData.comments,
           verificationCode: formData.verificationCode,
           // store WhatsApp preference if available
-          ...(typeof formData.whatsappOptIn !== 'undefined' ? { whatsappOptIn: formData.whatsappOptIn } : {}),
+          ...(typeof formData.whatsappOptIn !== "undefined"
+            ? { whatsappOptIn: formData.whatsappOptIn }
+            : {}),
         };
         await saveDemoRegistration(demoData);
       } catch (e) {
@@ -387,8 +389,16 @@ export default function DemoRegistration() {
                 tabIndex={0}
                 onClick={() => {
                   document.documentElement.classList.add("smooth-scroll");
-                  document.getElementById("demo-form")?.scrollIntoView({ behavior: "smooth" });
-                  setTimeout(() => document.documentElement.classList.remove("smooth-scroll"), 1000);
+                  document
+                    .getElementById("demo-form")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                  setTimeout(
+                    () =>
+                      document.documentElement.classList.remove(
+                        "smooth-scroll",
+                      ),
+                    1000,
+                  );
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -398,7 +408,9 @@ export default function DemoRegistration() {
                 className="rounded-3xl p-12 text-center shadow-2xl bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500 cursor-pointer"
               >
                 <div className="max-w-md mx-auto">
-                  <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">Get Started for ₹99</h2>
+                  <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">
+                    Get Started for ₹99
+                  </h2>
                 </div>
               </div>
 
@@ -566,7 +578,9 @@ export default function DemoRegistration() {
                         <input
                           type="checkbox"
                           checked={!!formData.whatsappOptIn}
-                          onChange={(e) => handleInputChange("whatsappOptIn", e.target.checked)}
+                          onChange={(e) =>
+                            handleInputChange("whatsappOptIn", e.target.checked)
+                          }
                           className="w-4 h-4 rounded"
                         />
                         <span>Get reminders & tips via WhatsApp</span>
@@ -578,9 +592,7 @@ export default function DemoRegistration() {
                       disabled={isSubmitting}
                       className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-4 rounded-full text-lg transition-all duration-300 transform hover:scale-105"
                     >
-                      {isSubmitting
-                        ? "Processing..."
-                        : "Get Started for ₹99"}
+                      {isSubmitting ? "Processing..." : "Get Started for ₹99"}
                     </Button>
                   </form>
                 )}

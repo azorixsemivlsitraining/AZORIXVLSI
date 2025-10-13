@@ -17,8 +17,20 @@ export async function sendWhatsApp(params: WhatsAppParams): Promise<boolean> {
       });
       try {
         const text = await res.text().catch(() => "");
-        if (!res.ok) console.error("WhatsApp webhook failed:", res.status, res.statusText, text);
-        else console.log("WhatsApp webhook sent to", webhook, "for phone", params.phone);
+        if (!res.ok)
+          console.error(
+            "WhatsApp webhook failed:",
+            res.status,
+            res.statusText,
+            text,
+          );
+        else
+          console.log(
+            "WhatsApp webhook sent to",
+            webhook,
+            "for phone",
+            params.phone,
+          );
       } catch {}
       return res.ok;
     } catch (e) {
@@ -37,7 +49,10 @@ export async function sendWhatsApp(params: WhatsAppParams): Promise<boolean> {
       const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
       const body = new URLSearchParams();
       body.append("From", from);
-      body.append("To", `whatsapp:+${params.phone.replace(/^\+/, "").replace(/[^0-9]/g, "")}`);
+      body.append(
+        "To",
+        `whatsapp:+${params.phone.replace(/^\+/, "").replace(/[^0-9]/g, "")}`,
+      );
       body.append("Body", params.message);
 
       const res = await fetch(url, {

@@ -53,7 +53,9 @@ function verifyAccessToken(
 import { sendWhatsApp } from "../lib/whatsapp";
 
 export const handleWorkshopDummyPay: RequestHandler = async (req, res) => {
-  const body = req.body as WorkshopRegistrationRequest & { whatsappOptIn?: boolean };
+  const body = req.body as WorkshopRegistrationRequest & {
+    whatsappOptIn?: boolean;
+  };
   if (!body?.name || !body?.email || !body?.phone || !body?.domainInterest) {
     res
       .status(400)
@@ -175,12 +177,10 @@ export const handleCohortComplete: RequestHandler = async (req, res) => {
     });
     res.json({ success: true });
   } catch (e: any) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: e?.message || "Failed to save enrollment",
-      });
+    res.status(500).json({
+      success: false,
+      message: e?.message || "Failed to save enrollment",
+    });
   }
 };
 
