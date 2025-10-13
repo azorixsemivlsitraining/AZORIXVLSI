@@ -56,7 +56,7 @@ export async function initiatePayment(params: InitiatePaymentParams) {
   const xverify = buildXVerifyForPay(base64Payload);
 
   // Log outgoing request details for support/debugging
-  console.info("PhonePe: outgoing request", {
+  const out = {
     url: `${BASE_URL}/pg/v1/pay`,
     headers: {
       "Content-Type": "application/json",
@@ -65,7 +65,16 @@ export async function initiatePayment(params: InitiatePaymentParams) {
     },
     base64Payload,
     decodedPayload: json,
-  });
+  };
+  console.info("PhonePe: outgoing request", out);
+
+  try {
+    const logsDir = path.join(process.cwd(), "server", "logs");
+    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+    fs.writeFileSync(path.join(logsDir, "phonepe_last_request.json"), JSON.stringify(out, null, 2), "utf8");
+  } catch (e) {
+    console.warn("PhonePe: failed to write log file", e);
+  }
 
   const res = await fetch(`${BASE_URL}/pg/v1/pay`, {
     method: "POST",
