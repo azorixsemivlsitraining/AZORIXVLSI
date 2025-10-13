@@ -259,9 +259,22 @@ export default function DemoRegistration() {
         body: JSON.stringify(paymentBody),
       });
 
-      const data = await res.json();
-      if (!res.ok || !data.success)
-        throw new Error(data.message || "Payment failed");
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch (e) {
+        console.warn("Payment endpoint returned non-JSON response", e);
+        // Try to extract text for error message
+        try {
+          const text = await res.text();
+          throw new Error(text || "Payment failed (invalid response)");
+        } catch (_) {
+          throw new Error("Payment failed (invalid response)");
+        }
+      }
+
+      if (!res.ok || !data?.success)
+        throw new Error(data?.message || "Payment failed");
 
       // Persist registration to demo table as well if available
       try {
