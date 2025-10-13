@@ -47,8 +47,10 @@ export function createServer() {
   import("./routes/payments").then((m) => {
     app.post("/api/payment/workshop/pay", m.handleWorkshopPay);
     app.post("/api/payment/cohort/pay", m.handleCohortPay);
+    app.post("/api/payment/dv/pay", m.handleDVPay);
     app.get("/api/payment/workshop/confirm", m.handleWorkshopConfirm);
     app.get("/api/payment/cohort/confirm", m.handleCohortConfirm);
+    app.get("/api/payment/dv/confirm", m.handleDVConfirm);
   });
   app.post("/api/cohort/complete", handleCohortComplete);
   app.get("/api/dashboard/resources", handleDashboardResources);
