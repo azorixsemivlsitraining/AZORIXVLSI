@@ -53,6 +53,18 @@ export async function initiatePayment(params: InitiatePaymentParams) {
   const base64Payload = Buffer.from(json).toString("base64");
   const xverify = buildXVerifyForPay(base64Payload);
 
+  // Log outgoing request details for support/debugging
+  console.info("PhonePe: outgoing request", {
+    url: `${BASE_URL}/pg/v1/pay`,
+    headers: {
+      "Content-Type": "application/json",
+      "X-VERIFY": xverify,
+      accept: "application/json",
+    },
+    base64Payload,
+    decodedPayload: json,
+  });
+
   const res = await fetch(`${BASE_URL}/pg/v1/pay`, {
     method: "POST",
     headers: {
