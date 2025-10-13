@@ -15,8 +15,14 @@ export async function sendWhatsApp(params: WhatsAppParams): Promise<boolean> {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
       });
+      try {
+        const text = await res.text().catch(() => "");
+        if (!res.ok) console.error("WhatsApp webhook failed:", res.status, res.statusText, text);
+        else console.log("WhatsApp webhook sent to", webhook, "for phone", params.phone);
+      } catch {}
       return res.ok;
     } catch (e) {
+      console.error("WhatsApp webhook error:", e);
       return false;
     }
   }
