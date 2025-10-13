@@ -17,6 +17,7 @@ export interface WorkshopRegistrationRequest {
   email: string;
   phone: string;
   domainInterest: string; // e.g., Verification | PD | DFT | Analog
+  whatsappOptIn?: boolean; // consent for WhatsApp updates
 }
 
 // Stage 2: Cohort preview enrollment types
