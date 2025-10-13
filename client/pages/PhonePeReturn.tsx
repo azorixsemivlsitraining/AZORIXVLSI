@@ -18,7 +18,9 @@ export default function PhonePeReturn() {
         const endpoint =
           purpose === "cohort"
             ? `/api/payment/cohort/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`
-            : `/api/payment/workshop/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`;
+            : purpose === "dv"
+              ? `/api/payment/dv/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`
+              : `/api/payment/workshop/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`;
         const res = await fetch(endpoint);
         const data = await res.json().catch(() => null);
         if (!res.ok || !data?.success) throw new Error(data?.message || "Payment verification failed");
