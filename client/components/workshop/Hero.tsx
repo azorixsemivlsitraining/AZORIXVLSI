@@ -3,8 +3,23 @@ import { Button } from "@/components/ui/button";
 
 export default function WorkshopHero() {
   const scrollToForm = () => {
-    const el = document.getElementById("register");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    const el = document.getElementById("demo-form");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    // If not on the demo page, navigate to /demo with hash to ensure scrolling after load
+    if (typeof window !== "undefined") {
+      if (window.location.pathname === "/demo") {
+        // retry after a short delay in case element mounts slightly later
+        setTimeout(() => {
+          const retry = document.getElementById("demo-form");
+          if (retry) retry.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 300);
+      } else {
+        window.location.href = "/demo#demo-form";
+      }
+    }
   };
 
   return (
