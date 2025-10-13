@@ -280,7 +280,12 @@ export const handleWorkshopPay: RequestHandler = async (req, res) => {
 
     res.json({ success: true, redirectUrl: out.redirectUrl });
   } catch (e: any) {
-    // Fallback to dummy behavior if PhonePe not configured or fails
+    if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
+      console.error("PhonePe init error (workshop):", e?.message || e);
+      res.status(502).json({ success: false, message: `PhonePe init failed: ${e?.message || "unknown"}` });
+      return;
+    }
+    // Fallback to dummy behavior if PhonePe not configured
     return handleWorkshopDummyPay(req, res);
   }
 };
@@ -348,6 +353,11 @@ export const handleCohortPay: RequestHandler = async (req, res) => {
     });
     res.json({ success: true, redirectUrl: out.redirectUrl });
   } catch (e: any) {
+    if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
+      console.error("PhonePe init error (cohort):", e?.message || e);
+      res.status(502).json({ success: false, message: `PhonePe init failed: ${e?.message || "unknown"}` });
+      return;
+    }
     return handleCohortDummyPay(req, res);
   }
 };
@@ -403,6 +413,11 @@ export const handleDVPay: RequestHandler = async (req, res) => {
     });
     res.json({ success: true, redirectUrl: out.redirectUrl });
   } catch (e: any) {
+    if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
+      console.error("PhonePe init error (dv):", e?.message || e);
+      res.status(502).json({ success: false, message: `PhonePe init failed: ${e?.message || "unknown"}` });
+      return;
+    }
     res.status(500).json({ success: false, message: e?.message || "PhonePe not configured" });
   }
 };
