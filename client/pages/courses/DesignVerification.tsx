@@ -126,7 +126,7 @@ export default function DesignVerification() {
                   }
                 }}
               >
-                Pay ₹6,999 (DV)
+                Pay ₹69,999 (DV)
               </Button>
             </div>
           </div>
