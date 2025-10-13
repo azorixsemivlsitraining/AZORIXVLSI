@@ -50,6 +50,13 @@ function toEmbedUrl(url: string) {
   }
 }
 
+import WorkshopHero from "@/components/workshop/Hero";
+import WorkshopLearn from "@/components/workshop/Learn";
+import WorkshopAbout from "@/components/workshop/About";
+import WorkshopMentor from "@/components/workshop/Mentor";
+import WorkshopTestimonials from "@/components/workshop/Testimonials";
+import WorkshopFAQs from "@/components/workshop/FAQs";
+
 export default function DemoRegistration() {
   const { toast } = useToast();
   const navigate = useNavigate();
