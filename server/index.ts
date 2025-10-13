@@ -51,6 +51,8 @@ export function createServer() {
     app.get("/api/payment/workshop/confirm", m.handleWorkshopConfirm);
     app.get("/api/payment/cohort/confirm", m.handleCohortConfirm);
     app.get("/api/payment/dv/confirm", m.handleDVConfirm);
+    // PhonePe webhook receiver
+    app.post("/api/payment/phonepe/webhook", m.handlePhonePeWebhook);
   });
   app.post("/api/cohort/complete", handleCohortComplete);
   app.get("/api/dashboard/resources", handleDashboardResources);
