@@ -31,6 +31,7 @@ export default function PhonePeReturn() {
         setStatus("Payment verified successfully.");
         setTimeout(() => {
           if (purpose === "cohort") window.location.href = "/cohort-preview";
+          else if (purpose === "dv") window.location.href = "/courses/design-verification";
           else window.location.href = "/demo";
         }, 1000);
       } catch (e: any) {
