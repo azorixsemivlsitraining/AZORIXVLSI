@@ -128,6 +128,11 @@ export default function CohortPreview() {
           window.location.href = ppData.redirectUrl;
           return;
         }
+        if (!pp.ok && ppData?.message) {
+          toast({ title: "Payment Error", description: ppData.message });
+          setLoading(false);
+          return;
+        }
       } catch {}
 
       // Fallback to dummy for local/testing
