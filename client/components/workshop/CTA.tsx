@@ -45,7 +45,14 @@ export default function WorkshopCTA() {
           window.location.href = ppData.redirectUrl;
           return;
         }
-      } catch {}
+        if (!pp.ok && ppData?.message) {
+          toast({ title: "Payment Error", description: ppData.message });
+          setLoading(false);
+          return;
+        }
+      } catch (e) {
+        // network error: fall back
+      }
 
       // Fallback to dummy for local/testing
       const res = await fetch("/api/payment/workshop/dummy-pay", {
