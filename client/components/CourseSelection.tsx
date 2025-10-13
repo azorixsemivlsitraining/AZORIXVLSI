@@ -35,7 +35,7 @@ const courses = [
       "Complete physical design flow from netlist to GDSII with advanced tools",
     duration: "8 months",
     level: "Intermediate to Advanced",
-    Fee:"63999",
+    Fee: "63,999",
     icon: <Layers className="w-8 h-8" />,
     available: false,
     path: "/courses/pd",
