@@ -13,6 +13,8 @@ import {
   Navigate,
   useLocation,
 } from "react-router-dom";
+
+// PAGES
 import Index from "./pages/Index";
 import About from "./pages/About";
 import CoursesPage from "./pages/CoursesPage";
@@ -29,7 +31,6 @@ import DemoRegistration from "./pages/DemoRegistration";
 import RefundPolicy from "./pages/RefundPolicy";
 import CodeOfConduct from "./pages/CodeOfConduct";
 import CopyrightPolicy from "./pages/CopyrightPolicy";
-import PhonePeReturn from "./pages/PhonePeReturn";
 import ComingSoon from "./pages/ComingSoon";
 import Team from "./pages/Team";
 import { BrochureModalProvider } from "./contexts/BrochureModalContext";
@@ -37,15 +38,20 @@ import DemoPopup from "./components/DemoPopup";
 import HiddenAdminAccess from "./components/HiddenAdminAccess";
 import URLAdminAccess from "./components/URLAdminAccess";
 import FloatingButtons from "./components/FloatingButtons";
+
+// COURSES
 import DesignVerification from "./pages/courses/DesignVerification";
 import Verilog from "./pages/courses/Verilog";
 import SystemVerilog from "./pages/courses/SystemVerilog";
 import UVM from "./pages/courses/UVM";
 import RTLDesign from "./pages/courses/RTLDesign";
 import PhysicalDesign from "./pages/courses/PhysicalDesign";
+
+// ADDITIONAL PAGES
 import Workshop from "./pages/Workshop";
 import CohortPreview from "./pages/CohortPreview";
 import Dashboard from "./pages/Dashboard";
+import PhonePeReturn from "./pages/PhonePeReturn";
 
 const queryClient = new QueryClient();
 
@@ -58,11 +64,13 @@ const App = () => (
         <BrowserRouter>
           <PaymentRedirectHandler />
           <Routes>
-            {/* Redirect any "/." prefixed path to the same path without the dot */}
-            <Route path="/.:rest*" element={<DotAliasRedirect />} />
+            {/* Normalize dotted routes */}
+            <Route path="/.:rest/*" element={<DotAliasRedirect />} />
+
+            {/* Main routes */}
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
-            <Route path="/.admin" element={<Admin />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/courses" element={<CoursesPage />} />
             <Route
               path="/courses/design-verification"
@@ -72,10 +80,7 @@ const App = () => (
             <Route path="/courses/systemverilog" element={<SystemVerilog />} />
             <Route path="/courses/uvm" element={<UVM />} />
             <Route path="/courses/rtl-design" element={<RTLDesign />} />
-            <Route
-              path="/courses/physical-design"
-              element={<PhysicalDesign />}
-            />
+            <Route path="/courses/physical-design" element={<PhysicalDesign />} />
             <Route path="/courses/:courseId" element={<CourseDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/enroll" element={<Enroll />} />
@@ -84,20 +89,22 @@ const App = () => (
             <Route path="/workshop" element={<Workshop />} />
             <Route path="/cohort-preview" element={<CohortPreview />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/phonepe-return" element={<PhonePeReturn />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
             <Route path="/refund-policy" element={<RefundPolicy />} />
             <Route path="/code-of-conduct" element={<CodeOfConduct />} />
             <Route path="/copyright-policy" element={<CopyrightPolicy />} />
-            <Route path="/courses/rtl" element={<ComingSoon />} />
-            <Route path="/courses/pd" element={<ComingSoon />} />
             <Route path="/team" element={<Team />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+
+            {/* ✅ FIXED: PhonePe payment return route */}
+            <Route path="/phonepe-return" element={<PhonePeReturn />} />
+
+            {/* Fallback */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+
+          {/* Global components */}
           <HiddenAdminAccess />
           <URLAdminAccess />
           <FloatingButtons />
@@ -108,6 +115,8 @@ const App = () => (
   </QueryClientProvider>
 );
 
+/* ------------------------------- UTILITIES -------------------------------- */
+ 
 function DotAliasRedirect() {
   const location = useLocation();
   const originalPath = location.pathname;
@@ -117,61 +126,34 @@ function DotAliasRedirect() {
   return <Navigate to={normalized} replace />;
 }
 
+/**
+ * ✅ Updated Payment Redirect Handler
+ * Allows /phonepe-return page to load correctly without redirecting.
+ */
 function PaymentRedirectHandler() {
   const location = useLocation();
-  const navigate =
-    (window as any).__navigate ||
-    ((path) => window.history.replaceState({}, "", path));
 
   React.useEffect(() => {
-    (async () => {
-      try {
-        const url = new URL(window.location.href);
-        const txn = url.searchParams.get("txn");
-        const email = url.searchParams.get("email");
-        const sig = url.searchParams.get("sig");
-        const purpose = url.searchParams.get("purpose") || "workshop";
+    try {
+      const url = new URL(window.location.href);
+      const pathname = url.pathname;
 
-        if (!txn || !email || !sig) return;
-
-        // Build confirm endpoint based on purpose
-        const endpoint =
-          purpose === "cohort"
-            ? `/api/payment/cohort/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`
-            : purpose === "dv"
-              ? `/api/payment/dv/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`
-              : `/api/payment/workshop/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`;
-
-        try {
-          const res = await fetch(endpoint);
-          const data = await res.json().catch(() => null);
-          if (res.ok && data?.success) {
-            if (data.accessToken) {
-              try {
-                localStorage.setItem("azorix_token", data.accessToken);
-              } catch {}
-            }
-            try {
-              localStorage.setItem("azorix_email", email);
-            } catch {}
-
-            // Navigate to demo page and signal it to show the video
-            window.location.href = "/demo?showDemo=1";
-          }
-        } catch (e) {
-          // ignore
-        }
-      } catch (e) {
-        // ignore
+      // 🚫 Do not redirect /phonepe-return — let it render naturally
+      if (pathname === "/phonepe-return") {
+        return;
       }
-    })();
-    // run on location change
+
+      // You can add other redirect patterns here later if needed
+    } catch {
+      // ignore parsing errors
+    }
   }, [location]);
 
   return null;
 }
 
-// Prevent multiple root creation during HMR
+/* ------------------------------- BOOTSTRAP -------------------------------- */
+
 const container = document.getElementById("root")!;
 let root = (globalThis as any).__react_root__;
 

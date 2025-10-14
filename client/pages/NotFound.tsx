@@ -5,10 +5,20 @@ const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
+    // Log unknown route
     console.error(
       "404 Error: User attempted to access non-existent route:",
       location.pathname,
     );
+
+    // Defensive redirect: if for any reason payment return hits 404,
+    // forward to the demo playback to avoid dead-ends in production.
+    try {
+      const path = location.pathname || "";
+      if (path === "/phonepe-return") {
+        window.location.replace("/demo?showDemo=1");
+      }
+    } catch {}
   }, [location.pathname]);
 
   return (
