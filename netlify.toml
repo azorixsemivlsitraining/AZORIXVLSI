@@ -9,6 +9,13 @@
   node_bundler = "esbuild"
   
 [[redirects]]
+# Ensure payment returns always land on demo playback immediately
+from = "/phonepe-return"
+to = "/demo?showDemo=1"
+status = 301
+force = true
+
+[[redirects]]
   force = true
   from = "/api/*"
   status = 200
