@@ -119,6 +119,22 @@ export default function DemoRegistration() {
   const playerRef = useRef<any>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
+  // If user returned from hosted checkout (token stored by PhonePeReturn),
+  // auto-display the demo video.
+  useEffect(() => {
+    try {
+      const token = localStorage.getItem("azorix_token");
+      const email = localStorage.getItem("azorix_email");
+      if (token && email && !videoUrl) {
+        toast({
+          title: "Payment Successful",
+          description: "Accessing your demo video now.",
+        });
+        setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+      }
+    } catch {}
+  }, [videoUrl, toast]);
+
   useEffect(() => {
     if (!videoUrl) return;
 
