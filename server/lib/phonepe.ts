@@ -52,7 +52,11 @@ export interface InitiatePaymentParams {
 }
 
 // -------------------- V2 OAuth helpers --------------------
-let cachedToken: { accessToken: string; tokenType: string; expiresAt: number } | null = null;
+let cachedToken: {
+  accessToken: string;
+  tokenType: string;
+  expiresAt: number;
+} | null = null;
 
 async function getAccessTokenV2(): Promise<{ token: string; type: string }> {
   const now = Date.now();
@@ -72,17 +76,23 @@ async function getAccessTokenV2(): Promise<{ token: string; type: string }> {
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(`Token request failed: ${res.status} ${res.statusText} ${text}`);
+    throw new Error(
+      `Token request failed: ${res.status} ${res.statusText} ${text}`,
+    );
   }
   const data = (await res.json()) as any;
   const accessToken = data?.access_token as string;
   const tokenType = (data?.token_type as string) || "O-Bearer";
-  const expiresAt = (data?.expires_at as number) || Math.floor(Date.now() / 1000) + 5 * 60;
+  const expiresAt =
+    (data?.expires_at as number) || Math.floor(Date.now() / 1000) + 5 * 60;
   if (!accessToken) throw new Error("No access_token in token response");
   cachedToken = {
     accessToken,
     tokenType,
-    expiresAt: typeof expiresAt === "number" && expiresAt > 1_000_000_000 ? expiresAt * 1000 : now + 5 * 60 * 1000,
+    expiresAt:
+      typeof expiresAt === "number" && expiresAt > 1_000_000_000
+        ? expiresAt * 1000
+        : now + 5 * 60 * 1000,
   };
   return { token: accessToken, type: tokenType };
 }
@@ -108,7 +118,10 @@ export async function initiatePayment(params: InitiatePaymentParams) {
 
     const out = {
       url: `${BASE_URL}/checkout/v2/pay`,
-      headers: { "Content-Type": "application/json", Authorization: `${type} ${token}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${type} ${token}`,
+      },
       decodedPayload: JSON.stringify(payload),
     };
     try {
@@ -192,7 +205,9 @@ export async function initiatePayment(params: InitiatePaymentParams) {
   if (!res.ok) {
     throw new Error((data as any)?.message || "PhonePe init failed");
   }
-  const url = (data as any)?.data?.instrumentResponse?.redirectInfo?.url as string | undefined;
+  const url = (data as any)?.data?.instrumentResponse?.redirectInfo?.url as
+    | string
+    | undefined;
   if (!url) throw new Error("PhonePe did not return redirect URL");
   return { redirectUrl: url };
 }
