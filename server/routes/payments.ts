@@ -431,6 +431,17 @@ export const handleCohortConfirm: RequestHandler = async (req, res) => {
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED";
     if (!ok) {
+      const phonepeConfigured = !!(
+        (process.env.PHONEPE_CLIENT_ID && process.env.PHONEPE_CLIENT_SECRET) ||
+        (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)
+      );
+      if (!phonepeConfigured) {
+        // Dev fallback: issue access token for cohort flow
+        const token = makeAccessToken(email, 60 * 60 * 24 * 30);
+        res.json({ success: true, accessToken: token, message: "Dev fallback: token issued" });
+        return;
+      }
+
       res
         .status(400)
         .json({ success: false, message: "Payment not successful" });
