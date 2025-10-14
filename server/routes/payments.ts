@@ -385,7 +385,7 @@ export const handleCohortPay: RequestHandler = async (req, res) => {
       });
       return;
     }
-    return handleCohortDummyPay(req, res);
+    return handleCohortDummyPay(req, res, (() => {}) as any);
   }
 };
 
