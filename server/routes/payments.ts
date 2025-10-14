@@ -342,7 +342,11 @@ export const handleWorkshopConfirm: RequestHandler = async (req, res) => {
             currency: "INR",
           });
         } catch {}
-        res.json({ success: true, accessToken: token, message: "Dev fallback: token issued" });
+        res.json({
+          success: true,
+          accessToken: token,
+          message: "Dev fallback: token issued",
+        });
         return;
       }
 
@@ -438,7 +442,11 @@ export const handleCohortConfirm: RequestHandler = async (req, res) => {
       if (!phonepeConfigured) {
         // Dev fallback: issue access token for cohort flow
         const token = makeAccessToken(email, 60 * 60 * 24 * 30);
-        res.json({ success: true, accessToken: token, message: "Dev fallback: token issued" });
+        res.json({
+          success: true,
+          accessToken: token,
+          message: "Dev fallback: token issued",
+        });
         return;
       }
 
