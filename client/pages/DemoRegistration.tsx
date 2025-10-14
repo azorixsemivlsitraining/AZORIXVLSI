@@ -668,8 +668,11 @@ export default function DemoRegistration() {
                     </div>
 
                     <div className="text-center">
-                      <Button onClick={() => navigate("/cohort-preview")}>
-                        Proceed to 3-hour Preview (₹1,999)
+                      <Button
+                        onClick={() => navigate("/cohort-preview")}
+                        className="bg-gradient-to-r from-vlsi-500 to-vlsi-600 hover:from-vlsi-600 hover:to-vlsi-700 text-white font-semibold px-6"
+                      >
+                        Proceed for 3Hrs Class — Register for ₹1,999
                       </Button>
                     </div>
                   </div>
