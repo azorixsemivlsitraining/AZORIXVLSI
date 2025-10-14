@@ -300,7 +300,7 @@ export const handleWorkshopPay: RequestHandler = async (req, res) => {
       return;
     }
     // Fallback to dummy behavior if PhonePe not configured
-    return handleWorkshopDummyPay(req, res);
+    return handleWorkshopDummyPay(req, res, (() => {}) as any);
   }
 };
 
