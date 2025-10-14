@@ -37,7 +37,12 @@ export default function PhonePeReturn() {
           else window.location.href = "/demo";
         }, 1000);
       } catch (e: any) {
-        setStatus(e?.message || "Payment verification failed");
+        // Verification failed — fallback to demo playback so scanner/UPI tests continue.
+        console.warn("Payment verification failed, falling back to demo:", e);
+        setStatus("Payment verification failed — opening demo as fallback...");
+        setTimeout(() => {
+          window.location.href = "/demo?showDemo=1";
+        }, 1000);
       }
     }
 

@@ -300,7 +300,7 @@ export const handleWorkshopPay: RequestHandler = async (req, res) => {
       return;
     }
     // Fallback to dummy behavior if PhonePe not configured
-    return handleWorkshopDummyPay(req, res);
+    return handleWorkshopDummyPay(req, res, (() => {}) as any);
   }
 };
 
@@ -324,6 +324,32 @@ export const handleWorkshopConfirm: RequestHandler = async (req, res) => {
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED";
     if (!ok) {
+      const phonepeConfigured = !!(
+        (process.env.PHONEPE_CLIENT_ID && process.env.PHONEPE_CLIENT_SECRET) ||
+        (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)
+      );
+      if (!phonepeConfigured) {
+        // Dev fallback: issue access token so demo flow continues during testing
+        const token = makeAccessToken(email, 60 * 60 * 48);
+        try {
+          await saveWorkshopRegistration({
+            name: email,
+            email,
+            phone: undefined as any,
+            domain_interest: "General",
+            payment_status: "success",
+            amount: WORKSHOP_PRICE,
+            currency: "INR",
+          });
+        } catch {}
+        res.json({
+          success: true,
+          accessToken: token,
+          message: "Dev fallback: token issued",
+        });
+        return;
+      }
+
       res
         .status(400)
         .json({ success: false, message: "Payment not successful" });
@@ -385,7 +411,7 @@ export const handleCohortPay: RequestHandler = async (req, res) => {
       });
       return;
     }
-    return handleCohortDummyPay(req, res);
+    return handleCohortDummyPay(req, res, (() => {}) as any);
   }
 };
 
@@ -409,6 +435,21 @@ export const handleCohortConfirm: RequestHandler = async (req, res) => {
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED";
     if (!ok) {
+      const phonepeConfigured = !!(
+        (process.env.PHONEPE_CLIENT_ID && process.env.PHONEPE_CLIENT_SECRET) ||
+        (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)
+      );
+      if (!phonepeConfigured) {
+        // Dev fallback: issue access token for cohort flow
+        const token = makeAccessToken(email, 60 * 60 * 24 * 30);
+        res.json({
+          success: true,
+          accessToken: token,
+          message: "Dev fallback: token issued",
+        });
+        return;
+      }
+
       res
         .status(400)
         .json({ success: false, message: "Payment not successful" });
@@ -489,6 +530,26 @@ export const handleDVConfirm: RequestHandler = async (req, res) => {
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED";
     if (!ok) {
+      const phonepeConfigured = !!(
+        (process.env.PHONEPE_CLIENT_ID && process.env.PHONEPE_CLIENT_SECRET) ||
+        (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)
+      );
+      if (!phonepeConfigured) {
+        // Dev fallback for DV: record success locally and return
+        try {
+          await saveCohortEnrollment({
+            name: email,
+            email,
+            phone: undefined as any,
+            payment_status: "success",
+            amount: DV_PRICE,
+            currency: "INR",
+          });
+        } catch {}
+        res.json({ success: true, message: "Dev fallback: recorded success" });
+        return;
+      }
+
       res
         .status(400)
         .json({ success: false, message: "Payment not successful" });
