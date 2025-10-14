@@ -131,6 +131,14 @@ export default function DemoRegistration() {
         const emailParam = url.searchParams.get("email");
         const sig = url.searchParams.get("sig");
         const purpose = url.searchParams.get("purpose") || "workshop";
+        const showDemo = url.searchParams.get("showDemo");
+
+        // If explicit showDemo flag present, force show demo video (no token required)
+        if (showDemo === "1" && !videoUrl) {
+          toast({ title: "Payment Complete", description: "Opening demo video." });
+          setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+          return;
+        }
 
         // If gateway redirected with parameters, try confirming on the client side
         if (txn && emailParam && sig && !videoUrl) {
