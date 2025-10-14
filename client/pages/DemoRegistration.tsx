@@ -135,7 +135,10 @@ export default function DemoRegistration() {
 
         // If explicit showDemo flag present, force show demo video (no token required)
         if (showDemo === "1" && !videoUrl) {
-          toast({ title: "Payment Complete", description: "Opening demo video." });
+          toast({
+            title: "Payment Complete",
+            description: "Opening demo video.",
+          });
           setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
           return;
         }
@@ -151,16 +154,16 @@ export default function DemoRegistration() {
                     sig,
                   )}`
                 : purpose === "dv"
-                ? `/api/payment/dv/confirm?txn=${encodeURIComponent(
-                    txn,
-                  )}&email=${encodeURIComponent(emailParam)}&sig=${encodeURIComponent(
-                    sig,
-                  )}`
-                : `/api/payment/workshop/confirm?txn=${encodeURIComponent(
-                    txn,
-                  )}&email=${encodeURIComponent(emailParam)}&sig=${encodeURIComponent(
-                    sig,
-                  )}`;
+                  ? `/api/payment/dv/confirm?txn=${encodeURIComponent(
+                      txn,
+                    )}&email=${encodeURIComponent(emailParam)}&sig=${encodeURIComponent(
+                      sig,
+                    )}`
+                  : `/api/payment/workshop/confirm?txn=${encodeURIComponent(
+                      txn,
+                    )}&email=${encodeURIComponent(emailParam)}&sig=${encodeURIComponent(
+                      sig,
+                    )}`;
 
             const res = await fetch(endpoint);
             const data = await res.json().catch(() => null);
@@ -172,7 +175,10 @@ export default function DemoRegistration() {
                 localStorage.setItem("azorix_email", emailParam);
               } catch {}
 
-              toast({ title: "Payment Verified", description: "Loading demo video..." });
+              toast({
+                title: "Payment Verified",
+                description: "Loading demo video...",
+              });
               setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
               return;
             }
@@ -186,7 +192,10 @@ export default function DemoRegistration() {
         const token = localStorage.getItem("azorix_token");
         const email = localStorage.getItem("azorix_email");
         if (token && email && !videoUrl) {
-          toast({ title: "Payment Successful", description: "Accessing your demo video now." });
+          toast({
+            title: "Payment Successful",
+            description: "Accessing your demo video now.",
+          });
           setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
         }
       } catch (e) {

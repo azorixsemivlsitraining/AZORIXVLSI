@@ -119,26 +119,28 @@ function DotAliasRedirect() {
 
 function PaymentRedirectHandler() {
   const location = useLocation();
-  const navigate = (window as any).__navigate || (path => window.history.replaceState({}, '', path));
+  const navigate =
+    (window as any).__navigate ||
+    ((path) => window.history.replaceState({}, "", path));
 
   React.useEffect(() => {
     (async () => {
       try {
         const url = new URL(window.location.href);
-        const txn = url.searchParams.get('txn');
-        const email = url.searchParams.get('email');
-        const sig = url.searchParams.get('sig');
-        const purpose = url.searchParams.get('purpose') || 'workshop';
+        const txn = url.searchParams.get("txn");
+        const email = url.searchParams.get("email");
+        const sig = url.searchParams.get("sig");
+        const purpose = url.searchParams.get("purpose") || "workshop";
 
         if (!txn || !email || !sig) return;
 
         // Build confirm endpoint based on purpose
         const endpoint =
-          purpose === 'cohort'
+          purpose === "cohort"
             ? `/api/payment/cohort/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`
-            : purpose === 'dv'
-            ? `/api/payment/dv/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`
-            : `/api/payment/workshop/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`;
+            : purpose === "dv"
+              ? `/api/payment/dv/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`
+              : `/api/payment/workshop/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`;
 
         try {
           const res = await fetch(endpoint);
@@ -146,15 +148,15 @@ function PaymentRedirectHandler() {
           if (res.ok && data?.success) {
             if (data.accessToken) {
               try {
-                localStorage.setItem('azorix_token', data.accessToken);
+                localStorage.setItem("azorix_token", data.accessToken);
               } catch {}
             }
             try {
-              localStorage.setItem('azorix_email', email);
+              localStorage.setItem("azorix_email", email);
             } catch {}
 
             // Navigate to demo page and signal it to show the video
-            window.location.href = '/demo?showDemo=1';
+            window.location.href = "/demo?showDemo=1";
           }
         } catch (e) {
           // ignore
