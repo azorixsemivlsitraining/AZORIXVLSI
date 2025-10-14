@@ -288,7 +288,7 @@ export const handleWorkshopPay: RequestHandler = async (req, res) => {
 
     res.json({ success: true, redirectUrl: out.redirectUrl });
   } catch (e: any) {
-    if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
+    if ((process.env.PHONEPE_CLIENT_ID && process.env.PHONEPE_CLIENT_SECRET) || (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)) {
       console.error("PhonePe init error (workshop):", e?.message || e);
       res
         .status(502)
@@ -373,7 +373,7 @@ export const handleCohortPay: RequestHandler = async (req, res) => {
     });
     res.json({ success: true, redirectUrl: out.redirectUrl });
   } catch (e: any) {
-    if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
+    if ((process.env.PHONEPE_CLIENT_ID && process.env.PHONEPE_CLIENT_SECRET) || (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)) {
       console.error("PhonePe init error (cohort):", e?.message || e);
       res
         .status(502)
@@ -449,7 +449,7 @@ export const handleDVPay: RequestHandler = async (req, res) => {
     });
     res.json({ success: true, redirectUrl: out.redirectUrl });
   } catch (e: any) {
-    if (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY) {
+    if ((process.env.PHONEPE_CLIENT_ID && process.env.PHONEPE_CLIENT_SECRET) || (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)) {
       console.error("PhonePe init error (dv):", e?.message || e);
       res
         .status(502)
