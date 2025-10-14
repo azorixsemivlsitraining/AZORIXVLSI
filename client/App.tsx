@@ -55,6 +55,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <PaymentRedirectHandler />
           <Routes>
             {/* Redirect any "/." prefixed path to the same path without the dot */}
             <Route path="/.:rest*" element={<DotAliasRedirect />} />
