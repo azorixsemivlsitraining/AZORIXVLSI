@@ -119,20 +119,72 @@ export default function DemoRegistration() {
   const playerRef = useRef<any>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
-  // If user returned from hosted checkout (token stored by PhonePeReturn),
-  // auto-display the demo video.
+  // If user returned from hosted checkout (token stored by PhonePeReturn)
+  // or the gateway redirected back with txn/email/sig query params,
+  // attempt to confirm the payment and show the demo video.
   useEffect(() => {
-    try {
-      const token = localStorage.getItem("azorix_token");
-      const email = localStorage.getItem("azorix_email");
-      if (token && email && !videoUrl) {
-        toast({
-          title: "Payment Successful",
-          description: "Accessing your demo video now.",
-        });
-        setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+    (async () => {
+      try {
+        if (typeof window === "undefined") return;
+        const url = new URL(window.location.href);
+        const txn = url.searchParams.get("txn");
+        const emailParam = url.searchParams.get("email");
+        const sig = url.searchParams.get("sig");
+        const purpose = url.searchParams.get("purpose") || "workshop";
+
+        // If gateway redirected with parameters, try confirming on the client side
+        if (txn && emailParam && sig && !videoUrl) {
+          try {
+            const endpoint =
+              purpose === "cohort"
+                ? `/api/payment/cohort/confirm?txn=${encodeURIComponent(
+                    txn,
+                  )}&email=${encodeURIComponent(emailParam)}&sig=${encodeURIComponent(
+                    sig,
+                  )}`
+                : purpose === "dv"
+                ? `/api/payment/dv/confirm?txn=${encodeURIComponent(
+                    txn,
+                  )}&email=${encodeURIComponent(emailParam)}&sig=${encodeURIComponent(
+                    sig,
+                  )}`
+                : `/api/payment/workshop/confirm?txn=${encodeURIComponent(
+                    txn,
+                  )}&email=${encodeURIComponent(emailParam)}&sig=${encodeURIComponent(
+                    sig,
+                  )}`;
+
+            const res = await fetch(endpoint);
+            const data = await res.json().catch(() => null);
+            if (res.ok && data?.success) {
+              try {
+                if (data.accessToken) {
+                  localStorage.setItem("azorix_token", data.accessToken);
+                }
+                localStorage.setItem("azorix_email", emailParam);
+              } catch {}
+
+              toast({ title: "Payment Verified", description: "Loading demo video..." });
+              setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+              return;
+            }
+          } catch (err) {
+            // ignore and fallback to localStorage
+            console.warn("confirm redirect failed:", err);
+          }
+        }
+
+        // Fallback: if token already stored (PhonePeReturn set it), show demo
+        const token = localStorage.getItem("azorix_token");
+        const email = localStorage.getItem("azorix_email");
+        if (token && email && !videoUrl) {
+          toast({ title: "Payment Successful", description: "Accessing your demo video now." });
+          setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+        }
+      } catch (e) {
+        // swallow
       }
-    } catch {}
+    })();
   }, [videoUrl, toast]);
 
   useEffect(() => {
