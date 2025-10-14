@@ -22,7 +22,7 @@ const coursesData = [
     shortName: "DV",
     duration: "16 weeks",
     level: "Beginner to Advanced",
-    Fee:"69999",
+    Fee: "69,999",
     description:
       "Master SystemVerilog and UVM methodology for comprehensive verification of digital designs. Learn industry-standard verification practices.",
     features: [
@@ -53,7 +53,7 @@ const coursesData = [
     shortName: "RTL",
     duration: "14 weeks",
     level: "Intermediate",
-    Fee:"65999",
+    Fee: "65999",
     description:
       "Learn Register Transfer Level design using Verilog and SystemVerilog. Master digital design from concept to synthesis.",
     features: [
@@ -76,7 +76,7 @@ const coursesData = [
     shortName: "PD",
     duration: "14 weeks",
     level: "Advanced",
-    Fee:"63999",
+    Fee: "63999",
     description:
       "Master the complete physical design flow from floorplanning to signoff. Learn placement, routing, and timing closure.",
     features: [
@@ -131,36 +131,35 @@ export default function CoursesPage() {
                 className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
               >
                 {/* Course Header */}
-<div
-  className={`bg-gradient-to-r ${course.bgColor} text-white p-6 relative overflow-hidden`}
->
-  <div className="relative z-10">
-    <div className="text-4xl mb-3">{course.icon}</div>
-    <h3 className="text-2xl font-bold mb-2">{course.title}</h3>
+                <div
+                  className={`bg-gradient-to-r ${course.bgColor} text-white p-6 relative overflow-hidden`}
+                >
+                  <div className="relative z-10">
+                    <div className="text-4xl mb-3">{course.icon}</div>
+                    <h3 className="text-2xl font-bold mb-2">{course.title}</h3>
 
-    <div className="flex items-center gap-4 text-sm flex-wrap">
-      {/* Duration */}
-      <span className="flex items-center gap-1">
-        <Clock className="w-4 h-4" />
-        {course.duration}
-      </span>
+                    <div className="flex items-center gap-4 text-sm flex-wrap">
+                      {/* Duration */}
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" />
+                        {course.duration}
+                      </span>
 
-      {/* Level */}
-      <span className="bg-white/20 px-2 py-1 rounded text-xs">
-        {course.level}
-      </span>
+                      {/* Level */}
+                      <span className="bg-white/20 px-2 py-1 rounded text-xs">
+                        {course.level}
+                      </span>
 
-      {/* Fee */}
-      <span className="bg-white/20 px-2 py-1 rounded text-xs">
-        Fee: ₹{Number(course.Fee).toLocaleString("en-IN")}
-      </span>
-    </div>
-  </div>
+                      {/* Fee */}
+                      <span className="bg-white/20 px-2 py-1 rounded text-xs">
+                        Fee: ₹{Number(course.Fee).toLocaleString("en-IN")}
+                      </span>
+                    </div>
+                  </div>
 
-  {/* Decorative background circle */}
-  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-</div>
-
+                  {/* Decorative background circle */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                </div>
 
                 {/* Course Content */}
                 <div className="p-6">

@@ -33,6 +33,7 @@ export interface PaymentResponse {
   accessToken?: string;
   message?: string;
   meetingUrl?: string | null;
+  redirectUrl?: string; // For hosted payment gateways (e.g., PhonePe)
 }
 
 export type ResourceType = "slide" | "recording" | "pdf" | "checklist" | "link";

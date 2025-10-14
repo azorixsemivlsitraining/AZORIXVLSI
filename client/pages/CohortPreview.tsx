@@ -116,6 +116,26 @@ export default function CohortPreview() {
     e.preventDefault();
     setLoading(true);
     try {
+      // Try PhonePe hosted page first
+      try {
+        const pp = await fetch("/api/payment/cohort/pay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        const ppData = await pp.json().catch(() => null);
+        if (pp.ok && ppData?.redirectUrl) {
+          window.location.href = ppData.redirectUrl;
+          return;
+        }
+        if (!pp.ok && ppData?.message) {
+          toast({ title: "Payment Error", description: ppData.message });
+          setLoading(false);
+          return;
+        }
+      } catch {}
+
+      // Fallback to dummy for local/testing
       const res = await fetch("/api/payment/cohort/dummy-pay", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
