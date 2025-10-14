@@ -354,7 +354,10 @@ export default function DemoRegistration() {
         description: "Payment successful. Loading demo video...",
       });
 
-      // fetch resources to get demo video
+      // Show the requested demo video immediately after success
+      setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+
+      // Optionally try to update from dashboard resources (non-blocking)
       try {
         const token = data.accessToken;
         const email = encodeURIComponent(formData.email);
@@ -368,13 +371,10 @@ export default function DemoRegistration() {
             (resources.resources || []).find(
               (r: any) => r.type === "recording",
             ) || resources.resources?.[0];
-          const url = recording?.url || "https://youtu.be/sx4l4OqdpEI";
-          setVideoUrl(url);
-        } else {
-          setVideoUrl("https://youtu.be/sx4l4OqdpEI");
+          if (recording?.url) setVideoUrl(recording.url);
         }
       } catch (err) {
-        setVideoUrl("https://youtu.be/sx4l4OqdpEI");
+        // ignore; keep the default video
       }
 
       // show success modal
