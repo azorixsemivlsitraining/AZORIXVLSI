@@ -2,12 +2,27 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
+// Base URLs
 const BASE_URL =
   process.env.PHONEPE_BASE_URL ||
-  "https://api-preprod.phonepe.com/apis/pg-sandbox";
+  "https://api-preprod.phonepe.com/apis/pg-sandbox"; // Used for checkout + status
+
+// V1 (legacy) credentials
 const MERCHANT_ID = process.env.PHONEPE_MERCHANT_ID || "";
 const SALT_KEY = process.env.PHONEPE_SALT_KEY || "";
 const SALT_INDEX = process.env.PHONEPE_SALT_INDEX || "1";
+
+// V2 (OAuth) credentials
+const CLIENT_ID = process.env.PHONEPE_CLIENT_ID || "";
+const CLIENT_SECRET = process.env.PHONEPE_CLIENT_SECRET || "";
+const CLIENT_VERSION = process.env.PHONEPE_CLIENT_VERSION || "";
+
+// Token URL rules: Sandbox uses pg-sandbox; Prod uses identity-manager
+const TOKEN_URL =
+  process.env.PHONEPE_TOKEN_URL ||
+  (BASE_URL.includes("pg-sandbox")
+    ? `${BASE_URL}/v1/oauth/token`
+    : "https://api.phonepe.com/apis/identity-manager/v1/oauth/token");
 
 function sha256Hex(input: string) {
   return crypto.createHash("sha256").update(input).digest("hex");
@@ -28,7 +43,7 @@ function buildXVerifyForStatus(merchantTransactionId: string) {
 }
 
 export interface InitiatePaymentParams {
-  merchantTransactionId: string;
+  merchantTransactionId: string; // used as merchantOrderId in V2
   amountInPaise: number;
   name: string;
   email: string;
@@ -36,7 +51,93 @@ export interface InitiatePaymentParams {
   redirectUrl: string; // Full URL where PhonePe should redirect after payment
 }
 
+// -------------------- V2 OAuth helpers --------------------
+let cachedToken: { accessToken: string; tokenType: string; expiresAt: number } | null = null;
+
+async function getAccessTokenV2(): Promise<{ token: string; type: string }> {
+  const now = Date.now();
+  if (cachedToken && now < cachedToken.expiresAt - 60_000) {
+    return { token: cachedToken.accessToken, type: cachedToken.tokenType };
+  }
+  const form = new URLSearchParams();
+  form.set("client_id", CLIENT_ID);
+  form.set("client_version", CLIENT_VERSION);
+  form.set("client_secret", CLIENT_SECRET);
+  form.set("grant_type", "client_credentials");
+
+  const res = await fetch(TOKEN_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: form.toString(),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`Token request failed: ${res.status} ${res.statusText} ${text}`);
+  }
+  const data = (await res.json()) as any;
+  const accessToken = data?.access_token as string;
+  const tokenType = (data?.token_type as string) || "O-Bearer";
+  const expiresAt = (data?.expires_at as number) || Math.floor(Date.now() / 1000) + 5 * 60;
+  if (!accessToken) throw new Error("No access_token in token response");
+  cachedToken = {
+    accessToken,
+    tokenType,
+    expiresAt: typeof expiresAt === "number" && expiresAt > 1_000_000_000 ? expiresAt * 1000 : now + 5 * 60 * 1000,
+  };
+  return { token: accessToken, type: tokenType };
+}
+
+function isV2Configured() {
+  return Boolean(CLIENT_ID && CLIENT_SECRET && CLIENT_VERSION);
+}
+
+// -------------------- Public API --------------------
 export async function initiatePayment(params: InitiatePaymentParams) {
+  if (isV2Configured()) {
+    // V2 flow: Create Payment (checkout v2)
+    const { token, type } = await getAccessTokenV2();
+
+    const payload = {
+      merchantOrderId: params.merchantTransactionId,
+      amount: params.amountInPaise,
+      paymentFlow: {
+        type: "PG_CHECKOUT",
+        merchantUrls: { redirectUrl: params.redirectUrl },
+      },
+    } as const;
+
+    const out = {
+      url: `${BASE_URL}/checkout/v2/pay`,
+      headers: { "Content-Type": "application/json", Authorization: `${type} ${token}` },
+      decodedPayload: JSON.stringify(payload),
+    };
+    try {
+      const logsDir = path.join(process.cwd(), "server", "logs");
+      if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+      fs.writeFileSync(
+        path.join(logsDir, "phonepe_last_request.json"),
+        JSON.stringify(out, null, 2),
+        "utf8",
+      );
+    } catch {}
+
+    const res = await fetch(`${BASE_URL}/checkout/v2/pay`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${type} ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !(data as any)?.redirectUrl) {
+      throw new Error((data as any)?.message || "PhonePe V2 init failed");
+    }
+    return { redirectUrl: (data as any).redirectUrl as string };
+  }
+
+  // V1 fallback (legacy) if V2 is not configured
   if (!MERCHANT_ID || !SALT_KEY) {
     throw new Error("PhonePe credentials not configured");
   }
@@ -57,7 +158,6 @@ export async function initiatePayment(params: InitiatePaymentParams) {
   const base64Payload = Buffer.from(json).toString("base64");
   const xverify = buildXVerifyForPay(base64Payload);
 
-  // Log outgoing request details for support/debugging
   const out = {
     url: `${BASE_URL}/pg/v1/pay`,
     headers: {
@@ -68,8 +168,6 @@ export async function initiatePayment(params: InitiatePaymentParams) {
     base64Payload,
     decodedPayload: json,
   };
-  console.info("PhonePe: outgoing request", out);
-
   try {
     const logsDir = path.join(process.cwd(), "server", "logs");
     if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
@@ -78,9 +176,7 @@ export async function initiatePayment(params: InitiatePaymentParams) {
       JSON.stringify(out, null, 2),
       "utf8",
     );
-  } catch (e) {
-    console.warn("PhonePe: failed to write log file", e);
-  }
+  } catch {}
 
   const res = await fetch(`${BASE_URL}/pg/v1/pay`, {
     method: "POST",
@@ -92,32 +188,31 @@ export async function initiatePayment(params: InitiatePaymentParams) {
     body: JSON.stringify({ request: base64Payload }),
   });
 
-  let data: any = null;
-  try {
-    data = await res.json();
-  } catch (e) {
-    console.error("PhonePe: failed to parse JSON response", e);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error((data as any)?.message || "PhonePe init failed");
   }
-
-  if (!res.ok || !data) {
-    console.error("PhonePe init failed", {
-      status: res.status,
-      statusText: res.statusText,
-      body: data,
-    });
-    throw new Error(data?.message || "PhonePe init failed");
-  }
-
-  const url = data?.data?.instrumentResponse?.redirectInfo?.url as
-    | string
-    | undefined;
-  if (!url) {
-    throw new Error("PhonePe did not return redirect URL");
-  }
+  const url = (data as any)?.data?.instrumentResponse?.redirectInfo?.url as string | undefined;
+  if (!url) throw new Error("PhonePe did not return redirect URL");
   return { redirectUrl: url };
 }
 
 export async function fetchPaymentStatus(merchantTransactionId: string) {
+  if (isV2Configured()) {
+    const { token, type } = await getAccessTokenV2();
+    const url = `${BASE_URL}/checkout/v2/order/${encodeURIComponent(merchantTransactionId)}/status?details=false`;
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${type} ${token}`,
+        ...(MERCHANT_ID ? { "X-MERCHANT-ID": MERCHANT_ID } : {}),
+      },
+    });
+    const data = await res.json().catch(() => ({}));
+    return { data };
+  }
+
   if (!MERCHANT_ID || !SALT_KEY) {
     throw new Error("PhonePe credentials not configured");
   }
