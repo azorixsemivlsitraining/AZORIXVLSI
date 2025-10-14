@@ -1,5 +1,6 @@
 import "./global.css";
 
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -55,6 +56,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <PaymentRedirectHandler />
           <Routes>
             {/* Redirect any "/." prefixed path to the same path without the dot */}
             <Route path="/.:rest*" element={<DotAliasRedirect />} />
@@ -113,6 +115,60 @@ function DotAliasRedirect() {
     ? originalPath.replace("/.", "/")
     : originalPath;
   return <Navigate to={normalized} replace />;
+}
+
+function PaymentRedirectHandler() {
+  const location = useLocation();
+  const navigate =
+    (window as any).__navigate ||
+    ((path) => window.history.replaceState({}, "", path));
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const url = new URL(window.location.href);
+        const txn = url.searchParams.get("txn");
+        const email = url.searchParams.get("email");
+        const sig = url.searchParams.get("sig");
+        const purpose = url.searchParams.get("purpose") || "workshop";
+
+        if (!txn || !email || !sig) return;
+
+        // Build confirm endpoint based on purpose
+        const endpoint =
+          purpose === "cohort"
+            ? `/api/payment/cohort/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`
+            : purpose === "dv"
+              ? `/api/payment/dv/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`
+              : `/api/payment/workshop/confirm?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`;
+
+        try {
+          const res = await fetch(endpoint);
+          const data = await res.json().catch(() => null);
+          if (res.ok && data?.success) {
+            if (data.accessToken) {
+              try {
+                localStorage.setItem("azorix_token", data.accessToken);
+              } catch {}
+            }
+            try {
+              localStorage.setItem("azorix_email", email);
+            } catch {}
+
+            // Navigate to demo page and signal it to show the video
+            window.location.href = "/demo?showDemo=1";
+          }
+        } catch (e) {
+          // ignore
+        }
+      } catch (e) {
+        // ignore
+      }
+    })();
+    // run on location change
+  }, [location]);
+
+  return null;
 }
 
 // Prevent multiple root creation during HMR

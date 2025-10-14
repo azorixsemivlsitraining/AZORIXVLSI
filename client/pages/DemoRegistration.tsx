@@ -119,6 +119,91 @@ export default function DemoRegistration() {
   const playerRef = useRef<any>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
+  // If user returned from hosted checkout (token stored by PhonePeReturn)
+  // or the gateway redirected back with txn/email/sig query params,
+  // attempt to confirm the payment and show the demo video.
+  useEffect(() => {
+    (async () => {
+      try {
+        if (typeof window === "undefined") return;
+        const url = new URL(window.location.href);
+        const txn = url.searchParams.get("txn");
+        const emailParam = url.searchParams.get("email");
+        const sig = url.searchParams.get("sig");
+        const purpose = url.searchParams.get("purpose") || "workshop";
+        const showDemo = url.searchParams.get("showDemo");
+
+        // If explicit showDemo flag present, force show demo video (no token required)
+        if (showDemo === "1" && !videoUrl) {
+          toast({
+            title: "Payment Complete",
+            description: "Opening demo video.",
+          });
+          setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+          return;
+        }
+
+        // If gateway redirected with parameters, try confirming on the client side
+        if (txn && emailParam && sig && !videoUrl) {
+          try {
+            const endpoint =
+              purpose === "cohort"
+                ? `/api/payment/cohort/confirm?txn=${encodeURIComponent(
+                    txn,
+                  )}&email=${encodeURIComponent(emailParam)}&sig=${encodeURIComponent(
+                    sig,
+                  )}`
+                : purpose === "dv"
+                  ? `/api/payment/dv/confirm?txn=${encodeURIComponent(
+                      txn,
+                    )}&email=${encodeURIComponent(emailParam)}&sig=${encodeURIComponent(
+                      sig,
+                    )}`
+                  : `/api/payment/workshop/confirm?txn=${encodeURIComponent(
+                      txn,
+                    )}&email=${encodeURIComponent(emailParam)}&sig=${encodeURIComponent(
+                      sig,
+                    )}`;
+
+            const res = await fetch(endpoint);
+            const data = await res.json().catch(() => null);
+            if (res.ok && data?.success) {
+              try {
+                if (data.accessToken) {
+                  localStorage.setItem("azorix_token", data.accessToken);
+                }
+                localStorage.setItem("azorix_email", emailParam);
+              } catch {}
+
+              toast({
+                title: "Payment Verified",
+                description: "Loading demo video...",
+              });
+              setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+              return;
+            }
+          } catch (err) {
+            // ignore and fallback to localStorage
+            console.warn("confirm redirect failed:", err);
+          }
+        }
+
+        // Fallback: if token already stored (PhonePeReturn set it), show demo
+        const token = localStorage.getItem("azorix_token");
+        const email = localStorage.getItem("azorix_email");
+        if (token && email && !videoUrl) {
+          toast({
+            title: "Payment Successful",
+            description: "Accessing your demo video now.",
+          });
+          setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+        }
+      } catch (e) {
+        // swallow
+      }
+    })();
+  }, [videoUrl, toast]);
+
   useEffect(() => {
     if (!videoUrl) return;
 
@@ -338,7 +423,10 @@ export default function DemoRegistration() {
         description: "Payment successful. Loading demo video...",
       });
 
-      // fetch resources to get demo video
+      // Show the requested demo video immediately after success
+      setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+
+      // Optionally try to update from dashboard resources (non-blocking)
       try {
         const token = data.accessToken;
         const email = encodeURIComponent(formData.email);
@@ -352,13 +440,10 @@ export default function DemoRegistration() {
             (resources.resources || []).find(
               (r: any) => r.type === "recording",
             ) || resources.resources?.[0];
-          const url = recording?.url || "https://youtu.be/sx4l4OqdpEI";
-          setVideoUrl(url);
-        } else {
-          setVideoUrl("https://youtu.be/sx4l4OqdpEI");
+          if (recording?.url) setVideoUrl(recording.url);
         }
       } catch (err) {
-        setVideoUrl("https://youtu.be/sx4l4OqdpEI");
+        // ignore; keep the default video
       }
 
       // show success modal
@@ -652,8 +737,11 @@ export default function DemoRegistration() {
                     </div>
 
                     <div className="text-center">
-                      <Button onClick={() => navigate("/cohort-preview")}>
-                        Proceed to 3-hour Preview (₹1,999)
+                      <Button
+                        onClick={() => navigate("/cohort-preview")}
+                        className="bg-gradient-to-r from-vlsi-500 to-vlsi-600 hover:from-vlsi-600 hover:to-vlsi-700 text-white font-semibold px-6"
+                      >
+                        Proceed for 3Hrs Class — Register for ₹1,999
                       </Button>
                     </div>
                   </div>
