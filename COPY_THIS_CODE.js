@@ -180,7 +180,7 @@ function testFormSubmission() {
     data: {
       name: 'Test User',
       email: 'test@example.com',
-      phone: '+91 9876543210',
+      phone: '+91 9052653636',
       subject: 'Test Subject',
       inquiryType: 'course-info',
       message: 'This is a test message',
