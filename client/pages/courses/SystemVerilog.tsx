@@ -54,7 +54,7 @@ export default function SystemVerilog() {
       <SEOHead
         title="SystemVerilog Course | RTL Design, Assertions & Testbenches"
         description="Learn SystemVerilog fundamentals including design constructs, OOP, and assertions. Perfect for students and professionals in VLSI design."
-        canonical="https://azorixtech.com/courses/systemverilog"
+        canonical="https://www.azorixvlsi.com/courses/systemverilog"
         keywords="SystemVerilog course, RTL design, assertions, testbenches, OOP, VLSI design, SystemVerilog fundamentals"
       />
       <Header showBackButton={true} />

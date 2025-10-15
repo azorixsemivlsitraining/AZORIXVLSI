@@ -77,14 +77,20 @@ export default function Enroll() {
         await sendEnrollFormToSheets(formData);
         console.log("Enrollment form data sent to Google Sheets successfully");
       } catch (sheetsError) {
-        console.warn("Failed to sync with Google Sheets (data still saved locally):", sheetsError);
+        console.warn(
+          "Failed to sync with Google Sheets (data still saved locally):",
+          sheetsError,
+        );
       }
 
       // Try to save to Supabase (optional)
       try {
         await saveEnrollmentData(formData);
       } catch (dbError) {
-        console.warn("Failed to save to database (data still saved locally):", dbError);
+        console.warn(
+          "Failed to save to database (data still saved locally):",
+          dbError,
+        );
       }
 
       Swal.fire({
@@ -121,7 +127,7 @@ export default function Enroll() {
       Swal.fire({
         icon: "error",
         title: "Submission Error",
-        text: `There was an error processing your enrollment: ${error.message || "Unknown error"}. Please try again or contact us directly at admissions@azorix.com or +91 9876543210.`,
+        text: `There was an error processing your enrollment: ${error.message || "Unknown error"}. Please try again or contact us directly at admissions@azorix.com or +91 9052653636.`,
         confirmButtonColor: "#0d9488",
       });
     } finally {
@@ -563,7 +569,7 @@ export default function Enroll() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:+919876543210"
+                href="tel:+919052653636"
                 className="text-vlsi-600 font-medium hover:underline"
               >
                 📞 Call: +91 9052653636

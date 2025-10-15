@@ -101,7 +101,7 @@ export default function CoursesPage() {
       <SEOHead
         title="Azorix VLSI Hyderabad – Semiconductor Training in Design Verification, SV & UVM"
         description="Build your semiconductor career with Azorix VLSI Hyderabad. Learn Design Verification, System Verilog & UVM from industry experts with real-world projects and job placement support."
-        canonical="https://azorixtech.com/courses"
+        canonical="https://www.azorixvlsi.com/courses"
         keywords="Azorix VLSI Hyderabad, semiconductor training, Design Verification, SystemVerilog, UVM, VLSI courses Hyderabad, semiconductor career, job placement"
       />
       <Header />

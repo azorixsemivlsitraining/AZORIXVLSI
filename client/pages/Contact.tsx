@@ -31,7 +31,6 @@ const contactInfo = {
   phone: {
     primary: "+91 9052653636",
     secondary: "+91 9052633636",
-    
   },
   email: {
     general: "info@azorixvlsi.com",
@@ -163,7 +162,7 @@ export default function Contact() {
       Swal.fire({
         icon: "error",
         title: "Message Error",
-        text: `There was an error sending your message: ${error.message || "Unknown error"}. Please try again or contact us directly at info@azorix.com or +91 9876543210.`,
+        text: `There was an error sending your message: ${error.message || "Unknown error"}. Please try again or contact us directly at info@azorix.com or +91 9052653636.`,
         confirmButtonColor: "#0d9488",
       });
     } finally {
@@ -183,7 +182,7 @@ export default function Contact() {
       <SEOHead
         title="Contact Azorix VLSI | Best Semiconductor & VLSI Institute in Hyderabad"
         description="Have questions about our VLSI & semiconductor courses? Contact Azorix VLSI Hyderabad today for admissions, training details, and placement guidance."
-        canonical="https://azorixtech.com/contact"
+        canonical="https://www.azorixvlsi.com/contact"
         keywords="Contact Azorix VLSI, VLSI institute Hyderabad contact, semiconductor training contact, admissions, placement guidance, VLSI courses inquiry"
       />
       <Header />
@@ -255,7 +254,6 @@ export default function Contact() {
                         {contactInfo.phone.secondary}
                       </a>
                     </div>
-                    
                   </div>
                 </div>
 
@@ -570,9 +568,9 @@ export default function Contact() {
                   Azorix Technologies Pvt Ltd
                 </h3>
                 <p className="text-gray-600 mb-4">
-                  Plot No 102,103, Temple Lane, Mythri Nagar,<br/> 
-                  Mathrusri Nagar, K.v.rangareddy, Serilingampally, <br/>
-                  
+                  Plot No 102,103, Temple Lane, Mythri Nagar,
+                  <br />
+                  Mathrusri Nagar, K.v.rangareddy, Serilingampally, <br />
                   Hyderabad, Telangana 500049, India
                 </p>
                 {/* <a
@@ -604,9 +602,7 @@ export default function Contact() {
                   <p className="text-sm text-gray-600">
                     Lingampally Railway Station
                     <br />
-                    <span className="font-medium text-vlsi-600">
-                      1km
-                    </span>
+                    <span className="font-medium text-vlsi-600">1km</span>
                   </p>
                 </div>
                 <div className="p-4 bg-gray-50 rounded-lg">
@@ -637,11 +633,16 @@ export default function Contact() {
                     <div>2 km </div>
                   </div>
                   <div className="text-center">
-                    <span className="font-medium"> 🏢Cognizant Technology Solutions</span>
+                    <span className="font-medium">
+                      {" "}
+                      🏢Cognizant Technology Solutions
+                    </span>
                     <div>2.2 km</div>
                   </div>
                   <div className="text-center">
-                    <span className="font-medium">🎓 Sri Chaitanya Junior College</span>
+                    <span className="font-medium">
+                      🎓 Sri Chaitanya Junior College
+                    </span>
                     <div>1 km</div>
                   </div>
                 </div>

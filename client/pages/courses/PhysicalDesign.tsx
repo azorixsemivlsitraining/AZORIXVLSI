@@ -54,7 +54,7 @@ export default function PhysicalDesign() {
       <SEOHead
         title="Physical Design Course - AZORIX TECH VLSI Institute"
         description="Master Physical Design from floorplanning to signoff. Learn placement, routing, CTS, timing closure with industry-standard EDA tools."
-        canonical="https://azorixtech.com/courses/physical-design"
+        canonical="https://www.azorixvlsi.com/courses/physical-design"
         keywords="Physical Design, floorplanning, placement, routing, CTS, timing closure, DRC, LVS, PD flow"
       />
       <Header showBackButton={true} />
@@ -102,39 +102,46 @@ export default function PhysicalDesign() {
             </div>
           </div>
 
-     {/* Stats */}
-<div className="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-5xl mx-auto">
-  {/* Duration */}
-  <div className="text-center">
-    <div className="text-3xl font-bold text-indigo-600 mb-2">14</div>
-    <div className="text-gray-600">Weeks Duration</div>
-  </div>
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-5xl mx-auto">
+            {/* Duration */}
+            <div className="text-center">
+              <div className="text-3xl font-bold text-indigo-600 mb-2">14</div>
+              <div className="text-gray-600">Weeks Duration</div>
+            </div>
 
-  {/* Course Fee */}
-  <div className="text-center">
-    <div className="text-3xl font-bold text-indigo-600 mb-2">₹63,999</div>
-    <div className="text-gray-600">Course Fee</div>
-  </div>
+            {/* Course Fee */}
+            <div className="text-center">
+              <div className="text-3xl font-bold text-indigo-600 mb-2">
+                ₹63,999
+              </div>
+              <div className="text-gray-600">Course Fee</div>
+            </div>
 
-  {/* Students Trained */}
-  <div className="text-center">
-    <div className="text-3xl font-bold text-indigo-600 mb-2">200+</div>
-    <div className="text-gray-600">Students Trained</div>
-  </div>
+            {/* Students Trained */}
+            <div className="text-center">
+              <div className="text-3xl font-bold text-indigo-600 mb-2">
+                200+
+              </div>
+              <div className="text-gray-600">Students Trained</div>
+            </div>
 
-  {/* Industry Relevance */}
-  <div className="text-center">
-    <div className="text-3xl font-bold text-indigo-600 mb-2">100%</div>
-    <div className="text-gray-600">Industry Relevance</div>
-  </div>
+            {/* Industry Relevance */}
+            <div className="text-center">
+              <div className="text-3xl font-bold text-indigo-600 mb-2">
+                100%
+              </div>
+              <div className="text-gray-600">Industry Relevance</div>
+            </div>
 
-  {/* Student Rating */}
-  <div className="text-center">
-    <div className="text-3xl font-bold text-indigo-600 mb-2">4.9/5</div>
-    <div className="text-gray-600">Student Rating</div>
-  </div>
-</div>
-
+            {/* Student Rating */}
+            <div className="text-center">
+              <div className="text-3xl font-bold text-indigo-600 mb-2">
+                4.9/5
+              </div>
+              <div className="text-gray-600">Student Rating</div>
+            </div>
+          </div>
         </div>
       </section>
 

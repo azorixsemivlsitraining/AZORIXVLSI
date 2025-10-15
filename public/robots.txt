@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.azorix.com/sitemap.xml
-
+Sitemap: https://www.azorixvlsi.com/sitemap.xml

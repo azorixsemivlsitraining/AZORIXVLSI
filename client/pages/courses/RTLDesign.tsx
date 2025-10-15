@@ -54,7 +54,7 @@ export default function RTLDesign() {
       <SEOHead
         title="RTL Design Course - AZORIX TECH VLSI Institute"
         description="Master RTL Design with Verilog and SystemVerilog. Learn digital design, synthesis, timing optimization, and real-world processor design."
-        canonical="https://azorixtech.com/courses/rtl-design"
+        canonical="https://www.azorixvlsi.com/courses/rtl-design"
         keywords="RTL Design, digital design, synthesis, processor design, Verilog, SystemVerilog, timing optimization"
       />
       <Header showBackButton={true} />
@@ -111,39 +111,44 @@ export default function RTLDesign() {
           </div>
 
           {/* Stats */}
-<div className="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-5xl mx-auto">
-  {/* Duration */}
-  <div className="text-center">
-    <div className="text-3xl font-bold text-orange-600 mb-2">14</div>
-    <div className="text-gray-600">Weeks Duration</div>
-  </div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-5xl mx-auto">
+            {/* Duration */}
+            <div className="text-center">
+              <div className="text-3xl font-bold text-orange-600 mb-2">14</div>
+              <div className="text-gray-600">Weeks Duration</div>
+            </div>
 
-  {/* Course Fee */}
-  <div className="text-center">
-    <div className="text-3xl font-bold text-orange-600 mb-2">₹65,999</div>
-    <div className="text-gray-600">Course Fee</div>
-  </div>
+            {/* Course Fee */}
+            <div className="text-center">
+              <div className="text-3xl font-bold text-orange-600 mb-2">
+                ₹65,999
+              </div>
+              <div className="text-gray-600">Course Fee</div>
+            </div>
 
-  {/* Students Trained */}
-  <div className="text-center">
-    <div className="text-3xl font-bold text-orange-600 mb-2">350+</div>
-    <div className="text-gray-600">Students Trained</div>
-  </div>
+            {/* Students Trained */}
+            <div className="text-center">
+              <div className="text-3xl font-bold text-orange-600 mb-2">
+                350+
+              </div>
+              <div className="text-gray-600">Students Trained</div>
+            </div>
 
-  {/* Placement Rate */}
-  <div className="text-center">
-    <div className="text-3xl font-bold text-orange-600 mb-2">95%</div>
-    <div className="text-gray-600">Placement Rate</div>
-  </div>
+            {/* Placement Rate */}
+            <div className="text-center">
+              <div className="text-3xl font-bold text-orange-600 mb-2">95%</div>
+              <div className="text-gray-600">Placement Rate</div>
+            </div>
 
-  {/* Rating */}
-  <div className="text-center">
-    <div className="text-3xl font-bold text-orange-600 mb-2">4.8/5</div>
-    <div className="text-gray-600">Student Rating</div>
-    </div>
-  </div>
-</div>
-
+            {/* Rating */}
+            <div className="text-center">
+              <div className="text-3xl font-bold text-orange-600 mb-2">
+                4.8/5
+              </div>
+              <div className="text-gray-600">Student Rating</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Course Features */}

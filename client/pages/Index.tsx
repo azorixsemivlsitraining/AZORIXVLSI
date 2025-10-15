@@ -13,7 +13,7 @@ export default function Index() {
       <SEOHead
         title="Best VLSI & Semiconductor Training Institutes in Hyderabad | Azorix VLSI Technologies"
         description="Looking for the best VLSI institute in Hyderabad? Azorix VLSI offers semiconductor-focused training, expert mentors, and 100% placement support. Enroll now to start your VLSI career!"
-        canonical="https://azorixtech.com/"
+        canonical="https://www.azorixvlsi.com/"
         keywords="VLSI training Hyderabad, best VLSI institute Hyderabad, semiconductor training, Design Verification, Verilog, SystemVerilog, UVM, RTL Design, Physical Design, VLSI courses, Azorix VLSI"
       />
       <Header />
