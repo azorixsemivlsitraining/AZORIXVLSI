@@ -60,32 +60,6 @@ export function createServer() {
     // Pollable status endpoint
     app.get("/api/payment/status", m.handlePaymentStatus);
 
-    // Debug endpoint to simulate confirm flow for a test txn
-    app.get("/__debug/phonepe/confirm-test", async (req, res) => {
-      try {
-        const txn = "ws-TEST12345";
-        const email = "testuser@example.com";
-        const secret = process.env.ACCESS_TOKEN_SECRET || "dev-secret";
-        const sig = crypto.createHmac("sha256", secret).update(`${email}:${txn}`).digest("hex");
-        (req as any).query = { txn, email, sig };
-        // Call the same handler used by the client return flow
-        await m.handleWorkshopConfirm(req, res);
-      } catch (e: any) {
-        console.error("Debug confirm error", e);
-        res.status(500).json({ ok: false, error: e?.message || String(e) });
-      }
-    });
-
-    // Generic debug confirm: accept txn/email/sig via query and call confirm handler
-    app.get("/__debug/phonepe/confirm", async (req, res) => {
-      try {
-        // Forward the received query params directly to the handler
-        await m.handleWorkshopConfirm(req, res);
-      } catch (e: any) {
-        console.error("Debug confirm error", e);
-        res.status(500).json({ ok: false, error: e?.message || String(e) });
-      }
-    });
 
     // Server-side redirect endpoint for PhonePe to call back to (avoids iframe/script issues)
     app.get("/phonepe-return", async (req, res) => {
