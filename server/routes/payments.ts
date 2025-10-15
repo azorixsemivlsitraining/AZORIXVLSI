@@ -670,3 +670,74 @@ export const handlePhonePeWebhook: RequestHandler = async (req, res) => {
     res.status(500).json({ ok: false });
   }
 };
+
+// Pollable status endpoint used by clients when redirect occurs inside iframe
+export const handlePaymentStatus: RequestHandler = async (req, res) => {
+  const txn = (req.query.txn as string) || (req.body as any)?.txn;
+  const emailQuery = (req.query.email as string) || (req.body as any)?.email || "";
+  if (!txn) {
+    res.status(400).json({ success: false, message: "Missing txn" });
+    return;
+  }
+
+  // Search webhook logs for a matching txn
+  try {
+    const path = require("node:path");
+    const fs = require("node:fs");
+    const logsDir = path.join(process.cwd(), "server", "logs");
+    if (fs.existsSync(logsDir)) {
+      const files = fs.readdirSync(logsDir).sort().reverse();
+      for (const f of files) {
+        if (!f.startsWith("phonepe_webhook_")) continue;
+        try {
+          const parsed = JSON.parse(fs.readFileSync(path.join(logsDir, f), "utf8"));
+          const body = parsed.body;
+          const candidate =
+            body?.data?.merchantTransactionId ||
+            body?.merchantTransactionId ||
+            body?.txn ||
+            body?.transactionId ||
+            body?.order?.merchantTransactionId ||
+            body?.request?.merchantTransactionId;
+          if (candidate && String(candidate) === String(txn)) {
+            const state = body?.data?.state || body?.status || body?.transactionState || null;
+            const ok = state && (String(state).toUpperCase().includes("COMPLETE") || String(state).toUpperCase().includes("SUCCESS"));
+            if (ok) {
+              const email = body?.data?.merchantUserId || body?.merchantUserId || body?.email || emailQuery || "";
+              const token = makeAccessToken(email || emailQuery || "user@example.com", 60 * 60 * 48);
+              res.json({ success: true, accessToken: token });
+              return;
+            }
+            res.json({ success: false, message: "found but not completed" });
+            return;
+          }
+        } catch (e) {
+          continue;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("status read logs failed", e);
+  }
+
+  // Fallback to PhonePe status API
+  try {
+    const status = await fetchPaymentStatus(txn);
+    const ok =
+      status?.success ||
+      status?.code === "PAYMENT_SUCCESS" ||
+      status?.data?.state === "COMPLETED" ||
+      String(status?.data?.state || "").toUpperCase().includes("COMPLETE") ||
+      String(status?.data?.state || "").toUpperCase().includes("SUCCESS");
+    if (ok) {
+      const email = emailQuery || (status?.data?.merchantUserId || status?.data?.merchantUser || "");
+      const token = makeAccessToken(email || emailQuery || "user@example.com", 60 * 60 * 48);
+      res.json({ success: true, accessToken: token });
+      return;
+    }
+  } catch (e) {
+    console.warn("status fetch failed", e);
+  }
+
+  res.json({ success: false, message: "not found" });
+};
