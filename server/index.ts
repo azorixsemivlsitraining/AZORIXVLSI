@@ -57,6 +57,8 @@ export function createServer() {
     app.post("/api/payment/phonepe/webhook", m.handlePhonePeWebhook);
     // Alias path to match dashboard configuration
     app.post("/api/phonepe/webhook", m.handlePhonePeWebhook);
+    // Pollable status endpoint
+    app.get("/api/payment/status", m.handlePaymentStatus);
 
     // Debug endpoint to simulate confirm flow for a test txn
     app.get("/__debug/phonepe/confirm-test", async (req, res) => {
