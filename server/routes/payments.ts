@@ -579,16 +579,23 @@ export const handlePhonePeWebhook: RequestHandler = async (req, res) => {
   const headers = req.headers;
   const ts = Date.now();
   try {
-    const logsDir = require("node:path").join(process.cwd(), "server", "logs");
-    const fs = require("node:fs");
-    if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
-    fs.writeFileSync(
-      require("node:path").join(logsDir, `phonepe_webhook_${ts}.json`),
-      JSON.stringify({ headers, body }, null, 2),
-      "utf8",
-    );
+    // Persist webhook into DB when configured (supabase)
+    try {
+      const { savePhonePeWebhook } = await import("../lib/webhooks");
+      await savePhonePeWebhook({ txn: body?.data?.merchantTransactionId || body?.merchantTransactionId || body?.txn || null, headers, body });
+    } catch (e) {
+      // DB save failed or not configured - fallback to filesystem log
+      const logsDir = require("node:path").join(process.cwd(), "server", "logs");
+      const fs = require("node:fs");
+      if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
+      fs.writeFileSync(
+        require("node:path").join(logsDir, `phonepe_webhook_${ts}.json`),
+        JSON.stringify({ headers, body }, null, 2),
+        "utf8",
+      );
+    }
   } catch (e) {
-    console.warn("Failed to write webhook log", e);
+    console.warn("Failed to persist webhook", e);
   }
 
   // Try to extract merchantTransactionId from common payload shapes
