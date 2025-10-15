@@ -157,6 +157,36 @@ export default function DemoRegistration() {
         } catch (err) {
           console.warn("Payment confirmation failed:", err);
         }
+
+        // If immediate confirm failed (common when PhonePe redirects inside iframe), poll the server status endpoint
+        try {
+          const pollLimit = 15; // up to ~30s
+          let attempts = 0;
+          const poll = setInterval(async () => {
+            attempts++;
+            try {
+              const st = await fetch(`/api/payment/status?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(emailParam)}`);
+              const sd = await st.json().catch(() => null);
+              if (st.ok && sd?.success) {
+                if (sd.accessToken) {
+                  localStorage.setItem("azorix_token", sd.accessToken);
+                  localStorage.setItem("azorix_email", emailParam);
+                }
+                toast({ title: "Payment Verified", description: "Loading demo video..." });
+                setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+                clearInterval(poll);
+                return;
+              }
+            } catch (e) {
+              // ignore network
+            }
+            if (attempts >= pollLimit) {
+              clearInterval(poll);
+            }
+          }, 2000);
+        } catch (e) {
+          console.warn("Polling failed", e);
+        }
       }
 
       // Fallback: token already stored
