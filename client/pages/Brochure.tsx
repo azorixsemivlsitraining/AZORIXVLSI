@@ -127,7 +127,7 @@ Transform your engineering career with our industry-aligned VLSI Design Verifica
 ## 🏆 WHY AZORIX VLSI STANDS OUT
 
 ### PROVEN TRACK RECORD
-✓ 95% Placement Success Rate in Top-Tier Companies
+��� 95% Placement Success Rate in Top-Tier Companies
 ✓ 500+ Alumni Working in Global Semiconductor Giants
 ✓ Average Package: 6-12 LPA for Freshers, 15-25 LPA for Experienced
 
@@ -167,7 +167,7 @@ Intel, Qualcomm, NVIDIA, Broadcom, AMD, MediaTek, Marvell, Synopsys, Cadence, Me
 - Industry-Standard EDA Tools
 
 Ready to transform your career? Enroll now!
-Contact us at +91 9876543210 or visit www.azorix.com
+Contact us at +91 9052653636 or visit www.azorix.com
     `;
   };
 
@@ -524,7 +524,7 @@ Contact us at +91 9876543210 or visit www.azorix.com
                       © 2024 Azorix Technologies Pvt Ltd. All rights reserved.
                     </p>
                     <div className="flex justify-center space-x-4 text-xs text-gray-300">
-                      <span>📞 +91 9876543210</span>
+                      <span>📞 +91 9052653636</span>
                       <span>📧 info@azorix.com</span>
                       <span>🌐 www.azorix.com</span>
                     </div>
@@ -593,7 +593,7 @@ Contact us at +91 9876543210 or visit www.azorix.com
                           handleInputChange("phone", e.target.value)
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-                        placeholder="+91 9876543210"
+                        placeholder="+91 9052653636"
                         required
                       />
                     </div>
@@ -665,7 +665,7 @@ Contact us at +91 9876543210 or visit www.azorix.com
                       programs. We respect your privacy and won't spam you.
                     </p>
                     <div className="flex justify-center space-x-4 text-sm text-vlsi-600">
-                      <span>���� +91 9876543210</span>
+                      <span>📞 +91 9052653636</span>
                       <span>✉️ admissions@azorix.com</span>
                     </div>
                   </div>
