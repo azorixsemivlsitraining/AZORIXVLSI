@@ -73,6 +73,17 @@ export function createServer() {
         res.status(500).json({ ok: false, error: e?.message || String(e) });
       }
     });
+
+    // Generic debug confirm: accept txn/email/sig via query and call confirm handler
+    app.get("/__debug/phonepe/confirm", async (req, res) => {
+      try {
+        // Forward the received query params directly to the handler
+        await m.handleWorkshopConfirm(req, res);
+      } catch (e: any) {
+        console.error("Debug confirm error", e);
+        res.status(500).json({ ok: false, error: e?.message || String(e) });
+      }
+    });
   });
   app.post("/api/cohort/complete", handleCohortComplete);
   app.get("/api/dashboard/resources", handleDashboardResources);
