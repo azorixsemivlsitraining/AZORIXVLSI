@@ -30,7 +30,13 @@ export default function WorkshopHero() {
             viewBox="0 0 600 600"
             fill="none"
           >
-            <circle cx="300" cy="300" r="298" stroke="url(#g)" strokeWidth="2" />
+            <circle
+              cx="300"
+              cy="300"
+              r="298"
+              stroke="url(#g)"
+              strokeWidth="2"
+            />
             <defs>
               <linearGradient id="g" x1="0" y1="0" x2="600" y2="600">
                 <stop stopColor="#22d3ee" />
@@ -49,10 +55,18 @@ export default function WorkshopHero() {
         <div className="grid md:grid-cols-2 items-center gap-6 md:gap-10">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-3 text-xs text-white/90">
-              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">Live Workshop</span>
-              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">Mentor-led</span>
-              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">Recording access (48h)</span>
-              <span className="px-3 py-1 rounded-full bg-gradient-to-r from-vlsi-500 to-vlsi-600 font-semibold">Only ₹99</span>
+              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">
+                Live Workshop
+              </span>
+              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">
+                Mentor-led
+              </span>
+              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">
+                Recording access (48h)
+              </span>
+              <span className="px-3 py-1 rounded-full bg-gradient-to-r from-vlsi-500 to-vlsi-600 font-semibold">
+                Only ₹99
+              </span>
             </div>
 
             <h1 className="text-4xl md:text-5xl font-extrabold leading-[1.12] tracking-tight">
@@ -63,7 +77,9 @@ export default function WorkshopHero() {
             </h1>
 
             <p className="mt-2 md:mt-3 text-base md:text-lg text-gray-200 max-w-2xl">
-              Unlock critical concepts—event regions, assignments, fork-join, randomization—and get hands-on simulation experience designed for hiring tests.
+              Unlock critical concepts—event regions, assignments, fork-join,
+              randomization—and get hands-on simulation experience designed for
+              hiring tests.
             </p>
 
             <div className="mt-5 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
@@ -86,9 +102,15 @@ export default function WorkshopHero() {
             </div>
 
             <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-gray-300/90">
-              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">Live & Interactive</span>
-              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">Hands-on Simulation</span>
-              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">Hiring-test focused</span>
+              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">
+                Live & Interactive
+              </span>
+              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">
+                Hands-on Simulation
+              </span>
+              <span className="px-3 py-1 rounded-full bg-white/10 border border-white/10">
+                Hiring-test focused
+              </span>
             </div>
           </div>
 
@@ -100,9 +122,15 @@ export default function WorkshopHero() {
 
               <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-stretch">
                 <div className="flex-1 flex flex-col items-center justify-center text-center md:text-left md:items-start md:justify-start">
-                  <div className="text-sm uppercase tracking-wide text-vlsi-200">Live Workshop</div>
-                  <div className="mt-2 text-4xl md:text-5xl font-extrabold text-white leading-tight">₹99</div>
-                  <div className="mt-2 text-sm text-gray-200">Limited seats • Mentor-led • Recording access (48h)</div>
+                  <div className="text-sm uppercase tracking-wide text-vlsi-200">
+                    Live Workshop
+                  </div>
+                  <div className="mt-2 text-4xl md:text-5xl font-extrabold text-white leading-tight">
+                    ₹99
+                  </div>
+                  <div className="mt-2 text-sm text-gray-200">
+                    Limited seats • Mentor-led • Recording access (48h)
+                  </div>
 
                   <div className="mt-4 w-full md:w-auto">
                     <Button
@@ -114,7 +142,10 @@ export default function WorkshopHero() {
                     </Button>
                   </div>
 
-                  <div className="mt-3 text-xs text-gray-300">Seats left: <span className="font-semibold text-white">12</span></div>
+                  <div className="mt-3 text-xs text-gray-300">
+                    Seats left:{" "}
+                    <span className="font-semibold text-white">12</span>
+                  </div>
                 </div>
 
                 <div className="w-full md:w-[1px] bg-white/5 rounded-full md:mx-2 hidden md:block" />
@@ -122,33 +153,53 @@ export default function WorkshopHero() {
                 <div className="flex-1">
                   <ul className="space-y-3 text-sm">
                     <li className="flex items-start gap-3">
-                      <span className="w-8 h-8 rounded-full bg-vlsi-600/20 grid place-items-center text-vlsi-600 font-semibold">⏱</span>
+                      <span className="w-8 h-8 rounded-full bg-vlsi-600/20 grid place-items-center text-vlsi-600 font-semibold">
+                        ⏱
+                      </span>
                       <div>
-                        <div className="font-semibold text-white">2-hour intensive</div>
-                        <div className="text-gray-300 text-xs">Concise, hands-on session</div>
+                        <div className="font-semibold text-white">
+                          2-hour intensive
+                        </div>
+                        <div className="text-gray-300 text-xs">
+                          Concise, hands-on session
+                        </div>
                       </div>
                     </li>
 
                     <li className="flex items-start gap-3">
-                      <span className="w-8 h-8 rounded-full bg-vlsi-600/20 grid place-items-center text-vlsi-600 font-semibold">🧪</span>
+                      <span className="w-8 h-8 rounded-full bg-vlsi-600/20 grid place-items-center text-vlsi-600 font-semibold">
+                        🧪
+                      </span>
                       <div>
-                        <div className="font-semibold text-white">Simulation files</div>
-                        <div className="text-gray-300 text-xs">Example testbenches you keep</div>
+                        <div className="font-semibold text-white">
+                          Simulation files
+                        </div>
+                        <div className="text-gray-300 text-xs">
+                          Example testbenches you keep
+                        </div>
                       </div>
                     </li>
 
                     <li className="flex items-start gap-3">
-                      <span className="w-8 h-8 rounded-full bg-vlsi-600/20 grid place-items-center text-vlsi-600 font-semibold">🎓</span>
+                      <span className="w-8 h-8 rounded-full bg-vlsi-600/20 grid place-items-center text-vlsi-600 font-semibold">
+                        🎓
+                      </span>
                       <div>
-                        <div className="font-semibold text-white">Certificate</div>
-                        <div className="text-gray-300 text-xs">Certificate of completion</div>
+                        <div className="font-semibold text-white">
+                          Certificate
+                        </div>
+                        <div className="text-gray-300 text-xs">
+                          Certificate of completion
+                        </div>
                       </div>
                     </li>
                   </ul>
                 </div>
               </div>
 
-              <div className="absolute bottom-4 right-4 text-[11px] text-white/70">Next cohort starting soon</div>
+              <div className="absolute bottom-4 right-4 text-[11px] text-white/70">
+                Next cohort starting soon
+              </div>
             </div>
           </div>
         </div>
