@@ -54,7 +54,7 @@ export default function RTLDesign() {
       <SEOHead
         title="RTL Design Course - AZORIX TECH VLSI Institute"
         description="Master RTL Design with Verilog and SystemVerilog. Learn digital design, synthesis, timing optimization, and real-world processor design."
-        canonical="https://azorixtech.com/courses/rtl-design"
+        canonical="https://www.azorixvlsi.com/courses/rtl-design"
         keywords="RTL Design, digital design, synthesis, processor design, Verilog, SystemVerilog, timing optimization"
       />
       <Header showBackButton={true} />
