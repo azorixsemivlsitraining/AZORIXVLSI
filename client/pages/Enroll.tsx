@@ -121,7 +121,7 @@ export default function Enroll() {
       Swal.fire({
         icon: "error",
         title: "Submission Error",
-        text: `There was an error processing your enrollment: ${error.message || "Unknown error"}. Please try again or contact us directly at admissions@azorix.com or +91 9876543210.`,
+        text: `There was an error processing your enrollment: ${error.message || "Unknown error"}. Please try again or contact us directly at admissions@azorix.com or +91 9052653636.`,
         confirmButtonColor: "#0d9488",
       });
     } finally {
