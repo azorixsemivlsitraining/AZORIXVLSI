@@ -28,6 +28,27 @@ function sha256Hex(input: string) {
   return crypto.createHash("sha256").update(input).digest("hex");
 }
 
+// Helper to fetch with an abort timeout (prevents server-side hanging on slow external APIs)
+const DEFAULT_PHONEPE_FETCH_TIMEOUT = parseInt(
+  process.env.PHONEPE_FETCH_TIMEOUT_MS || "5000",
+  10,
+);
+async function fetchWithTimeout(
+  input: RequestInfo | URL,
+  init: RequestInit = {},
+  timeout = DEFAULT_PHONEPE_FETCH_TIMEOUT,
+) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  try {
+    const merged = { ...init, signal: controller.signal } as RequestInit;
+    const res = await fetch(input, merged);
+    return res;
+  } finally {
+    clearTimeout(id);
+  }
+}
+
 function buildXVerifyForPay(base64Payload: string) {
   const path = "/pg/v1/pay";
   const toSign = base64Payload + path + SALT_KEY;
@@ -69,7 +90,8 @@ async function getAccessTokenV2(): Promise<{ token: string; type: string }> {
   form.set("client_secret", CLIENT_SECRET);
   form.set("grant_type", "client_credentials");
 
-  const res = await fetch(TOKEN_URL, {
+  // Use fetchWithTimeout to avoid long hangs
+  const res = await fetchWithTimeout(TOKEN_URL, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: form.toString(),
@@ -134,7 +156,7 @@ export async function initiatePayment(params: InitiatePaymentParams) {
       );
     } catch {}
 
-    const res = await fetch(`${BASE_URL}/checkout/v2/pay`, {
+    const res = await fetchWithTimeout(`${BASE_URL}/checkout/v2/pay`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -191,7 +213,7 @@ export async function initiatePayment(params: InitiatePaymentParams) {
     );
   } catch {}
 
-  const res = await fetch(`${BASE_URL}/pg/v1/pay`, {
+  const res = await fetchWithTimeout(`${BASE_URL}/pg/v1/pay`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -216,7 +238,7 @@ export async function fetchPaymentStatus(merchantTransactionId: string) {
   if (isV2Configured()) {
     const { token, type } = await getAccessTokenV2();
     const url = `${BASE_URL}/checkout/v2/order/${encodeURIComponent(merchantTransactionId)}/status?details=false`;
-    const res = await fetch(url, {
+    const res = await fetchWithTimeout(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -232,7 +254,7 @@ export async function fetchPaymentStatus(merchantTransactionId: string) {
     throw new Error("PhonePe credentials not configured");
   }
   const { header, path } = buildXVerifyForStatus(merchantTransactionId);
-  const res = await fetch(`${BASE_URL}${path}`, {
+  const res = await fetchWithTimeout(`${BASE_URL}${path}`, {
     method: "GET",
     headers: {
       accept: "application/json",
