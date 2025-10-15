@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 export interface WhatsAppParams {
-  phone: string; // international format, e.g. 919876543210
+  phone: string; // international format, e.g. 91 9052653636
   message: string;
 }
 
