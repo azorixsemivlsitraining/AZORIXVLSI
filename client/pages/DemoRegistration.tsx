@@ -639,7 +639,10 @@ export default function DemoRegistration() {
 
                     <Button
                       type="button"
-                      onClick={() => (window.location.href = "https://razorpay.com/payment-link/plink_RTQLrhqb2nkVV0")}
+                      onClick={() =>
+                        (window.location.href =
+                          "https://razorpay.com/payment-link/plink_RTQLrhqb2nkVV0")
+                      }
                       disabled={isSubmitting}
                       className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-4 rounded-full text-lg transition-all duration-300 transform hover:scale-105"
                     >
