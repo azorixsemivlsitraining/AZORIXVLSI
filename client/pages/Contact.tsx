@@ -163,7 +163,7 @@ export default function Contact() {
       Swal.fire({
         icon: "error",
         title: "Message Error",
-        text: `There was an error sending your message: ${error.message || "Unknown error"}. Please try again or contact us directly at info@azorix.com or +91 9876543210.`,
+        text: `There was an error sending your message: ${error.message || "Unknown error"}. Please try again or contact us directly at info@azorix.com or +91 9052653636.`,
         confirmButtonColor: "#0d9488",
       });
     } finally {
@@ -183,7 +183,7 @@ export default function Contact() {
       <SEOHead
         title="Contact Azorix VLSI | Best Semiconductor & VLSI Institute in Hyderabad"
         description="Have questions about our VLSI & semiconductor courses? Contact Azorix VLSI Hyderabad today for admissions, training details, and placement guidance."
-        canonical="https://azorixtech.com/contact"
+        canonical="https://www.azorixvlsi.com/contact"
         keywords="Contact Azorix VLSI, VLSI institute Hyderabad contact, semiconductor training contact, admissions, placement guidance, VLSI courses inquiry"
       />
       <Header />
