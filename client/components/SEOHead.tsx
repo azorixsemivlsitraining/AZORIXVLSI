@@ -109,6 +109,19 @@ export default function SEOHead({
     setMetaTag("viewport", "width=device-width, initial-scale=1.0");
     setMetaTag("author", "AZORIX TECH-SEMI VLSI INSTITUTE");
     setMetaTag("language", "en");
+
+    // Ensure favicon is consistently set (helps when navigating SPA routes)
+    const ensureIcon = (rel: string, href: string) => {
+      let link = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
+      if (!link) {
+        link = document.createElement("link");
+        link.rel = rel as any;
+        document.head.appendChild(link);
+      }
+      if (link.getAttribute("href") !== href) link.setAttribute("href", href);
+    };
+    ensureIcon("icon", "/favicon.ico");
+    ensureIcon("apple-touch-icon", "/favicon.ico");
   }, [
     title,
     description,
