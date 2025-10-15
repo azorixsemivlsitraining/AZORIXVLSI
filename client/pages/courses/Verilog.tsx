@@ -54,7 +54,7 @@ export default function Verilog() {
       <SEOHead
         title="Verilog Module in VLSI | Learn Ports, Syntax & Examples | Azorix VLSI Hyderabad"
         description="Enroll in Verilog Module training at Azorix VLSI. Learn module syntax, coding, ports, and applications with placement-focused mentoring."
-        canonical="https://azorixtech.com/courses/verilog"
+        canonical="https://www.azorixvlsi.com/courses/verilog"
         keywords="Verilog module, Verilog syntax, Verilog ports, Verilog examples, Azorix VLSI Hyderabad, VLSI training, hardware description language"
       />
       <Header showBackButton={true} />
