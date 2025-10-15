@@ -14,6 +14,8 @@ import {
   handleCohortComplete,
 } from "./routes/payments";
 
+import crypto from "node:crypto";
+
 export function createServer() {
   const app = express();
 
@@ -55,6 +57,22 @@ export function createServer() {
     app.post("/api/payment/phonepe/webhook", m.handlePhonePeWebhook);
     // Alias path to match dashboard configuration
     app.post("/api/phonepe/webhook", m.handlePhonePeWebhook);
+
+    // Debug endpoint to simulate confirm flow for a test txn
+    app.get("/__debug/phonepe/confirm-test", async (req, res) => {
+      try {
+        const txn = "ws-TEST12345";
+        const email = "testuser@example.com";
+        const secret = process.env.ACCESS_TOKEN_SECRET || "dev-secret";
+        const sig = crypto.createHmac("sha256", secret).update(`${email}:${txn}`).digest("hex");
+        (req as any).query = { txn, email, sig };
+        // Call the same handler used by the client return flow
+        await m.handleWorkshopConfirm(req, res);
+      } catch (e: any) {
+        console.error("Debug confirm error", e);
+        res.status(500).json({ ok: false, error: e?.message || String(e) });
+      }
+    });
   });
   app.post("/api/cohort/complete", handleCohortComplete);
   app.get("/api/dashboard/resources", handleDashboardResources);
