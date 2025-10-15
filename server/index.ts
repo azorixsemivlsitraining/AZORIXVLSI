@@ -90,21 +90,6 @@ export function createServer() {
       }
     });
 
-    // Debug: force success for a given txn/email (dev only). Returns redirect with token.
-    app.get("/__debug/phonepe/force-success", async (req, res) => {
-      try {
-        const txn = String(req.query.txn || "");
-        const email = String(req.query.email || "test@example.com");
-        if (!txn) return res.status(400).json({ ok: false, message: "txn required" });
-        const token = ((m as any).makeAccessToken ? (m as any).makeAccessToken(email, 60 * 60 * 24) : null) || "dev-token";
-        const base = (req.headers["x-forwarded-proto"] as string || req.protocol || "https") + "://" + ((req.headers["x-forwarded-host"] as string) || req.get("host"));
-        const redirectUrl = `${base}/demo?showDemo=1&token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
-        res.redirect(302, redirectUrl);
-      } catch (e) {
-        console.error(e);
-        res.status(500).json({ ok: false, error: String(e) });
-      }
-    });
   });
   app.post("/api/cohort/complete", handleCohortComplete);
   app.get("/api/dashboard/resources", handleDashboardResources);
