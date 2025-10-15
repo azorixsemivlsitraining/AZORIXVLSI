@@ -84,6 +84,35 @@ export function createServer() {
         res.status(500).json({ ok: false, error: e?.message || String(e) });
       }
     });
+
+    // Server-side redirect endpoint for PhonePe to call back to (avoids iframe/script issues)
+    app.get("/phonepe-return", async (req, res) => {
+      try {
+        const query = req.query || {};
+        const qs = new URLSearchParams(query as any).toString();
+        // Call internal confirm API (server-side) to avoid client JS issues in iframes
+        const base = (req.headers["x-forwarded-proto"] as string || req.protocol || "https") + "://" + ((req.headers["x-forwarded-host"] as string) || req.get("host"));
+        const confirmUrl = `${base}/api/payment/workshop/confirm?${qs}`;
+        // Use global fetch
+        const resp = await fetch(confirmUrl, { method: "GET" });
+        let data = null;
+        try {
+          data = await resp.json();
+        } catch {}
+        const redirectBase = `${base}/demo?showDemo=1`;
+        if (resp.ok && data && data.success) {
+          const token = data.accessToken ? `&token=${encodeURIComponent(data.accessToken)}` : "";
+          const email = query.email ? `&email=${encodeURIComponent(String(query.email))}` : "";
+          res.redirect(302, redirectBase + token + email);
+          return;
+        }
+        // On failure, still redirect to demo page for graceful UX
+        res.redirect(302, redirectBase);
+      } catch (e) {
+        console.error("phonepe-return server handler failed", e);
+        res.redirect(302, `/demo?showDemo=1`);
+      }
+    });
   });
   app.post("/api/cohort/complete", handleCohortComplete);
   app.get("/api/dashboard/resources", handleDashboardResources);
