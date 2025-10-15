@@ -29,7 +29,7 @@ export default function Dashboard() {
       <SEOHead
         title="Learning Dashboard | Azorix VLSI"
         description="Access your workshop and cohort resources."
-        canonical="https://azorixtech.com/dashboard"
+        canonical="https://www.azorixvlsi.com/dashboard"
         keywords="dashboard, resources, Azorix VLSI"
       />
       <Header />
