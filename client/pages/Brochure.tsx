@@ -149,7 +149,7 @@ Intel, Qualcomm, NVIDIA, Broadcom, AMD, MediaTek, Marvell, Synopsys, Cadence, Me
 ## Contact Information
 **Address:** 3rd Floor, Tech Park Building, HITEC City, Hyderabad, Telangana 500081
 
-**Phone:** +91 9876543210, +91 9876543211
+**Phone:** +91 9052653636
 **Email:** info@azorix.com, admissions@azorix.com
 **Website:** www.azorix.com
 
@@ -665,7 +665,7 @@ Contact us at +91 9876543210 or visit www.azorix.com
                       programs. We respect your privacy and won't spam you.
                     </p>
                     <div className="flex justify-center space-x-4 text-sm text-vlsi-600">
-                      <span>📞 +91 9876543210</span>
+                      <span>���� +91 9876543210</span>
                       <span>✉️ admissions@azorix.com</span>
                     </div>
                   </div>
