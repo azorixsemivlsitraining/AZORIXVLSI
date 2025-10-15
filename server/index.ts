@@ -53,6 +53,8 @@ export function createServer() {
     app.get("/api/payment/dv/confirm", m.handleDVConfirm);
     // PhonePe webhook receiver
     app.post("/api/payment/phonepe/webhook", m.handlePhonePeWebhook);
+    // Alias path to match dashboard configuration
+    app.post("/api/phonepe/webhook", m.handlePhonePeWebhook);
   });
   app.post("/api/cohort/complete", handleCohortComplete);
   app.get("/api/dashboard/resources", handleDashboardResources);
