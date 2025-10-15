@@ -54,7 +54,7 @@ export default function UVM() {
       <SEOHead
         title="UVM Training | Universal Verification Methodology for VLSI"
         description="Become an expert in UVM training. Learn methodology-driven verification, coverage models, and reusable testbench design."
-        canonical="https://azorixtech.com/courses/uvm"
+        canonical="https://www.azorixvlsi.com/courses/uvm"
         keywords="UVM training, Universal Verification Methodology, methodology-driven verification, coverage models, testbench design, VLSI verification"
       />
       <Header showBackButton={true} />

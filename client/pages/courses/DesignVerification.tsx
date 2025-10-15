@@ -62,7 +62,7 @@ export default function DesignVerification() {
       <SEOHead
         title="Design Verification Course - AZORIX TECH VLSI Institute"
         description="Master Design Verification with SystemVerilog and UVM. Comprehensive 16-week course with hands-on projects, industry tools, and 100% placement assistance."
-        canonical="https://azorixtech.com/courses/design-verification"
+        canonical="https://www.azorixvlsi.com/courses/design-verification"
         keywords="Design Verification, SystemVerilog, UVM, verification engineer, VLSI verification, testbench, functional coverage"
       />
       <Header showBackButton={true} />

@@ -86,7 +86,7 @@ export default function About() {
       <SEOHead
         title="About Azorix VLSI | Best Semiconductor & VLSI Institute in Hyderabad"
         description="At Azorix VLSI, we shape future chip designers with expert-led semiconductor training, state-of-the-art labs, and 100% placement support in Hyderabad."
-        canonical="https://azorixtech.com/about"
+        canonical="https://www.azorixvlsi.com/about"
         keywords="Azorix VLSI, best VLSI institute Hyderabad, semiconductor training, chip designers, VLSI experts, placement support Hyderabad"
       />
       <Header />

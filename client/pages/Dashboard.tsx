@@ -15,7 +15,9 @@ export default function Dashboard() {
       setError("Access denied. Please complete registration.");
       return;
     }
-    fetch(`/api/dashboard/resources?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`)
+    fetch(
+      `/api/dashboard/resources?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`,
+    )
       .then(async (r) => {
         if (!r.ok) throw new Error("Unauthorized");
         return r.json();
@@ -29,13 +31,17 @@ export default function Dashboard() {
       <SEOHead
         title="Learning Dashboard | Azorix VLSI"
         description="Access your workshop and cohort resources."
-        canonical="https://azorixtech.com/dashboard"
+        canonical="https://www.azorixvlsi.com/dashboard"
         keywords="dashboard, resources, Azorix VLSI"
       />
       <Header />
       <main className="container max-w-3xl py-10">
         <h1 className="text-3xl font-bold mb-6">Learning Dashboard</h1>
-        {error && <div className="p-4 border rounded-md bg-destructive/10 text-destructive">{error}</div>}
+        {error && (
+          <div className="p-4 border rounded-md bg-destructive/10 text-destructive">
+            {error}
+          </div>
+        )}
         {!error && !data && <p>Loading...</p>}
         {data && (
           <div className="space-y-4">
@@ -45,17 +51,28 @@ export default function Dashboard() {
                   <div>
                     <p className="font-medium">{r.title}</p>
                     {r.expiresAt && (
-                      <p className="text-xs text-muted-foreground">Expires: {new Date(r.expiresAt).toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">
+                        Expires: {new Date(r.expiresAt).toLocaleString()}
+                      </p>
                     )}
                   </div>
-                  <a className="text-primary underline" href={r.url} target="_blank" rel="noreferrer">Open</a>
+                  <a
+                    className="text-primary underline"
+                    href={r.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Open
+                  </a>
                 </div>
               </div>
             ))}
             {data.upsellLink && (
               <div className="p-4 border rounded-md bg-secondary">
                 <p className="mb-2">Ready for the full experience?</p>
-                <a className="underline" href={data.upsellLink}>Upgrade to Core Cohort</a>
+                <a className="underline" href={data.upsellLink}>
+                  Upgrade to Core Cohort
+                </a>
               </div>
             )}
           </div>
