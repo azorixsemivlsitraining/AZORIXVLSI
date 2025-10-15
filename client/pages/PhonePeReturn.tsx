@@ -20,16 +20,20 @@ export default function PhonePeReturn() {
         }
 
         const endpoint = `/api/payment/${purpose}/confirm?txn=${encodeURIComponent(
-          txn
+          txn,
         )}&email=${encodeURIComponent(email)}&sig=${encodeURIComponent(sig)}`;
         const res = await fetch(endpoint);
         const data = await res.json().catch(() => null);
 
         if (res.ok && data?.success) {
-          if (data.accessToken) localStorage.setItem("azorix_token", data.accessToken);
+          if (data.accessToken)
+            localStorage.setItem("azorix_token", data.accessToken);
           localStorage.setItem("azorix_email", email);
           setMessage("Transaction successful. Opening your demo...");
-          setTimeout(() => navigate("/demo?showDemo=1", { replace: true }), 800);
+          setTimeout(
+            () => navigate("/demo?showDemo=1", { replace: true }),
+            800,
+          );
           return;
         }
 
