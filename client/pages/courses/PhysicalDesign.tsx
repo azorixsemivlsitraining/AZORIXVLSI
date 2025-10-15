@@ -54,7 +54,7 @@ export default function PhysicalDesign() {
       <SEOHead
         title="Physical Design Course - AZORIX TECH VLSI Institute"
         description="Master Physical Design from floorplanning to signoff. Learn placement, routing, CTS, timing closure with industry-standard EDA tools."
-        canonical="https://azorixtech.com/courses/physical-design"
+        canonical="https://www.azorixvlsi.com/courses/physical-design"
         keywords="Physical Design, floorplanning, placement, routing, CTS, timing closure, DRC, LVS, PD flow"
       />
       <Header showBackButton={true} />
