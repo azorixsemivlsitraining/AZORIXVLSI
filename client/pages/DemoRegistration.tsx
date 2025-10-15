@@ -158,11 +158,13 @@ export default function DemoRegistration() {
           console.warn("Payment confirmation failed:", err);
         }
 
-        // If immediate confirm failed (common when PhonePe redirects inside iframe), poll the server status endpoint
+        // If immediate confirm failed (common when PhonePe redirects inside iframe), poll the server status endpoint with exponential backoff
         try {
-          const pollLimit = 15; // up to ~30s
           let attempts = 0;
-          const poll = setInterval(async () => {
+          const maxAttempts = 10;
+          const maxDelay = 8000;
+          const pollOnce = async (delay: number) => {
+            await new Promise((r) => setTimeout(r, delay));
             attempts++;
             try {
               const st = await fetch(`/api/payment/status?txn=${encodeURIComponent(txn)}&email=${encodeURIComponent(emailParam)}`);
@@ -174,16 +176,20 @@ export default function DemoRegistration() {
                 }
                 toast({ title: "Payment Verified", description: "Loading demo video..." });
                 setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
-                clearInterval(poll);
-                return;
+                return true;
               }
             } catch (e) {
               // ignore network
             }
-            if (attempts >= pollLimit) {
-              clearInterval(poll);
-            }
-          }, 2000);
+            if (attempts >= maxAttempts) return false;
+            const nextDelay = Math.min(maxDelay, Math.pow(2, attempts) * 1000);
+            return await pollOnce(nextDelay);
+          };
+          // kick off with small initial delay
+          const success = await pollOnce(500);
+          if (!success) {
+            toast({ title: "Payment pending", description: "We couldn't verify payment automatically. Please check your email for confirmation." });
+          }
         } catch (e) {
           console.warn("Polling failed", e);
         }
