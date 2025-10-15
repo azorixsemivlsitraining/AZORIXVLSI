@@ -563,7 +563,7 @@ export default function Enroll() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:+919876543210"
+                href="tel:+919052653636"
                 className="text-vlsi-600 font-medium hover:underline"
               >
                 📞 Call: +91 9052653636
