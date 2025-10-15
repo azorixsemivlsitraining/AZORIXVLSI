@@ -77,14 +77,20 @@ export default function Enroll() {
         await sendEnrollFormToSheets(formData);
         console.log("Enrollment form data sent to Google Sheets successfully");
       } catch (sheetsError) {
-        console.warn("Failed to sync with Google Sheets (data still saved locally):", sheetsError);
+        console.warn(
+          "Failed to sync with Google Sheets (data still saved locally):",
+          sheetsError,
+        );
       }
 
       // Try to save to Supabase (optional)
       try {
         await saveEnrollmentData(formData);
       } catch (dbError) {
-        console.warn("Failed to save to database (data still saved locally):", dbError);
+        console.warn(
+          "Failed to save to database (data still saved locally):",
+          dbError,
+        );
       }
 
       Swal.fire({

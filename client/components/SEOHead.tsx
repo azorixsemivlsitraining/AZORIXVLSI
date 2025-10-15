@@ -112,7 +112,9 @@ export default function SEOHead({
 
     // Ensure favicon is consistently set (helps when navigating SPA routes)
     const ensureIcon = (rel: string, href: string) => {
-      let link = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
+      let link = document.querySelector(
+        `link[rel="${rel}"]`,
+      ) as HTMLLinkElement | null;
       if (!link) {
         link = document.createElement("link");
         link.rel = rel as any;
