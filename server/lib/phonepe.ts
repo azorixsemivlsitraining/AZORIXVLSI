@@ -29,8 +29,15 @@ function sha256Hex(input: string) {
 }
 
 // Helper to fetch with an abort timeout (prevents server-side hanging on slow external APIs)
-const DEFAULT_PHONEPE_FETCH_TIMEOUT = parseInt(process.env.PHONEPE_FETCH_TIMEOUT_MS || "5000", 10);
-async function fetchWithTimeout(input: RequestInfo | URL, init: RequestInit = {}, timeout = DEFAULT_PHONEPE_FETCH_TIMEOUT) {
+const DEFAULT_PHONEPE_FETCH_TIMEOUT = parseInt(
+  process.env.PHONEPE_FETCH_TIMEOUT_MS || "5000",
+  10,
+);
+async function fetchWithTimeout(
+  input: RequestInfo | URL,
+  init: RequestInit = {},
+  timeout = DEFAULT_PHONEPE_FETCH_TIMEOUT,
+) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
   try {
@@ -232,13 +239,13 @@ export async function fetchPaymentStatus(merchantTransactionId: string) {
     const { token, type } = await getAccessTokenV2();
     const url = `${BASE_URL}/checkout/v2/order/${encodeURIComponent(merchantTransactionId)}/status?details=false`;
     const res = await fetchWithTimeout(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `${type} ${token}`,
-      ...(MERCHANT_ID ? { "X-MERCHANT-ID": MERCHANT_ID } : {}),
-    },
-  });
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${type} ${token}`,
+        ...(MERCHANT_ID ? { "X-MERCHANT-ID": MERCHANT_ID } : {}),
+      },
+    });
     const data = await res.json().catch(() => ({}));
     return { data };
   }

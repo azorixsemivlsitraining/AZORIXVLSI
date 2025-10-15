@@ -324,10 +324,19 @@ export const handleWorkshopConfirm: RequestHandler = async (req, res) => {
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED";
     if (!ok) {
-      const phonepeConfigured = !!(
-        (process.env.PHONEPE_CLIENT_ID && process.env.PHONEPE_CLIENT_SECRET) ||
-        (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)
-      ) && !(txn && txn.startsWith && (txn.startsWith("ws-TEST") || txn.startsWith("ch-TEST") || txn.startsWith("dv-TEST")) );
+      const phonepeConfigured =
+        !!(
+          (process.env.PHONEPE_CLIENT_ID &&
+            process.env.PHONEPE_CLIENT_SECRET) ||
+          (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)
+        ) &&
+        !(
+          txn &&
+          txn.startsWith &&
+          (txn.startsWith("ws-TEST") ||
+            txn.startsWith("ch-TEST") ||
+            txn.startsWith("dv-TEST"))
+        );
       if (!phonepeConfigured) {
         // Dev fallback: issue access token so demo flow continues during testing
         const token = makeAccessToken(email, 60 * 60 * 48);
@@ -435,10 +444,19 @@ export const handleCohortConfirm: RequestHandler = async (req, res) => {
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED";
     if (!ok) {
-      const phonepeConfigured = !!(
-        (process.env.PHONEPE_CLIENT_ID && process.env.PHONEPE_CLIENT_SECRET) ||
-        (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)
-      ) && !(txn && txn.startsWith && (txn.startsWith("ws-TEST") || txn.startsWith("ch-TEST") || txn.startsWith("dv-TEST")) );
+      const phonepeConfigured =
+        !!(
+          (process.env.PHONEPE_CLIENT_ID &&
+            process.env.PHONEPE_CLIENT_SECRET) ||
+          (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)
+        ) &&
+        !(
+          txn &&
+          txn.startsWith &&
+          (txn.startsWith("ws-TEST") ||
+            txn.startsWith("ch-TEST") ||
+            txn.startsWith("dv-TEST"))
+        );
       if (!phonepeConfigured) {
         // Dev fallback: issue access token for cohort flow
         const token = makeAccessToken(email, 60 * 60 * 24 * 30);
@@ -530,10 +548,19 @@ export const handleDVConfirm: RequestHandler = async (req, res) => {
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED";
     if (!ok) {
-      const phonepeConfigured = !!(
-        (process.env.PHONEPE_CLIENT_ID && process.env.PHONEPE_CLIENT_SECRET) ||
-        (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)
-      ) && !(txn && txn.startsWith && (txn.startsWith("ws-TEST") || txn.startsWith("ch-TEST") || txn.startsWith("dv-TEST")) );
+      const phonepeConfigured =
+        !!(
+          (process.env.PHONEPE_CLIENT_ID &&
+            process.env.PHONEPE_CLIENT_SECRET) ||
+          (process.env.PHONEPE_MERCHANT_ID && process.env.PHONEPE_SALT_KEY)
+        ) &&
+        !(
+          txn &&
+          txn.startsWith &&
+          (txn.startsWith("ws-TEST") ||
+            txn.startsWith("ch-TEST") ||
+            txn.startsWith("dv-TEST"))
+        );
       if (!phonepeConfigured) {
         // Dev fallback for DV: record success locally and return
         try {
@@ -582,10 +609,22 @@ export const handlePhonePeWebhook: RequestHandler = async (req, res) => {
     // Persist webhook into DB when configured (supabase)
     try {
       const { savePhonePeWebhook } = await import("../lib/webhooks");
-      await savePhonePeWebhook({ txn: body?.data?.merchantTransactionId || body?.merchantTransactionId || body?.txn || null, headers, body });
+      await savePhonePeWebhook({
+        txn:
+          body?.data?.merchantTransactionId ||
+          body?.merchantTransactionId ||
+          body?.txn ||
+          null,
+        headers,
+        body,
+      });
     } catch (e) {
       // DB save failed or not configured - fallback to filesystem log
-      const logsDir = require("node:path").join(process.cwd(), "server", "logs");
+      const logsDir = require("node:path").join(
+        process.cwd(),
+        "server",
+        "logs",
+      );
       const fs = require("node:fs");
       if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir, { recursive: true });
       fs.writeFileSync(
@@ -681,7 +720,8 @@ export const handlePhonePeWebhook: RequestHandler = async (req, res) => {
 // Pollable status endpoint used by clients when redirect occurs inside iframe
 export const handlePaymentStatus: RequestHandler = async (req, res) => {
   const txn = (req.query.txn as string) || (req.body as any)?.txn;
-  const emailQuery = (req.query.email as string) || (req.body as any)?.email || "";
+  const emailQuery =
+    (req.query.email as string) || (req.body as any)?.email || "";
   if (!txn) {
     res.status(400).json({ success: false, message: "Missing txn" });
     return;
@@ -695,11 +735,23 @@ export const handlePaymentStatus: RequestHandler = async (req, res) => {
       const rec = await findWebhookByTxn(txn);
       if (rec && rec.body) {
         const body = rec.body as any;
-        const state = body?.data?.state || body?.status || body?.transactionState || null;
-        const ok = state && (String(state).toUpperCase().includes("COMPLETE") || String(state).toUpperCase().includes("SUCCESS"));
+        const state =
+          body?.data?.state || body?.status || body?.transactionState || null;
+        const ok =
+          state &&
+          (String(state).toUpperCase().includes("COMPLETE") ||
+            String(state).toUpperCase().includes("SUCCESS"));
         if (ok) {
-          const email = body?.data?.merchantUserId || body?.merchantUserId || body?.email || emailQuery || "";
-          const token = makeAccessToken(email || emailQuery || "user@example.com", 60 * 60 * 48);
+          const email =
+            body?.data?.merchantUserId ||
+            body?.merchantUserId ||
+            body?.email ||
+            emailQuery ||
+            "";
+          const token = makeAccessToken(
+            email || emailQuery || "user@example.com",
+            60 * 60 * 48,
+          );
           res.json({ success: true, accessToken: token });
           return;
         }
@@ -720,11 +772,22 @@ export const handlePaymentStatus: RequestHandler = async (req, res) => {
       status?.success ||
       status?.code === "PAYMENT_SUCCESS" ||
       status?.data?.state === "COMPLETED" ||
-      String(status?.data?.state || "").toUpperCase().includes("COMPLETE") ||
-      String(status?.data?.state || "").toUpperCase().includes("SUCCESS");
+      String(status?.data?.state || "")
+        .toUpperCase()
+        .includes("COMPLETE") ||
+      String(status?.data?.state || "")
+        .toUpperCase()
+        .includes("SUCCESS");
     if (ok) {
-      const email = emailQuery || (status?.data?.merchantUserId || status?.data?.merchantUser || "");
-      const token = makeAccessToken(email || emailQuery || "user@example.com", 60 * 60 * 48);
+      const email =
+        emailQuery ||
+        status?.data?.merchantUserId ||
+        status?.data?.merchantUser ||
+        "";
+      const token = makeAccessToken(
+        email || emailQuery || "user@example.com",
+        60 * 60 * 48,
+      );
       res.json({ success: true, accessToken: token });
       return;
     }
