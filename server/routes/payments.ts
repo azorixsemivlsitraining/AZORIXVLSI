@@ -689,42 +689,28 @@ export const handlePaymentStatus: RequestHandler = async (req, res) => {
 
   // Search webhook logs for a matching txn
   try {
-    const path = require("node:path");
-    const fs = require("node:fs");
-    const logsDir = path.join(process.cwd(), "server", "logs");
-    if (fs.existsSync(logsDir)) {
-      const files = fs.readdirSync(logsDir).sort().reverse();
-      for (const f of files) {
-        if (!f.startsWith("phonepe_webhook_")) continue;
-        try {
-          const parsed = JSON.parse(fs.readFileSync(path.join(logsDir, f), "utf8"));
-          const body = parsed.body;
-          const candidate =
-            body?.data?.merchantTransactionId ||
-            body?.merchantTransactionId ||
-            body?.txn ||
-            body?.transactionId ||
-            body?.order?.merchantTransactionId ||
-            body?.request?.merchantTransactionId;
-          if (candidate && String(candidate) === String(txn)) {
-            const state = body?.data?.state || body?.status || body?.transactionState || null;
-            const ok = state && (String(state).toUpperCase().includes("COMPLETE") || String(state).toUpperCase().includes("SUCCESS"));
-            if (ok) {
-              const email = body?.data?.merchantUserId || body?.merchantUserId || body?.email || emailQuery || "";
-              const token = makeAccessToken(email || emailQuery || "user@example.com", 60 * 60 * 48);
-              res.json({ success: true, accessToken: token });
-              return;
-            }
-            res.json({ success: false, message: "found but not completed" });
-            return;
-          }
-        } catch (e) {
-          continue;
+    // Prefer DB lookup if available
+    try {
+      const { findWebhookByTxn } = await import("../lib/webhooks");
+      const rec = await findWebhookByTxn(txn);
+      if (rec && rec.body) {
+        const body = rec.body as any;
+        const state = body?.data?.state || body?.status || body?.transactionState || null;
+        const ok = state && (String(state).toUpperCase().includes("COMPLETE") || String(state).toUpperCase().includes("SUCCESS"));
+        if (ok) {
+          const email = body?.data?.merchantUserId || body?.merchantUserId || body?.email || emailQuery || "";
+          const token = makeAccessToken(email || emailQuery || "user@example.com", 60 * 60 * 48);
+          res.json({ success: true, accessToken: token });
+          return;
         }
+        res.json({ success: false, message: "found but not completed" });
+        return;
       }
+    } catch (e) {
+      // DB not available - fallback to filesystem lookup below
     }
   } catch (e) {
-    console.warn("status read logs failed", e);
+    console.warn("status db lookup failed", e);
   }
 
   // Fallback to PhonePe status API
