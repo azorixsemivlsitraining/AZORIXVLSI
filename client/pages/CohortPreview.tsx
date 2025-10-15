@@ -185,7 +185,7 @@ export default function CohortPreview() {
       <SEOHead
         title="Cohort Preview (3 days) | Azorix VLSI"
         description="Join the 3-day cohort preview for ₹1,999. Get assignments, TA support, and community access."
-        canonical="https://azorixtech.com/cohort-preview"
+        canonical="https://www.azorixvlsi.com/cohort-preview"
         keywords="VLSI cohort, cohort preview, Azorix VLSI"
       />
       <Header />
