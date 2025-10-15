@@ -123,6 +123,14 @@ export default function DemoRegistration() {
 
       // Force demo video
       if (showDemo === "1" && !videoUrl) {
+        const urlToken = url.searchParams.get("token");
+        if (urlToken) {
+          try {
+            localStorage.setItem("azorix_token", urlToken);
+            localStorage.setItem("azorix_email", url.searchParams.get("email") || "");
+            setAccessToken(urlToken);
+          } catch {}
+        }
         toast({ title: "Payment Complete", description: "Opening demo video." });
         setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
         return;
