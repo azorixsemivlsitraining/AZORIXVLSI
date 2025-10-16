@@ -251,7 +251,7 @@ export const generateBrochurePDF = (userInfo?: {
     align: 'center'
   });
 
-  addText('📞 +91 9876543210 | ✉️ admissions@azorix.com | 🌐 www.azorix.com', pageWidth/2, yPos + 16, {
+  addText('📞 +91 9052653636 | ✉️ admissions@azorix.com | 🌐 www.azorix.com', pageWidth/2, yPos + 16, {
     size: 9,
     align: 'center'
   });
