@@ -17,7 +17,7 @@ export const useBrochureModalContext = () => {
   return context;
 };
 
-export const BrochureModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const BrochureModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { isOpen, openModal, closeModal } = useBrochureModal();
 
   return (
