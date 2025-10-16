@@ -1,22 +1,28 @@
-import React, { createContext, useContext } from 'react';
-import { useBrochureModal } from '../hooks/useBrochureModal';
-import BrochureModal from '../components/BrochureModal';
+import { createContext, useContext, ReactNode, FC } from "react";
+import { useBrochureModal } from "../hooks/useBrochureModal";
+import BrochureModal from "../components/BrochureModal";
 
 interface BrochureModalContextType {
   openModal: () => void;
 }
 
-const BrochureModalContext = createContext<BrochureModalContextType | undefined>(undefined);
+const BrochureModalContext = createContext<
+  BrochureModalContextType | undefined
+>(undefined);
 
 export const useBrochureModalContext = () => {
   const context = useContext(BrochureModalContext);
   if (!context) {
-    throw new Error('useBrochureModalContext must be used within BrochureModalProvider');
+    throw new Error(
+      "useBrochureModalContext must be used within BrochureModalProvider",
+    );
   }
   return context;
 };
 
-export const BrochureModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const BrochureModalProvider: FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const { isOpen, openModal, closeModal } = useBrochureModal();
 
   return (
