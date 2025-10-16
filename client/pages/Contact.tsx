@@ -30,7 +30,7 @@ const contactInfo = {
   },
   phone: {
     primary: "+91 9052653636",
-    secondary: "+91 9052633636",
+    secondary: "+91 9052653636",
   },
   email: {
     general: "info@azorixvlsi.com",
