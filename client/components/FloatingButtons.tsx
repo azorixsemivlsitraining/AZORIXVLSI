@@ -30,7 +30,7 @@ export default function FloatingButtons() {
   };
 
   const makeCall = () => {
-    window.open("tel:+919390847838", "_self");
+    window.open("tel:+919052653636", "_self");
   };
 
   return (
