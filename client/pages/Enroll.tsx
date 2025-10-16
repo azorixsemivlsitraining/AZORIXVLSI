@@ -272,7 +272,7 @@ export default function Enroll() {
                         <SelectItem value="me">M.E</SelectItem>
                         <SelectItem value="bsc">B.Sc</SelectItem>
                         <SelectItem value="msc">M.Sc</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
+                        <SelectItem value="others">Others</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
