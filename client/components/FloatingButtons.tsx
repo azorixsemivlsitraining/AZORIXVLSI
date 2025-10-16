@@ -14,23 +14,27 @@ export default function FloatingButtons() {
   }, []);
 
   const scrollToTop = () => {
-    document.documentElement.classList.add('smooth-scroll');
+    document.documentElement.classList.add("smooth-scroll");
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-    setTimeout(() => document.documentElement.classList.remove('smooth-scroll'), 1000);
+    setTimeout(
+      () => document.documentElement.classList.remove("smooth-scroll"),
+      1000,
+    );
   };
 
   const openWhatsApp = () => {
     const phoneNumber = "919052653636"; // Updated to correct number
-    const message = "Hi! I'm interested in your VLSI training programs. Could you please provide more information?";
+    const message =
+      "Hi! I'm interested in your VLSI training programs. Could you please provide more information?";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
 
   const makeCall = () => {
-    window.open("tel:+919390847838", "_self");
+    window.open("tel:+919052653636", "_self");
   };
 
   return (
