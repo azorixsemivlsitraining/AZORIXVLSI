@@ -1,7 +1,5 @@
 import { useState, useCallback } from 'react';
 
-import { useState, useCallback } from 'react';
-
 export const useBrochureModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
