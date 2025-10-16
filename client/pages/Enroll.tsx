@@ -18,6 +18,7 @@ import { saveEnrollmentData } from "../lib/supabase";
 import { saveEnrollToStorage } from "../lib/excelExporter";
 import { sendEnrollFormToSheets } from "../lib/googleSheetsService";
 import Swal from "sweetalert2";
+import SEOHead from "../components/SEOHead";
 
 export default function Enroll() {
   const [formData, setFormData] = useState({
@@ -144,6 +145,12 @@ export default function Enroll() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead
+        title="Enroll in Our VLSI Program | Azorix VLSI"
+        description="Our admissions team is here to help. Call: +91 9052653636. Enroll now in our comprehensive VLSI Design Verification program."
+        canonical="https://www.azorixvlsi.com/enroll"
+        keywords="Enroll VLSI, VLSI course enrollment, Design Verification admission, Azorix VLSI Hyderabad"
+      />
       <Header />
       <main className="flex-1 bg-gray-50 py-16">
         <div className="max-w-4xl mx-auto pt-8 px-4 sm:px-6 lg:px-8">

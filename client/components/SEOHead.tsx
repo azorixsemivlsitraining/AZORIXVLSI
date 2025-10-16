@@ -28,19 +28,12 @@ export default function SEOHead({
   useEffect(() => {
     // Add Google Analytics script
     const addGoogleAnalytics = () => {
-      // Check if script already exists
-      if (document.querySelector('script[src*="googletagmanager"]')) {
-        return;
-      }
-
-      // Add gtag script
+      if (document.querySelector('script[src*="googletagmanager"]')) return;
       const gtagScript = document.createElement("script");
       gtagScript.async = true;
       gtagScript.src =
         "https://www.googletagmanager.com/gtag/js?id=G-SDSTEJ6P1M";
       document.head.appendChild(gtagScript);
-
-      // Add gtag configuration
       const configScript = document.createElement("script");
       configScript.innerHTML = `
         window.dataLayer = window.dataLayer || [];
@@ -52,24 +45,19 @@ export default function SEOHead({
     };
 
     addGoogleAnalytics();
-    // Set document title
     document.title = title;
 
-    // Set or update meta tags
     const setMetaTag = (name: string, content: string, isProperty = false) => {
       const attribute = isProperty ? "property" : "name";
       let tag = document.querySelector(`meta[${attribute}="${name}"]`);
-
       if (!tag) {
         tag = document.createElement("meta");
         tag.setAttribute(attribute, name);
         document.head.appendChild(tag);
       }
-
       tag.setAttribute("content", content);
     };
 
-    // Set canonical link
     if (canonical) {
       let canonicalTag = document.querySelector('link[rel="canonical"]');
       if (!canonicalTag) {
@@ -80,22 +68,16 @@ export default function SEOHead({
       canonicalTag.setAttribute("href", canonical);
     }
 
-    // Basic meta tags
     setMetaTag("description", description);
     setMetaTag("keywords", keywords);
 
-    // Open Graph tags
     setMetaTag("og:title", ogTitle || title, true);
     setMetaTag("og:description", ogDescription || description, true);
     setMetaTag("og:image", ogImage, true);
     setMetaTag("og:type", "website", true);
     setMetaTag("og:site_name", "AZORIX TECH-SEMI VLSI INSTITUTE", true);
+    if (canonical) setMetaTag("og:url", canonical, true);
 
-    if (canonical) {
-      setMetaTag("og:url", canonical, true);
-    }
-
-    // Twitter Card tags
     setMetaTag("twitter:card", "summary_large_image");
     setMetaTag("twitter:title", twitterTitle || ogTitle || title);
     setMetaTag(
@@ -104,7 +86,6 @@ export default function SEOHead({
     );
     setMetaTag("twitter:image", twitterImage || ogImage);
 
-    // Additional SEO meta tags
     setMetaTag("robots", "index, follow");
     setMetaTag("viewport", "width=device-width, initial-scale=1.0");
     setMetaTag("author", "AZORIX TECH-SEMI VLSI INSTITUTE");
@@ -124,6 +105,34 @@ export default function SEOHead({
     };
     ensureIcon("icon", "/favicon.ico");
     ensureIcon("apple-touch-icon", "/favicon.ico");
+
+    // Inject JSON-LD Organization/EducationalOrganization with correct phone
+    const ldId = "ld-json-organization";
+    const existing = document.getElementById(ldId);
+    if (existing) existing.remove();
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = ldId;
+    const siteUrl =
+      canonical ||
+      (typeof window !== "undefined" ? window.location.href : undefined);
+    const org = {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      name: "Azorix VLSI",
+      url: siteUrl,
+      logo: "/favicon.ico",
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: "+91 9052653636",
+          contactType: "customer support",
+          areaServed: "IN",
+        },
+      ],
+    };
+    script.text = JSON.stringify(org);
+    document.head.appendChild(script);
   }, [
     title,
     description,
