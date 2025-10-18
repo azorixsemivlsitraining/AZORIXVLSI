@@ -11,7 +11,6 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import { Textarea } from "../components/ui/textarea";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useToast } from "../hooks/use-toast";
 import { saveDemoToStorage } from "../lib/excelExporter";
@@ -436,8 +435,50 @@ export default function DemoRegistration() {
   // -------- JSX --------
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main className="pt-20">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-navy-900 border-b border-gray-200 dark:border-white/5 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="relative flex items-center justify-between w-full">
+            {/* Left: logo */}
+            <div className="flex items-center gap-4 z-20">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets%2F1b9c62c1213140709e07580a4ee1f322%2Fbf5d0ebb5d4b4a1d84182413a96183fd?format=webp&width=800"
+                alt="Azorix VLSI"
+                className="h-10 md:h-12 w-auto"
+              />
+            </div>
+
+            {/* Center: title (absolute centered) */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 text-center z-10 pointer-events-none">
+              <div className="leading-tight">
+                <div className="text-lg md:text-2xl font-extrabold text-gray-800 dark:text-white">
+                  AZORIX VLSI
+                </div>
+                <div className="text-sm md:text-base text-gray-600 dark:text-gray-300">
+                  ₹99 workshop
+                </div>
+              </div>
+            </div>
+
+            {/* Right: enroll button */}
+            <div className="flex items-center gap-3 z-20">
+              <a
+                href="https://rzp.io/rzp/plKYtrp5"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-vlsi-500 to-vlsi-600 text-white font-semibold rounded-full shadow-lg hover:scale-105 transition-transform"
+                aria-label="Enroll Now"
+              >
+                Enroll Now for ₹99
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* spacer to prevent content overlap with fixed header */}
+      <div className="h-20 md:h-24" />
+
+      <main className="pt-0">
         <WorkshopHero />
         <WorkshopLearn />
         <WorkshopAbout />
@@ -445,246 +486,23 @@ export default function DemoRegistration() {
         <WorkshopTestimonials />
         <WorkshopFAQs />
 
+        {/* Orange Get Started card placed after FAQs */}
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left CTA */}
-              <div
-                role="button"
-                tabIndex={0}
-                onClick={() => {
-                  document.documentElement.classList.add("smooth-scroll");
-                  document
-                    .getElementById("demo-form")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                  setTimeout(
-                    () =>
-                      document.documentElement.classList.remove(
-                        "smooth-scroll",
-                      ),
-                    1000,
-                  );
-                }}
-                onKeyDown={(e) =>
-                  e.key === "Enter" || e.key === " "
-                    ? (e.target as HTMLElement).click()
-                    : null
-                }
-                className="rounded-3xl p-12 text-center shadow-2xl bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500 cursor-pointer"
+            <div className="flex justify-center">
+              <a
+                href="https://rzp.io/rzp/plKYtrp5"
+                target="_blank"
+                rel="noreferrer"
+                className="w-full md:w-1/2 rounded-3xl p-12 text-center shadow-2xl bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500 cursor-pointer hover:scale-102 transition-transform"
               >
                 <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">
                   Get Started for ₹99
                 </h2>
-              </div>
-
-              {/* Right Form */}
-              <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl p-8 shadow-2xl">
-                <div className="text-center mb-8">
-                  <h3 className="text-3xl font-bold text-white mb-4">
-                    Register Now
-                  </h3>
-                </div>
-
-                {!videoUrl ? (
-                  <form
-                    id="demo-form"
-                    onSubmit={handleSubmit}
-                    className="space-y-6"
-                  >
-                    {/* Name Inputs */}
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <Input
-                        placeholder="First Name"
-                        value={formData.firstName}
-                        onChange={(e) =>
-                          handleInputChange("firstName", e.target.value)
-                        }
-                        className="bg-white/90 border-none rounded-full px-4 py-3"
-                        required
-                      />
-                      <Input
-                        placeholder="Last Name"
-                        value={formData.lastName}
-                        onChange={(e) =>
-                          handleInputChange("lastName", e.target.value)
-                        }
-                        className="bg-white/90 border-none rounded-full px-4 py-3"
-                        required
-                      />
-                    </div>
-
-                    <Input
-                      type="email"
-                      placeholder="Email"
-                      value={formData.email}
-                      onChange={(e) =>
-                        handleInputChange("email", e.target.value)
-                      }
-                      className="bg-white/90 border-none rounded-full px-4 py-3"
-                      required
-                    />
-                    <Input
-                      type="tel"
-                      placeholder="+91 Phone"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        handleInputChange("phone", e.target.value)
-                      }
-                      className="bg-white/90 border-none rounded-full px-4 py-3"
-                      required
-                    />
-
-                    {/* Selects */}
-                    <Select
-                      value={formData.courseCategory}
-                      onValueChange={(val) =>
-                        handleInputChange("courseCategory", val)
-                      }
-                    >
-                      <SelectTrigger className="bg-white/90 border-none rounded-full px-4 py-3">
-                        <SelectValue placeholder="Select Course Category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="dv-course">
-                          Design Verification (DV)
-                        </SelectItem>
-                        <SelectItem value="pcie">
-                          PCIe Specialization
-                        </SelectItem>
-                        <SelectItem value="soc">SoC Integration</SelectItem>
-                        <SelectItem value="ip">
-                          IP Block Verification
-                        </SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-
-                    <Select
-                      value={formData.preferredLocation}
-                      onValueChange={(val) =>
-                        handleInputChange("preferredLocation", val)
-                      }
-                    >
-                      <SelectTrigger className="bg-white/90 border-none rounded-full px-4 py-3">
-                        <SelectValue placeholder="Preferred Training Location" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="online">Online</SelectItem>
-                        <SelectItem value="offline">
-                          Offline (HITEC City)
-                        </SelectItem>
-                        <SelectItem value="hybrid">
-                          Hybrid (Online + Offline)
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-
-                    <Textarea
-                      placeholder="Comments / Inquiry"
-                      value={formData.comments}
-                      onChange={(e) =>
-                        handleInputChange("comments", e.target.value)
-                      }
-                      className="bg-white/90 border-none rounded-lg px-4 py-3 min-h-[80px]"
-                    />
-
-                    {/* Captcha */}
-                    <div>
-                      <Label className="text-white mb-2 block">
-                        Verification Code *
-                      </Label>
-                      <div className="grid grid-cols-2 gap-4 items-center">
-                        <div className="bg-white rounded-lg p-4 text-center relative">
-                          <span className="text-2xl font-bold text-gray-800 tracking-widest">
-                            {displayedCaptcha}
-                          </span>
-                          <Button
-                            type="button"
-                            onClick={refreshCaptcha}
-                            className="absolute top-2 right-2 p-1 h-6 w-6 bg-gray-200 hover:bg-gray-300 text-gray-600"
-                            variant="ghost"
-                            size="sm"
-                          >
-                            <RefreshCw className="w-3 h-3" />
-                          </Button>
-                        </div>
-                        <Input
-                          placeholder="Enter the code above"
-                          value={formData.verificationCode}
-                          onChange={(e) =>
-                            handleInputChange(
-                              "verificationCode",
-                              e.target.value,
-                            )
-                          }
-                          className="bg-white/90 border-none rounded-full px-4 py-3"
-                          required
-                        />
-                      </div>
-                      <p className="text-xs text-gray-300 mt-1">
-                        Captcha refreshes automatically every 30 seconds
-                      </p>
-                      <label className="flex items-center gap-2 text-sm text-gray-300 mt-3">
-                        <input
-                          type="checkbox"
-                          checked={!!formData.whatsappOptIn}
-                          onChange={(e) =>
-                            handleInputChange("whatsappOptIn", e.target.checked)
-                          }
-                          className="w-4 h-4 rounded"
-                        />
-                        <span>Get reminders & tips via WhatsApp</span>
-                      </label>
-                    </div>
-
-                    <Button
-                      type="button"
-                      onClick={() =>
-                        (window.location.href =
-                          "https://razorpay.com/payment-link/plink_RTQLrhqb2nkVV0")
-                      }
-                      disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-4 rounded-full text-lg transition-all duration-300 transform hover:scale-105"
-                    >
-                      {isSubmitting ? "Processing..." : "Get Started for ₹99"}
-                    </Button>
-                  </form>
-                ) : (
-                  <div className="space-y-4">
-                    <h3 className="text-white text-xl font-semibold text-center mb-2">
-                      Your Demo Video
-                    </h3>
-                    <div className="aspect-video bg-black rounded-lg overflow-hidden">
-                      {toEmbedUrl(videoUrl).includes("youtube.com/embed") ? (
-                        <iframe
-                          ref={(el) => (iframeRef.current = el)}
-                          id="azorix-demo-player"
-                          className="w-full h-full"
-                          src={toEmbedUrl(videoUrl)}
-                          allow="autoplay; encrypted-media"
-                        />
-                      ) : (
-                        <video
-                          className="w-full h-full"
-                          controls
-                          onEnded={() => navigate("/cohort-preview")}
-                        >
-                          <source src={videoUrl} />
-                          Your browser does not support the video tag.
-                        </video>
-                      )}
-                    </div>
-                    <div className="text-center">
-                      <Button
-                        onClick={() => navigate("/cohort-preview")}
-                        className="bg-gradient-to-r from-vlsi-500 to-vlsi-600 hover:from-vlsi-600 hover:to-vlsi-700 text-white font-semibold px-6"
-                      >
-                        Proceed to 3hrs Class
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </div>
+                <p className="mt-3 text-white/90">
+                  Secure your spot — limited seats
+                </p>
+              </a>
             </div>
           </div>
         </section>
@@ -694,7 +512,7 @@ export default function DemoRegistration() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                What to Expect in Your Demo Class
+                What to Expect in Your ₹99 workshop
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 Get a taste of our comprehensive VLSI training program and see
