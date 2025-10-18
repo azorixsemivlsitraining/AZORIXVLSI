@@ -78,7 +78,7 @@ export default function Hero() {
                 size="lg"
                 className="border-2 border-yellow-400 bg-yellow-400/20 backdrop-blur-sm text-white hover:bg-yellow-400 hover:text-navy-900 font-semibold px-10 py-4 text-lg rounded-full shadow-xl cta-button-enhanced cta-demo min-w-[220px]"
               >
-                <Link to="/demo">Book Free Demo</Link>
+                <Link to="/demo">Book ₹99 Workshop </Link>
               </Button>
             </div>
           </div>
