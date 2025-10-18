@@ -464,7 +464,7 @@ export default function DemoRegistration() {
                 className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-vlsi-500 to-vlsi-600 text-white font-semibold rounded-full shadow-lg hover:scale-105 transition-transform"
                 aria-label="Enroll Now"
               >
-                Enroll Now
+                Enroll Now for ₹99
               </a>
             </div>
           </div>
