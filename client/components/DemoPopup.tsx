@@ -77,7 +77,7 @@ export default function DemoPopup() {
         <div className="p-4 sm:p-6 md:p-8">
           <div className="text-center mb-4 md:mb-6">
             <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 md:mb-3">
-              Book Your Free Demo Class
+              Book Your ₹99 Workshop Class
             </h3>
             <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
               Get a taste of our comprehensive VLSI training program. See our
@@ -111,7 +111,7 @@ export default function DemoPopup() {
               className="w-full bg-gradient-to-r from-vlsi-500 to-vlsi-600 hover:from-vlsi-600 hover:to-vlsi-700 text-white font-bold py-2.5 sm:py-3 text-sm sm:text-base md:text-lg rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             >
               <Link to="/demo" onClick={closePopup}>
-                Book Free Demo Now
+                Book ₹99 Workshop Demo Now
               </Link>
             </Button>
 
