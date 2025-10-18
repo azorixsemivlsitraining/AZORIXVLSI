@@ -469,9 +469,9 @@ export default function DemoRegistration() {
       </div>
 
       {/* spacer to prevent content overlap with fixed header */}
-      <div className="h-16 md:h-20" />
+      <div className="h-24 md:h-28" />
 
-      <main className="pt-8">
+      <main className="pt-0">
         <WorkshopHero />
         <WorkshopLearn />
         <WorkshopAbout />
