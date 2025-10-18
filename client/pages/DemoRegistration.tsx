@@ -437,7 +437,7 @@ export default function DemoRegistration() {
     <div className="min-h-screen bg-gray-50">
       <div className="fixed top-0 left-0 right-0 z-50">
         <div className="w-full px-4 py-3">
-          <div className="flex items-center justify-between w-full bg-white/70 dark:bg-navy-900/60 backdrop-blur-lg border-b border-gray-200/40 dark:border-white/5 shadow-md py-2">
+          <div className="flex items-center justify-between w-full bg-transparent py-2">
             <div className="flex items-center gap-4 max-w-7xl mx-auto w-full px-4">
               <img
                 src="https://cdn.builder.io/api/v1/image/assets%2F1b9c62c1213140709e07580a4ee1f322%2Fbf5d0ebb5d4b4a1d84182413a96183fd?format=webp&width=800"
