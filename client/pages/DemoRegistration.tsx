@@ -438,11 +438,11 @@ export default function DemoRegistration() {
       <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 bg-white/0">
         <div className="flex items-center gap-3">
           <img
-            src="https://cdn.builder.io/api/v1/image/assets%2F1b9c62c1213140709e07580a4ee1f322%2F171b48fc46b044ab893e2ee60b36d410?format=webp&width=800"
+            src="https://cdn.builder.io/api/v1/image/assets%2F1b9c62c1213140709e07580a4ee1f322%2Fbf5d0ebb5d4b4a1d84182413a96183fd?format=webp&width=800"
             alt="Azorix VLSI"
-            className="h-10 w-auto"
+            className="h-12 md:h-14 w-auto"
           />
-          <span className="text-lg font-semibold text-gray-800">₹99 workshop</span>
+          <span className="text-2xl md:text-3xl font-semibold text-gray-800">₹99 workshop</span>
         </div>
         <div>
           <a
