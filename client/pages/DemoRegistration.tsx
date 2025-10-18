@@ -437,22 +437,26 @@ export default function DemoRegistration() {
     <div className="min-h-screen bg-gray-50">
       <div className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-navy-900 border-b border-gray-200 dark:border-white/5 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center gap-4">
+          <div className="relative flex items-center justify-between w-full">
+            {/* Left: logo */}
+            <div className="flex items-center gap-4 z-20">
               <img
                 src="https://cdn.builder.io/api/v1/image/assets%2F1b9c62c1213140709e07580a4ee1f322%2Fbf5d0ebb5d4b4a1d84182413a96183fd?format=webp&width=800"
                 alt="Azorix VLSI"
-                className="h-12 md:h-14 w-auto"
+                className="h-10 md:h-12 w-auto"
               />
-              <div>
-                <div className="flex items-baseline gap-3">
-                  <h1 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">₹99 workshop</h1>
-                  <span className="text-xs md:text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-semibold">Only ₹99</span>
-                </div>
+            </div>
+
+            {/* Center: title (absolute centered) */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 text-center z-10 pointer-events-none">
+              <div className="leading-tight">
+                <div className="text-lg md:text-2xl font-extrabold text-gray-800 dark:text-white">AZORIX VLSI</div>
+                <div className="text-sm md:text-base text-gray-600 dark:text-gray-300">₹99 workshop</div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            {/* Right: enroll button */}
+            <div className="flex items-center gap-3 z-20">
               <a
                 href="https://rzp.io/rzp/plKYtrp5"
                 target="_blank"
