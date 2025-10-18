@@ -435,17 +435,27 @@ export default function DemoRegistration() {
   // -------- JSX --------
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="fixed top-0 left-0 right-0 z-50 flex justify-end p-4 bg-transparent">
-        <a
-          href="https://rzp.io/rzp/plKYtrp5"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-vlsi-500 to-vlsi-600 text-white font-semibold rounded-full shadow-lg hover:opacity-95"
-        >
-          Enroll Now
-        </a>
+      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 bg-white/0">
+        <div className="flex items-center gap-3">
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets%2F1b9c62c1213140709e07580a4ee1f322%2F171b48fc46b044ab893e2ee60b36d410?format=webp&width=800"
+            alt="Azorix VLSI"
+            className="h-10 w-auto"
+          />
+          <span className="text-lg font-semibold text-gray-800">₹99 workshop</span>
+        </div>
+        <div>
+          <a
+            href="https://rzp.io/rzp/plKYtrp5"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-vlsi-500 to-vlsi-600 text-white font-semibold rounded-full shadow-lg hover:opacity-95"
+          >
+            Enroll Now
+          </a>
+        </div>
       </div>
-      <main className="pt-20">
+      <main className="pt-24">
         <WorkshopHero />
         <WorkshopLearn />
         <WorkshopAbout />
