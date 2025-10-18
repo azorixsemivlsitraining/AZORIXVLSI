@@ -450,8 +450,12 @@ export default function DemoRegistration() {
             {/* Center: title (absolute centered) */}
             <div className="absolute left-1/2 transform -translate-x-1/2 text-center z-10 pointer-events-none">
               <div className="leading-tight">
-                <div className="text-lg md:text-2xl font-extrabold text-gray-800 dark:text-white">AZORIX VLSI</div>
-                <div className="text-sm md:text-base text-gray-600 dark:text-gray-300">₹99 workshop</div>
+                <div className="text-lg md:text-2xl font-extrabold text-gray-800 dark:text-white">
+                  AZORIX VLSI
+                </div>
+                <div className="text-sm md:text-base text-gray-600 dark:text-gray-300">
+                  ₹99 workshop
+                </div>
               </div>
             </div>
 
@@ -495,7 +499,9 @@ export default function DemoRegistration() {
                 <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">
                   Get Started for ₹99
                 </h2>
-                <p className="mt-3 text-white/90">Secure your spot — limited seats</p>
+                <p className="mt-3 text-white/90">
+                  Secure your spot — limited seats
+                </p>
               </a>
             </div>
           </div>
