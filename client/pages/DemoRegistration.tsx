@@ -435,10 +435,10 @@ export default function DemoRegistration() {
   // -------- JSX --------
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="fixed top-0 left-0 right-0 z-50">
-        <div className="w-full px-4 py-3">
-          <div className="flex items-center justify-between w-full bg-transparent py-2">
-            <div className="flex items-center gap-4 max-w-7xl mx-auto w-full px-4">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-navy-900 border-b border-gray-200 dark:border-white/5 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-4">
               <img
                 src="https://cdn.builder.io/api/v1/image/assets%2F1b9c62c1213140709e07580a4ee1f322%2Fbf5d0ebb5d4b4a1d84182413a96183fd?format=webp&width=800"
                 alt="Azorix VLSI"
@@ -449,27 +449,26 @@ export default function DemoRegistration() {
                   <h1 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">₹99 workshop</h1>
                   <span className="text-xs md:text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-semibold">Only ₹99</span>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mt-0.5">Live workshop • Mentor-led • Recording access</p>
               </div>
+            </div>
 
-              <div className="ml-auto flex items-center gap-3">
-                <a
-                  href="https://rzp.io/rzp/plKYtrp5"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-vlsi-500 to-vlsi-600 text-white font-semibold rounded-full shadow-lg hover:scale-105 transition-transform"
-                  aria-label="Enroll Now"
-                >
-                  Enroll Now
-                </a>
-              </div>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://rzp.io/rzp/plKYtrp5"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-vlsi-500 to-vlsi-600 text-white font-semibold rounded-full shadow-lg hover:scale-105 transition-transform"
+                aria-label="Enroll Now"
+              >
+                Enroll Now
+              </a>
             </div>
           </div>
         </div>
       </div>
 
       {/* spacer to prevent content overlap with fixed header */}
-      <div className="h-24 md:h-28" />
+      <div className="h-20 md:h-24" />
 
       <main className="pt-0">
         <WorkshopHero />
