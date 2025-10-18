@@ -111,7 +111,7 @@ export default function DemoPopup() {
               className="w-full bg-gradient-to-r from-vlsi-500 to-vlsi-600 hover:from-vlsi-600 hover:to-vlsi-700 text-white font-bold py-2.5 sm:py-3 text-sm sm:text-base md:text-lg rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             >
               <Link to="/demo" onClick={closePopup}>
-                Book Free Demo Now
+                Book ₹99 Workshop Demo Now
               </Link>
             </Button>
 
