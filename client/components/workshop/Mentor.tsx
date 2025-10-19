@@ -14,7 +14,7 @@ export default function WorkshopMentor() {
           </div>
           <div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-navy-900 mb-2">
-              Your Mentor
+              Tejaswini
             </h2>
             <p className="text-vlsi-700 font-semibold">
               Lead Mentor, Azorix VLSI
