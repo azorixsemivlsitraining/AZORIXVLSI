@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 
@@ -84,7 +85,7 @@ export default function WorkshopHero() {
 
             <div className="mt-5 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <Button
-                onClick={scrollToForm}
+                onClick={() => window.open("https://rzp.io/rzp/KiXdEbz", "_blank")}
                 size="lg"
                 className="cta-button-enhanced animate-pulse-glow-enhanced bg-gradient-to-r from-vlsi-500 to-vlsi-600 hover:from-vlsi-600 hover:to-vlsi-700 text-white font-semibold px-7 py-5 rounded-xl shadow-lg hover:shadow-vlsi-500/30"
               >
@@ -134,7 +135,7 @@ export default function WorkshopHero() {
 
                   <div className="mt-4 w-full md:w-auto">
                     <Button
-                      onClick={scrollToForm}
+                      onClick={() => window.open("https://rzp.io/rzp/KiXdEbz", "_blank")}
                       size="lg"
                       className="w-full md:w-auto bg-white text-navy-900 font-semibold rounded-full px-4 py-3 shadow-sm"
                     >
