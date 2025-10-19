@@ -9,7 +9,7 @@ export default function WorkshopMentor() {
           <img
   src="/mentor.jpg"
   alt="Mentor portrait"
-  className="rounded-2xl shadow-xl border-2 border-vlsi-100 object-cover w-full h-[320px]"
+  className="rounded-2xl shadow-xl border-2 border-vlsi-100 object-cover w-full h-[420px]"
 />
           </div>
           <div>
