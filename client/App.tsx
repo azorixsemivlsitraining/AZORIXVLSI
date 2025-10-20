@@ -28,6 +28,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
 import DemoRegistration from "./pages/DemoRegistration";
+import ThankYou from "./pages/ThankYou";
 import RefundPolicy from "./pages/RefundPolicy";
 import CodeOfConduct from "./pages/CodeOfConduct";
 import CopyrightPolicy from "./pages/CopyrightPolicy";
@@ -86,6 +87,7 @@ const App = () => (
             <Route path="/enroll" element={<Enroll />} />
             <Route path="/brochure" element={<Brochure />} />
             <Route path="/demo" element={<DemoRegistration />} />
+            <Route path="/thank-you" element={<ThankYou />} />
             <Route path="/workshop" element={<Workshop />} />
             <Route path="/cohort-preview" element={<CohortPreview />} />
             <Route path="/dashboard" element={<Dashboard />} />
