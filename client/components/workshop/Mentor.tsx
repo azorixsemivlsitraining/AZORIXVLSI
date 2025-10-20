@@ -6,15 +6,16 @@ export default function WorkshopMentor() {
       <div className="container max-w-6xl">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
-            <img
-              src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=1200&auto=format&fit=crop"
-              alt="Mentor at whiteboard teaching VLSI"
-              className="rounded-2xl shadow-xl border-2 border-vlsi-100 object-cover w-full h-[320px]"
-            />
+     <img
+  src="/mentor.jpg"
+  alt="Mentor full-length portrait"
+  className="rounded-2xl shadow-xl border-2 border-vlsi-100 object-contain w-full h-[480px] bg-white"
+  />
+
           </div>
           <div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-navy-900 mb-2">
-              Your Mentor
+              Tejaswini
             </h2>
             <p className="text-vlsi-700 font-semibold">
               Lead Mentor, Azorix VLSI
