@@ -28,6 +28,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiePolicy from "./pages/CookiePolicy";
 import DemoRegistration from "./pages/DemoRegistration";
+import ThankYou from "./pages/ThankYou";
 import RefundPolicy from "./pages/RefundPolicy";
 import CodeOfConduct from "./pages/CodeOfConduct";
 import CopyrightPolicy from "./pages/CopyrightPolicy";
@@ -80,12 +81,16 @@ const App = () => (
             <Route path="/courses/systemverilog" element={<SystemVerilog />} />
             <Route path="/courses/uvm" element={<UVM />} />
             <Route path="/courses/rtl-design" element={<RTLDesign />} />
-            <Route path="/courses/physical-design" element={<PhysicalDesign />} />
+            <Route
+              path="/courses/physical-design"
+              element={<PhysicalDesign />}
+            />
             <Route path="/courses/:courseId" element={<CourseDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/enroll" element={<Enroll />} />
             <Route path="/brochure" element={<Brochure />} />
             <Route path="/demo" element={<DemoRegistration />} />
+            <Route path="/thank-you" element={<ThankYou />} />
             <Route path="/workshop" element={<Workshop />} />
             <Route path="/cohort-preview" element={<CohortPreview />} />
             <Route path="/dashboard" element={<Dashboard />} />
@@ -116,7 +121,7 @@ const App = () => (
 );
 
 /* ------------------------------- UTILITIES -------------------------------- */
- 
+
 function DotAliasRedirect() {
   const location = useLocation();
   const originalPath = location.pathname;

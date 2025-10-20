@@ -174,7 +174,7 @@ export default function CourseSelection() {
             size="lg"
             className="border-2 border-vlsi-600 text-vlsi-600 hover:bg-vlsi-600 hover:text-white font-semibold px-10 py-5 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
           >
-            <Link to="/demo">Book ₹99 Workshop  Consultation</Link>
+            <Link to="/demo">Book ₹99 Workshop Consultation</Link>
           </Button>
         </div>
       </div>
