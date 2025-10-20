@@ -172,7 +172,9 @@ export default function DemoRegistration() {
             });
             setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
             // Navigate to thank you page after successful payment verification
-            try { navigate('/thank-you'); } catch {}
+            try {
+              navigate("/thank-you");
+            } catch {}
             return;
           }
         } catch (err) {
@@ -202,7 +204,9 @@ export default function DemoRegistration() {
                   description: "Loading demo video...",
                 });
                 setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
-                try { navigate('/thank-you'); } catch {}
+                try {
+                  navigate("/thank-you");
+                } catch {}
                 return true;
               }
             } catch (e) {
@@ -235,7 +239,9 @@ export default function DemoRegistration() {
           description: "Accessing your demo video now.",
         });
         setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
-        try { navigate('/thank-you'); } catch {}
+        try {
+          navigate("/thank-you");
+        } catch {}
       }
     })();
   }, [videoUrl, toast]);
@@ -425,7 +431,9 @@ export default function DemoRegistration() {
       );
 
       // Navigate to thank you page after successful registration/payment
-      try { navigate('/thank-you'); } catch {}
+      try {
+        navigate("/thank-you");
+      } catch {}
 
       setFormData((prev) => ({ ...prev, verificationCode: "" }));
       setDisplayedCaptcha(generateCaptcha());

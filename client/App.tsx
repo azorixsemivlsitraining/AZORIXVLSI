@@ -81,7 +81,10 @@ const App = () => (
             <Route path="/courses/systemverilog" element={<SystemVerilog />} />
             <Route path="/courses/uvm" element={<UVM />} />
             <Route path="/courses/rtl-design" element={<RTLDesign />} />
-            <Route path="/courses/physical-design" element={<PhysicalDesign />} />
+            <Route
+              path="/courses/physical-design"
+              element={<PhysicalDesign />}
+            />
             <Route path="/courses/:courseId" element={<CourseDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/enroll" element={<Enroll />} />
@@ -118,7 +121,7 @@ const App = () => (
 );
 
 /* ------------------------------- UTILITIES -------------------------------- */
- 
+
 function DotAliasRedirect() {
   const location = useLocation();
   const originalPath = location.pathname;
