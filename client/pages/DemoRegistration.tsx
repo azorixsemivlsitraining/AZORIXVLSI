@@ -171,6 +171,8 @@ export default function DemoRegistration() {
               description: "Loading demo video...",
             });
             setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+            // Navigate to thank you page after successful payment verification
+            try { navigate('/thank-you'); } catch {}
             return;
           }
         } catch (err) {
@@ -200,6 +202,7 @@ export default function DemoRegistration() {
                   description: "Loading demo video...",
                 });
                 setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+                try { navigate('/thank-you'); } catch {}
                 return true;
               }
             } catch (e) {
@@ -232,6 +235,7 @@ export default function DemoRegistration() {
           description: "Accessing your demo video now.",
         });
         setVideoUrl("https://www.youtube.com/watch?v=sx4l4OqdpEI");
+        try { navigate('/thank-you'); } catch {}
       }
     })();
   }, [videoUrl, toast]);
@@ -420,6 +424,9 @@ export default function DemoRegistration() {
         }),
       );
 
+      // Navigate to thank you page after successful registration/payment
+      try { navigate('/thank-you'); } catch {}
+
       setFormData((prev) => ({ ...prev, verificationCode: "" }));
       setDisplayedCaptcha(generateCaptcha());
     } catch (err: any) {
@@ -437,6 +444,7 @@ export default function DemoRegistration() {
   // -------- JSX --------
   return (
     <div className="min-h-screen bg-gray-50">
+      <MetaPixel id="1384755712984854" />
       <div className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-navy-900 border-b border-gray-200 dark:border-white/5 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="relative flex items-center justify-between w-full">
