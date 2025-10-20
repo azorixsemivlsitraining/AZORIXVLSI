@@ -56,6 +56,8 @@ function toEmbedUrl(url: string) {
   }
 }
 
+import MetaPixel from "../components/MetaPixel";
+
 export default function DemoRegistration() {
   const { toast } = useToast();
   const navigate = useNavigate();
