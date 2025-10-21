@@ -65,13 +65,16 @@ export default function Footer() {
               >
                 <Facebook className="w-5 h-5 text-vlsi-400 group-hover:text-white transition-colors" />
               </Link>
-              <Link
-                to="#"
-                className="w-12 h-12 bg-vlsi-500/20 hover:bg-vlsi-500 rounded-xl flex items-center justify-center transition-all duration-300 group hover:scale-110 border border-vlsi-500/30"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5 text-vlsi-400 group-hover:text-white transition-colors" />
-              </Link>
+            <a
+  href="https://www.instagram.com/azorix_vlsi/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-12 h-12 bg-vlsi-500/20 hover:bg-vlsi-500 rounded-xl flex items-center justify-center transition-all duration-300 group hover:scale-110 border border-vlsi-500/30"
+  aria-label="Instagram"
+>
+  <Instagram className="w-5 h-5 text-vlsi-400 group-hover:text-white transition-colors" />
+</a>
+
             </div>
           </div>
 
