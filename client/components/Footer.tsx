@@ -90,22 +90,22 @@ export default function Footer() {
                 </button>
               </li>
               <li>
-                <Link
-                  to="/enroll"
+                <a
+                  href="https://rzp.io/rzp/KiXdEbz"
                   className="text-gray-400 hover:text-vlsi-400 transition-all duration-200 hover:translate-x-1 inline-block flex items-center gap-2 group"
                 >
                   <ExternalLink className="w-4 h-4 group-hover:animate-bounce" />
                   Enroll Now
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
-                  to="/demo"
+                <a
+                  href="https://rzp.io/rzp/KiXdEbz"
                   className="text-gray-400 hover:text-vlsi-400 transition-all duration-200 hover:translate-x-1 inline-block flex items-center gap-2 group"
                 >
                   <ExternalLink className="w-4 h-4 group-hover:animate-bounce" />
                   Register for Demo (₹99)
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
