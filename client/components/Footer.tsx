@@ -44,13 +44,16 @@ export default function Footer() {
               500+ successful engineers.
             </p>
             <div className="flex space-x-4">
-              <Link
-                to="#"
-                className="w-12 h-12 bg-vlsi-500/20 hover:bg-vlsi-500 rounded-xl flex items-center justify-center transition-all duration-300 group hover:scale-110 border border-vlsi-500/30"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-5 h-5 text-vlsi-400 group-hover:text-white transition-colors" />
-              </Link>
+             <a
+  href="https://www.linkedin.com/company/azorix-vlsiacademy/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-12 h-12 bg-vlsi-500/20 hover:bg-vlsi-500 rounded-xl flex items-center justify-center transition-all duration-300 group hover:scale-110 border border-vlsi-500/30"
+  aria-label="LinkedIn"
+>
+  <Linkedin className="w-5 h-5 text-vlsi-400 group-hover:text-white transition-colors" />
+</a>
+
               <Link
                 to="#"
                 className="w-12 h-12 bg-vlsi-500/20 hover:bg-vlsi-500 rounded-xl flex items-center justify-center transition-all duration-300 group hover:scale-110 border border-vlsi-500/30"
