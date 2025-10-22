@@ -44,13 +44,16 @@ export default function Footer() {
               500+ successful engineers.
             </p>
             <div className="flex space-x-4">
-              <Link
-                to="#"
-                className="w-12 h-12 bg-vlsi-500/20 hover:bg-vlsi-500 rounded-xl flex items-center justify-center transition-all duration-300 group hover:scale-110 border border-vlsi-500/30"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-5 h-5 text-vlsi-400 group-hover:text-white transition-colors" />
-              </Link>
+             <a
+  href="https://www.linkedin.com/company/azorix-vlsiacademy/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-12 h-12 bg-vlsi-500/20 hover:bg-vlsi-500 rounded-xl flex items-center justify-center transition-all duration-300 group hover:scale-110 border border-vlsi-500/30"
+  aria-label="LinkedIn"
+>
+  <Linkedin className="w-5 h-5 text-vlsi-400 group-hover:text-white transition-colors" />
+</a>
+
               <Link
                 to="#"
                 className="w-12 h-12 bg-vlsi-500/20 hover:bg-vlsi-500 rounded-xl flex items-center justify-center transition-all duration-300 group hover:scale-110 border border-vlsi-500/30"
@@ -65,13 +68,16 @@ export default function Footer() {
               >
                 <Facebook className="w-5 h-5 text-vlsi-400 group-hover:text-white transition-colors" />
               </Link>
-              <Link
-                to="#"
-                className="w-12 h-12 bg-vlsi-500/20 hover:bg-vlsi-500 rounded-xl flex items-center justify-center transition-all duration-300 group hover:scale-110 border border-vlsi-500/30"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5 text-vlsi-400 group-hover:text-white transition-colors" />
-              </Link>
+            <a
+  href="https://www.instagram.com/azorix_vlsi/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-12 h-12 bg-vlsi-500/20 hover:bg-vlsi-500 rounded-xl flex items-center justify-center transition-all duration-300 group hover:scale-110 border border-vlsi-500/30"
+  aria-label="Instagram"
+>
+  <Instagram className="w-5 h-5 text-vlsi-400 group-hover:text-white transition-colors" />
+</a>
+
             </div>
           </div>
 
@@ -90,22 +96,22 @@ export default function Footer() {
                 </button>
               </li>
               <li>
-                <Link
-                  to="/enroll"
+                <a
+                  href="https://rzp.io/rzp/KiXdEbz"
                   className="text-gray-400 hover:text-vlsi-400 transition-all duration-200 hover:translate-x-1 inline-block flex items-center gap-2 group"
                 >
                   <ExternalLink className="w-4 h-4 group-hover:animate-bounce" />
                   Enroll Now
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
-                  to="/demo"
+                <a
+                  href="https://rzp.io/rzp/KiXdEbz"
                   className="text-gray-400 hover:text-vlsi-400 transition-all duration-200 hover:translate-x-1 inline-block flex items-center gap-2 group"
                 >
                   <ExternalLink className="w-4 h-4 group-hover:animate-bounce" />
                   Register for Demo (₹99)
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
