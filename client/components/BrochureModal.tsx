@@ -5,9 +5,19 @@ import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { X } from "lucide-react";
 import { saveBrochureDownload } from "../lib/supabase";
-import { downloadBrochurePDF } from "../lib/pdfGenerator";
 import { saveBrochureToStorage } from "../lib/excelExporter";
 import { sendBrochureFormToSheets } from "../lib/googleSheetsService";
+
+// Download a static PDF placed in public/ (e.g. public/azorix-vlsi-brochure.pdf)
+const downloadStaticBrochure = (filename = "azorix-vlsi-brochure.pdf") => {
+  const link = document.createElement("a");
+  link.href = `/${filename}`;
+  link.setAttribute("download", filename);
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 import { useToast } from "../hooks/use-toast";
 import Swal from "sweetalert2";
 
@@ -88,8 +98,8 @@ export default function BrochureModal({ isOpen, onClose }: BrochureModalProps) {
         sendBrochureFormToSheets(formData),
       ]);
 
-      // Generate and download PDF brochure
-      await downloadBrochurePDF();
+      // Download static PDF brochure from public/
+      downloadStaticBrochure();
 
       // Show success alert
       await Swal.fire({

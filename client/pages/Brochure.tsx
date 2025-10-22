@@ -4,9 +4,19 @@ import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { Link } from "react-router-dom";
 import { saveBrochureDownload } from "../lib/supabase";
-import { downloadBrochurePDF } from "../lib/pdfGenerator";
 import { saveBrochureToStorage } from "../lib/excelExporter";
 import { sendBrochureFormToSheets } from "../lib/googleSheetsService";
+
+// Download a static PDF placed in public/ (e.g. public/azorix-vlsi-brochure.pdf)
+const downloadStaticBrochure = (filename = "azorix-vlsi-brochure.pdf") => {
+  const link = document.createElement("a");
+  link.href = `/${filename}`;
+  link.setAttribute("download", filename);
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 import Swal from "sweetalert2";
 
 export default function Brochure() {
@@ -185,11 +195,8 @@ Contact us at +91 9052653636 or visit www.azorix.com
     setIsLoading(true);
 
     try {
-      // Always generate and download PDF first
-      downloadBrochurePDF({
-        name: formData.name,
-        email: formData.email,
-      });
+      // Download static PDF brochure from public/
+      downloadStaticBrochure();
 
       // Save to localStorage for Excel export
       const brochureData = {
