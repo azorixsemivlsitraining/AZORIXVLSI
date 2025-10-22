@@ -190,16 +190,23 @@ export const saveBrochureDownload = async (data: BrochureDownloadData) => {
       .select();
 
     if (error) {
-      console.error("Supabase error details:", error);
-      throw new Error(`Database error: ${error.message || error.toString()}`);
+      // Log detailed error without throwing to avoid noisy UI failures
+      try {
+        console.error("Supabase error details:", JSON.stringify(error));
+      } catch (_) {
+        console.error("Supabase error details:", error);
+      }
+
+      // Return null so callers can continue (download already triggered)
+      return null as any;
     }
 
     return result;
   } catch (error: any) {
-    console.error("Error saving brochure download:", error);
-    throw new Error(
-      `Failed to save brochure download: ${error.message || error.toString()}`,
-    );
+    // Network errors (e.g. TypeError: Failed to fetch) are common when env isn't set or network is blocked.
+    console.error("Error saving brochure download:", error?.message ?? error);
+    // Return null instead of throwing to avoid breaking user flow
+    return null as any;
   }
 };
 
