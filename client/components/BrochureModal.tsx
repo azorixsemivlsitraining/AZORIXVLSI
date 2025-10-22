@@ -91,15 +91,27 @@ export default function BrochureModal({ isOpen, onClose }: BrochureModalProps) {
         },
       });
 
-      // Save to multiple storage systems
-      await Promise.all([
+      // Download static PDF brochure from public/ first so user gets immediate file
+      try {
+        downloadStaticBrochure();
+      } catch (downloadErr) {
+        // If browser blocks the download, continue and still attempt to save data
+        console.warn("Download trigger failed:", downloadErr);
+      }
+
+      // Save to multiple storage systems in background; failures shouldn't block user
+      const saveResults = await Promise.allSettled([
         saveBrochureDownload(formData),
-        saveBrochureToStorage(formData),
+        Promise.resolve().then(() => saveBrochureToStorage(formData)),
         sendBrochureFormToSheets(formData),
       ]);
 
-      // Download static PDF brochure from public/
-      downloadStaticBrochure();
+      // Log any failures for debugging
+      saveResults.forEach((r, idx) => {
+        if (r.status === "rejected") {
+          console.warn(`Brochure save #${idx} failed:`, r.reason);
+        }
+      });
 
       // Show success alert
       await Swal.fire({
