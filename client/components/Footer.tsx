@@ -106,7 +106,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://rzp.io/rzp/KiXdEbz"
+                  href="https://rzp.io/rzp/3yDHkted"
                   className="text-gray-400 hover:text-vlsi-400 transition-all duration-200 hover:translate-x-1 inline-block flex items-center gap-2 group"
                 >
                   <ExternalLink className="w-4 h-4 group-hover:animate-bounce" />
