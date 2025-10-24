@@ -480,7 +480,7 @@ export default function DemoRegistration() {
             {/* Right: enroll button */}
             <div className="flex items-center gap-3 z-20">
               <a
-                href="https://rzp.io/rzp/KiXdEbz"
+                href="https://rzp.io/rzp/3yDHkted"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-vlsi-500 to-vlsi-600 text-white font-semibold rounded-full shadow-lg hover:scale-105 transition-transform"
@@ -509,7 +509,7 @@ export default function DemoRegistration() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-center">
               <a
-                href="https://rzp.io/rzp/KiXdEbz"
+                href="https://rzp.io/rzp/3yDHkted"
                 target="_blank"
                 rel="noreferrer"
                 className="w-full md:w-1/2 rounded-3xl p-12 text-center shadow-2xl bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500 cursor-pointer hover:scale-102 transition-transform"
