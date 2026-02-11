@@ -147,6 +147,8 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
               © 2025 Azorix Technologies Pvt Ltd. All rights reserved.
+              <br/>
+              Designed and Developed by Axisphere Mediaworx
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link
