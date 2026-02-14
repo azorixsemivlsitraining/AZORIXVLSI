@@ -18,6 +18,21 @@ const isSupabaseConfigured = () => {
 let _supabase: SupabaseClient | null = null;
 if (isSupabaseConfigured()) {
   _supabase = createClient(supabaseUrl, supabaseKey);
+
+  // Asynchronous health check to warn about connectivity issues
+  if (typeof window !== "undefined") {
+    fetch(`${supabaseUrl}/rest/v1/`, {
+      method: "GET",
+      headers: { "apikey": supabaseKey }
+    }).catch(err => {
+      console.error("Supabase Connectivity Alert:", err);
+      console.warn(
+        "The Supabase project at " + supabaseUrl + " is currently unreachable. " +
+        "This is likely due to a DNS issue, a paused project, or a firewall. " +
+        "Please verify your Project ID in the Supabase Dashboard."
+      );
+    });
+  }
 } else {
   console.warn(
     "Supabase not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to enable DB features.",
@@ -127,16 +142,15 @@ export const saveEnrollmentData = async (data: EnrollmentData) => {
       .select();
 
     if (error) {
-      console.error("Supabase error details:", error);
-      throw new Error(`Database error: ${error.message || error.toString()}`);
+      console.error("Supabase error details:", JSON.stringify(error, null, 2));
+      throw new Error(`Database error: ${error.message || JSON.stringify(error)}`);
     }
 
     return result;
   } catch (error: any) {
     console.error("Error saving enrollment:", error);
-    throw new Error(
-      `Failed to save enrollment: ${error.message || error.toString()}`,
-    );
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error);
+    throw new Error(`Failed to save enrollment: ${errorMessage}`);
   }
 };
 
@@ -162,16 +176,15 @@ export const saveContactData = async (data: ContactData) => {
       .select();
 
     if (error) {
-      console.error("Supabase error details:", error);
-      throw new Error(`Database error: ${error.message || error.toString()}`);
+      console.error("Supabase error details:", JSON.stringify(error, null, 2));
+      throw new Error(`Database error: ${error.message || JSON.stringify(error)}`);
     }
 
     return result;
   } catch (error: any) {
     console.error("Error saving contact:", error);
-    throw new Error(
-      `Failed to save contact: ${error.message || error.toString()}`,
-    );
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error);
+    throw new Error(`Failed to save contact: ${errorMessage}`);
   }
 };
 
@@ -236,15 +249,14 @@ export const saveDemoRegistration = async (data: DemoRegistrationData) => {
       .select();
 
     if (error) {
-      console.error("Supabase error details:", error);
-      throw new Error(`Database error: ${error.message || error.toString()}`);
+      console.error("Supabase error details:", JSON.stringify(error, null, 2));
+      throw new Error(`Database error: ${error.message || JSON.stringify(error)}`);
     }
 
     return result;
   } catch (error: any) {
     console.error("Error saving demo registration:", error);
-    throw new Error(
-      `Failed to save demo registration: ${error.message || error.toString()}`,
-    );
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error);
+    throw new Error(`Failed to save demo registration: ${errorMessage}`);
   }
 };
