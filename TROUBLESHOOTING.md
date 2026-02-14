@@ -9,7 +9,7 @@
 ## 🚀 Quick Setup (5 minutes)
 
 ### Step 1: Create Database Tables
-1. Go to your Supabase dashboard: https://supabase.com/dashboard/project/icgrjzlrgiiuaaxinnlu
+1. Go to your Supabase dashboard: https://supabase.com/dashboard/project/djtenxomgdsvlidoxcmi
 2. Click "SQL Editor" in the left sidebar
 3. Copy the entire content from `supabase_complete_setup.sql`
 4. Paste it in the SQL editor

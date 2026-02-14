@@ -1,5 +1,5 @@
 -- Complete Supabase Database Setup Script
--- Run this in your Supabase SQL Editor: https://supabase.com/dashboard/project/icgrjzlrgiiuaaxinnlu/sql
+-- Run this in your Supabase SQL Editor: https://supabase.com/dashboard/project/djtenxomgdsvlidoxcmi/sql
 
 -- 1. Create enrollments table
 CREATE TABLE IF NOT EXISTS enrollments (

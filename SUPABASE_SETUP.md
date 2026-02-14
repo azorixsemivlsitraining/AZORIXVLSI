@@ -2,14 +2,14 @@
 
 ## 🔄 NEW DATABASE CONFIGURATION
 
-**Project ID:** `zszamstjlzjfkwslzjfx`
-**Dashboard URL:** https://supabase.com/dashboard/project/zszamstjlzjfkwslzjfx
+**Project ID:** `djtenxomgdsvlidoxcmi`
+**Dashboard URL:** https://supabase.com/dashboard/project/djtenxomgdsvlidoxcmi
 
 ## 📊 Quick Setup
 
 **Option 1: Use the Complete Setup File**
 1. Copy all content from `database_setup.sql` (located in the project root)
-2. Go to [SQL Editor](https://supabase.com/dashboard/project/zszamstjlzjfkwslzjfx/sql/new)
+2. Go to [SQL Editor](https://supabase.com/dashboard/project/djtenxomgdsvlidoxcmi/sql/new)
 3. Paste and run the complete script
 
 **Option 2: Manual Table Creation**
@@ -122,8 +122,8 @@ CREATE INDEX idx_demo_registrations_created_at ON demo_registrations(created_at 
 ## 🔧 Environment Variables Configured
 
 **Current Configuration:**
-- `VITE_SUPABASE_URL`: `https://zszamstjlzjfkwslzjfx.supabase.co`
-- `VITE_SUPABASE_ANON_KEY`: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzemFtc3RqbHpqZmt3c2x6amZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2Njg5NjEsImV4cCI6MjA3MTI0NDk2MX0.MNSsjpZbZ4u0FxcbmZGJyJTAjFIjcD81eM0uv6vbJcI`
+- `VITE_SUPABASE_URL`: `https://djtenxomgdsvlidoxcmi.supabase.co`
+- `VITE_SUPABASE_ANON_KEY`: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqdGVueG9tZ2RzdmxpZG94Y21pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5OTMwMjcsImV4cCI6MjA4NjU2OTAyN30.xb5NFrN_eA0SpGpZdVIkNEMIzSILBhfF_IgsvHURZIQ`
 
 ## 📱 Mobile Optimizations
 
@@ -151,12 +151,12 @@ All forms include error handling and localStorage fallback for reliability.
    - Execute the complete `database_setup.sql` script
 
 2. **Verify Setup:**
-   - Check all tables are created in [Table Editor](https://supabase.com/dashboard/project/zszamstjlzjfkwslzjfx/editor)
+   - Check all tables are created in [Table Editor](https://supabase.com/dashboard/project/djtenxomgdsvlidoxcmi/editor)
    - Test form submissions from the application
 
 3. **Monitor Data:**
-   - Use [Database](https://supabase.com/dashboard/project/zszamstjlzjfkwslzjfx/database/tables) to view submitted data
-   - Check [Logs](https://supabase.com/dashboard/project/zszamstjlzjfkwslzjfx/logs/postgres-logs) for any errors
+   - Use [Database](https://supabase.com/dashboard/project/djtenxomgdsvlidoxcmi/database/tables) to view submitted data
+   - Check [Logs](https://supabase.com/dashboard/project/djtenxomgdsvlidoxcmi/logs/postgres-logs) for any errors
 
 ## 📈 Features Included
 

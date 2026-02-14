@@ -2,7 +2,7 @@
 -- AZORIX TECH-SEMI VLSI INSTITUTE - Database Setup
 -- =============================================================================
 -- This SQL script creates all necessary tables for the VLSI Institute application
--- Run this in your Supabase SQL Editor: https://supabase.com/dashboard/project/zszamstjlzjfkwslzjfx/sql/new
+-- Run this in your Supabase SQL Editor: https://supabase.com/dashboard/project/djtenxomgdsvlidoxcmi/sql/new
 
 -- =============================================================================
 -- 1. ENROLLMENTS TABLE
