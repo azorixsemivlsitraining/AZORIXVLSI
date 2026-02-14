@@ -18,21 +18,6 @@ const isSupabaseConfigured = () => {
 let _supabase: SupabaseClient | null = null;
 if (isSupabaseConfigured()) {
   _supabase = createClient(supabaseUrl, supabaseKey);
-
-  // Asynchronous health check to warn about connectivity issues
-  if (typeof window !== "undefined") {
-    fetch(`${supabaseUrl}/rest/v1/`, {
-      method: "GET",
-      headers: { "apikey": supabaseKey }
-    }).catch(err => {
-      console.error("Supabase Connectivity Alert:", err);
-      console.warn(
-        "The Supabase project at " + supabaseUrl + " is currently unreachable. " +
-        "This is likely due to a DNS issue, a paused project, or a firewall. " +
-        "Please verify your Project ID in the Supabase Dashboard."
-      );
-    });
-  }
 } else {
   console.warn(
     "Supabase not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to enable DB features.",
