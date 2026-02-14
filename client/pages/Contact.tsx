@@ -16,6 +16,7 @@ import {
 import { saveContactData } from "../lib/supabase";
 import { saveContactToStorage } from "../lib/excelExporter";
 import { sendContactFormToSheets } from "../lib/googleSheetsService";
+import { sendEmailJS } from "../lib/emailjs";
 import Swal from "sweetalert2";
 
 const contactInfo = {
