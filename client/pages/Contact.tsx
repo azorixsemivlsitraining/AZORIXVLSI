@@ -141,6 +141,17 @@ export default function Contact() {
         );
       }
 
+      // Send email via EmailJS
+      try {
+        await sendEmailJS(formData);
+        console.log("Email sent via EmailJS successfully");
+      } catch (emailError) {
+        console.warn(
+          "Failed to send email via EmailJS (data still saved locally):",
+          emailError,
+        );
+      }
+
       Swal.fire({
         icon: "success",
         title: "Message Sent!",
