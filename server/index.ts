@@ -101,5 +101,14 @@ export function createServer() {
   app.post("/api/cohort/complete", handleCohortComplete);
   app.get("/api/dashboard/resources", handleDashboardResources);
 
+  // Fallback for non-API routes to allow Vite to handle them
+  app.use((req, res, next) => {
+    if (!req.path.startsWith("/api")) {
+      next();
+      return;
+    }
+    res.status(404).json({ message: "API endpoint not found" });
+  });
+
   return app;
 }

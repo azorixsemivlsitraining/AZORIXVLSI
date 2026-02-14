@@ -16,6 +16,7 @@ import {
 import { saveContactData } from "../lib/supabase";
 import { saveContactToStorage } from "../lib/excelExporter";
 import { sendContactFormToSheets } from "../lib/googleSheetsService";
+import { sendEmailJS } from "../lib/emailjs";
 import Swal from "sweetalert2";
 
 const contactInfo = {
@@ -138,6 +139,17 @@ export default function Contact() {
         console.warn(
           "Failed to save to database (data still saved locally):",
           dbError,
+        );
+      }
+
+      // Send email via EmailJS
+      try {
+        await sendEmailJS(formData);
+        console.log("Email sent via EmailJS successfully");
+      } catch (emailError) {
+        console.warn(
+          "Failed to send email via EmailJS (data still saved locally):",
+          emailError,
         );
       }
 

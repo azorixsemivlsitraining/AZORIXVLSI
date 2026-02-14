@@ -127,16 +127,15 @@ export const saveEnrollmentData = async (data: EnrollmentData) => {
       .select();
 
     if (error) {
-      console.error("Supabase error details:", error);
-      throw new Error(`Database error: ${error.message || error.toString()}`);
+      console.error("Supabase error details:", JSON.stringify(error, null, 2));
+      throw new Error(`Database error: ${error.message || JSON.stringify(error)}`);
     }
 
     return result;
   } catch (error: any) {
     console.error("Error saving enrollment:", error);
-    throw new Error(
-      `Failed to save enrollment: ${error.message || error.toString()}`,
-    );
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error);
+    throw new Error(`Failed to save enrollment: ${errorMessage}`);
   }
 };
 
@@ -162,16 +161,15 @@ export const saveContactData = async (data: ContactData) => {
       .select();
 
     if (error) {
-      console.error("Supabase error details:", error);
-      throw new Error(`Database error: ${error.message || error.toString()}`);
+      console.error("Supabase error details:", JSON.stringify(error, null, 2));
+      throw new Error(`Database error: ${error.message || JSON.stringify(error)}`);
     }
 
     return result;
   } catch (error: any) {
     console.error("Error saving contact:", error);
-    throw new Error(
-      `Failed to save contact: ${error.message || error.toString()}`,
-    );
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error);
+    throw new Error(`Failed to save contact: ${errorMessage}`);
   }
 };
 
@@ -236,15 +234,14 @@ export const saveDemoRegistration = async (data: DemoRegistrationData) => {
       .select();
 
     if (error) {
-      console.error("Supabase error details:", error);
-      throw new Error(`Database error: ${error.message || error.toString()}`);
+      console.error("Supabase error details:", JSON.stringify(error, null, 2));
+      throw new Error(`Database error: ${error.message || JSON.stringify(error)}`);
     }
 
     return result;
   } catch (error: any) {
     console.error("Error saving demo registration:", error);
-    throw new Error(
-      `Failed to save demo registration: ${error.message || error.toString()}`,
-    );
+    const errorMessage = error instanceof Error ? error.message : JSON.stringify(error);
+    throw new Error(`Failed to save demo registration: ${errorMessage}`);
   }
 };

@@ -17,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
 import { saveEnrollmentData } from "../lib/supabase";
 import { saveEnrollToStorage } from "../lib/excelExporter";
 import { sendEnrollFormToSheets } from "../lib/googleSheetsService";
+import { sendEnrollEmailJS } from "../lib/emailjs";
 import Swal from "sweetalert2";
 
 export default function Enroll() {
@@ -90,6 +91,17 @@ export default function Enroll() {
         console.warn(
           "Failed to save to database (data still saved locally):",
           dbError,
+        );
+      }
+
+      // Send email via EmailJS
+      try {
+        await sendEnrollEmailJS(formData);
+        console.log("Enrollment email sent via EmailJS successfully");
+      } catch (emailError) {
+        console.warn(
+          "Failed to send enrollment email via EmailJS (data still saved locally):",
+          emailError,
         );
       }
 
