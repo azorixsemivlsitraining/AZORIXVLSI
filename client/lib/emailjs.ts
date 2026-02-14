@@ -24,6 +24,8 @@ export const sendEmailJS = async (data: Record<string, any>) => {
     time: new Date().toLocaleString(),
   };
 
+  console.log('Sending Contact Email via EmailJS with params:', templateParams);
+
   try {
     const response = await emailjs.send(serviceId, templateId, templateParams, publicKey);
     return response;
@@ -64,6 +66,8 @@ export const sendEnrollEmailJS = async (data: Record<string, any>) => {
     hear_about_us: data.hearAboutUs,
     time: new Date().toLocaleString(),
   };
+
+  console.log('Sending Enrollment Email via EmailJS with params:', templateParams);
 
   try {
     const response = await emailjs.send(serviceId, templateId, templateParams, publicKey);
